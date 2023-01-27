@@ -12,7 +12,12 @@
     "plugin:react-hooks/recommended",
     "prettier"
   ],
-  "overrides": [],
+  "overrides": [
+    {
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "extends": ["plugin:testing-library/react"]
+    }
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -20,11 +25,7 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      { "ts": "never", "tsx": "never" }
-    ],
+    "import/extensions": ["error", "ignorePackages", { "ts": "never", "tsx": "never" }],
     "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
     "import/no-extraneous-dependencies": "off",
     "react/self-closing-comp": [
@@ -52,7 +53,6 @@
     "linebreak-style": 0,
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
-    "quotes": ["error", "single"],
     "import/order": [
       "error",
       {

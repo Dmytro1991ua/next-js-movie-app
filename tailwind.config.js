@@ -4,9 +4,9 @@ const baseFontSize = 10;
 
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx}',
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -49,49 +49,49 @@ module.exports = {
             lineHeight: `${(16 * 1.75) / baseFontSize}rem` /* 28px */,
           },
         ],
-        '2xl': [
+        "2xl": [
           `${(16 * 1.5) / baseFontSize}rem` /* 24px */,
           {
             ineHeight: `${(16 * 2) / baseFontSize}rem` /* 32px */,
           },
         ],
-        '3xl': [
+        "3xl": [
           `${(16 * 1.875) / baseFontSize}rem` /* 30px */,
           {
             lineHeight: `${(16 * 2.25) / baseFontSize}rem` /* 36px */,
           },
         ],
-        '4xl': [
+        "4xl": [
           `${(16 * 2.25) / baseFontSize}rem` /* 36px */,
           {
             lineHeight: `${(16 * 2.5) / baseFontSize}rem` /* 40px */,
           },
         ],
-        '5xl': [
+        "5xl": [
           `${(16 * 3) / baseFontSize}rem` /* 48px */,
           {
             lineHeight: (16 * 1) / baseFontSize,
           },
         ],
-        '6xl': [
+        "6xl": [
           `${(16 * 3.75) / baseFontSize}rem` /* 60px */,
           {
             lineHeight: (16 * 1) / baseFontSize,
           },
         ],
-        '7xl': [
+        "7xl": [
           `${(16 * 4.5) / baseFontSize}rem` /* 72px */,
           {
             lineHeight: (16 * 1) / baseFontSize,
           },
         ],
-        '8xl': [
+        "8xl": [
           `${(16 * 6) / baseFontSize}rem` /* 96px */,
           {
             lineHeight: (16 * 1) / baseFontSize,
           },
         ],
-        '9xl': [
+        "9xl": [
           `${(16 * 8) / baseFontSize}rem` /* 128px */,
           {
             lineHeight: (16 * 1) / baseFontSize,
