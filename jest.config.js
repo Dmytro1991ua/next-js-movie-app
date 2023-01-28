@@ -10,6 +10,7 @@ module.exports = {
     "!**/next.config.js/**",
     "!**/postcss.config.js/**",
     "!**/tailwind.config.js/**",
+    "!**/services/**",
   ],
   moduleNameMapper: {
     "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
