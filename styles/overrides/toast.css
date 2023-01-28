@@ -1,0 +1,61 @@
+:root {
+  --black: #000;
+  ---white: #fff;
+  --dark-gray: #212121;
+  --success-bg: #e8f5e9;
+  --success-border: #66bb6a;
+  --info-bg: #bbdefb;
+  --info-border: #42a5f5;
+  --warning-bg: #ffe0b2;
+  --warning-border: #ffa726;
+  --error-bg: #ffcdd2;
+  --error-border: #ef5350;
+}
+
+.Toastify__toast-container {
+  width: fit-content !important;
+  min-width: 350px;
+  padding: 0 !important;
+}
+
+.Toastify__toast {
+  box-shadow: none !important;
+}
+
+.Toastify__toast--info,
+.Toastify__toast--success,
+.Toastify__toast--warning,
+.Toastify__toast--error {
+  border-radius: 1.2rem !important;
+  color: var(--black) !important;
+}
+
+.Toastify__toast--success {
+  background-color: var(--success-bg) !important;
+  border: 2px solid var(--success-border) !important;
+}
+
+.Toastify__toast--info {
+  background-color: var(--info-bg) !important;
+  border: 2px solid var(--info-border) !important;
+}
+
+.Toastify__toast--warning {
+  background-color: var(--warning-bg) !important;
+  border: 2px solid var(--warning-border) !important;
+}
+
+.Toastify__toast--error {
+  background-color: var(--error-bg) !important;
+  border: 2px solid var(--error-border);
+}
+
+.Toastify__close-button {
+  align-self: center !important;
+  color: var(--dark-gray) !important;
+}
+
+.Toastify__close-button > svg {
+  width: 2rem;
+  height: 2rem;
+}
