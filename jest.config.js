@@ -11,6 +11,7 @@ module.exports = {
     "!**/postcss.config.js/**",
     "!**/tailwind.config.js/**",
     "!**/services/**",
+    "!**/types*/**",
   ],
   moduleNameMapper: {
     "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
@@ -18,6 +19,10 @@ module.exports = {
     "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$": `<rootDir>/__mocks__/fileMock.js`,
     "^@/components/(.*)$": "<rootDir>/components/$1",
     "^@/pages/(.*)$": "<rootDir>/pages/$1",
+    "^@/modules/(.*)$": "<rootDir>/modules/$1",
+    "^@/services/(.*)$": "<rootDir>/services/$1",
+    "^@/utils/(.*)$": "<rootDir>/utils/$1",
+    "^@/types/(.*)$": "<rootDir>/types/$1",
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],

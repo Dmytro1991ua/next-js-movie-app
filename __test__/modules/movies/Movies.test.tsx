@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
-import Home from "@/pages/index";
+import Movies from "@/modules/movies";
 
-describe("Home Page", () => {
+describe("Movies", () => {
   it("Should render component without crashing", () => {
-    render(<Home />);
+    render(<Movies />);
 
     expect(screen.getByText(/Movies/)).toBeInTheDocument();
     expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
