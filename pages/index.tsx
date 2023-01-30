@@ -1,7 +1,9 @@
-import React, { FC } from "react";
+import { NextPage } from "next";
 
-const Home: FC = () => {
-  return <h1>Home</h1>;
+import Movies from "@/modules/movies";
+
+const Home: NextPage = () => {
+  return <Movies />;
 };
 
 export default Home;
