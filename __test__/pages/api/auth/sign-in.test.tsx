@@ -7,6 +7,7 @@ describe("SignIn Page", () => {
     render(<SignIn />);
 
     expect(screen.getByText(/Sign In/)).toBeInTheDocument();
-    expect(screen.getByText(/Login here/)).toBeInTheDocument();
+    expect(screen.getByText(/Login here via Github/)).toBeInTheDocument();
+    expect(screen.getByText(/Login here via Google/)).toBeInTheDocument();
   });
 });
