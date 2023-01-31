@@ -14,7 +14,9 @@ const Movies: FC = () => {
   return (
     <>
       <div>Movies</div>
-      <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
+      <button className="bg-green-600 p-2" onClick={(e) => handleSignOut(e)}>
+        Sign Out
+      </button>
     </>
   );
 };

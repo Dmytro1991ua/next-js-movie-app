@@ -28,7 +28,18 @@ describe("useAuth", () => {
     await waitFor(() =>
       expect(signIn).toHaveBeenCalledWith("github", {
         callbackUrl: AppRoutes.Home,
-        redirect: false,
+      })
+    );
+  });
+
+  it("Should call onSignInViaGoogle", async () => {
+    const signIn = jest.spyOn(nextAuth, "signIn");
+
+    await act(() => result.current.onSignInViaGoogle());
+
+    await waitFor(() =>
+      expect(signIn).toHaveBeenCalledWith("google", {
+        callbackUrl: AppRoutes.Home,
       })
     );
   });
