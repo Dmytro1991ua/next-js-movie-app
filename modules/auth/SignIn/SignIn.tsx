@@ -1,9 +1,24 @@
+import { useFormik } from "formik";
 import { FC } from "react";
 
 import useAuth from "../hooks/useAuth";
 
+type FormInitialValues = {
+  email: string;
+  password: string;
+};
+
 const SignIn: FC = () => {
-  const { onSignInViaGithub, onSignInViaGoogle } = useAuth();
+  const { onSignInViaGithub, onSignInViaEmailAndPAssword, onSignInViaGoogle } =
+    useAuth();
+
+  const formik = useFormik<FormInitialValues>({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => handleSubmitWithCredentials(values),
+  });
 
   function handleSignInViaGithub(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -11,6 +26,10 @@ const SignIn: FC = () => {
     e.preventDefault();
 
     onSignInViaGithub();
+  }
+
+  function handleSubmitWithCredentials(values: FormInitialValues): void {
+    onSignInViaEmailAndPAssword(values.email, values.password);
   }
 
   function handleSignInViaGoogle(
@@ -24,7 +43,24 @@ const SignIn: FC = () => {
   return (
     <>
       <div>Sign In</div>
-      <div className="flex flex-col">
+      <form className="flex flex-col p-3" onSubmit={formik.handleSubmit}>
+        <input
+          className="p-1 bg-slate-100 border-solid border-2 border-indigo-600"
+          id="email"
+          placeholder="Enter Email"
+          type="text"
+          {...formik.getFieldProps("email")}
+        />
+        <input
+          className="p-1 bg-slate-100 border-solid border-2 border-indigo-600"
+          id="password"
+          placeholder="Enter Password"
+          type="password"
+          {...formik.getFieldProps("password")}
+        />
+        <button className="bg-green-400 p-1.5" type="submit">
+          Submit With Credentials
+        </button>
         <button
           className="bg-blue-400 p-1.5"
           onClick={(e) => handleSignInViaGithub(e)}
@@ -37,7 +73,7 @@ const SignIn: FC = () => {
         >
           Login here via Google
         </button>
-      </div>
+      </form>
     </>
   );
 };
