@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 
-import SignIn from "@/modules/auth/SignIn";
+import SignInPage from "@/pages/auth/sign-in";
 
 describe("SignIn Page", () => {
   it("Should render component without crashing", () => {
-    render(<SignIn />);
+    render(<SignInPage />);
 
     expect(screen.getByText(/Sign In/)).toBeInTheDocument();
     expect(screen.getByText(/Login here via Github/)).toBeInTheDocument();

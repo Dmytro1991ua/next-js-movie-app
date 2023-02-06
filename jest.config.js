@@ -12,6 +12,8 @@ module.exports = {
     "!**/tailwind.config.js/**",
     "!**/services/**",
     "!**/types*/**",
+    "!**/lib*/**",
+    "!**/model*/**",
   ],
   moduleNameMapper: {
     "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
