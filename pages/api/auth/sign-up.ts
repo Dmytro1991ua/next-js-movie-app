@@ -40,13 +40,11 @@ async function createNewUser({
 
   try {
     const savedUser = await newUser.save();
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: SUCCESSFULLY_CREATED_USER_MESSAGE,
-        user: savedUser,
-      });
+    res.status(200).send({
+      success: true,
+      message: SUCCESSFULLY_CREATED_USER_MESSAGE,
+      user: savedUser,
+    });
   } catch (err) {
     res.status(400).send({ success: false, message: (err as Error).message });
   }
@@ -79,13 +77,11 @@ async function updateExistingUser({ email, res }: UpdateExistingUser) {
       filterUsersById,
       filterOptions
     );
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: USER_ALREADY_EXIST_MESSAGE,
-        user: updatedUser,
-      });
+    res.status(200).send({
+      success: true,
+      message: USER_ALREADY_EXIST_MESSAGE,
+      user: updatedUser,
+    });
   } catch (err) {
     res.status(400).send({ success: false, user: null });
   }
@@ -112,24 +108,20 @@ async function handleRequestBasedOnMethod({
           res,
         });
       } catch (err) {
-        res
-          .status(400)
-          .send({
-            success: false,
-            message: (err as Error).message,
-            user: null,
-          });
+        res.status(400).send({
+          success: false,
+          message: (err as Error).message,
+          user: null,
+        });
       }
       break;
     default:
-      res
-        .status(400)
-        .send({
-          success: false,
-          message: convertResponseErrorMessageToCorrectFormat(
-            method as RequestMethod
-          ),
-        });
+      res.status(400).send({
+        success: false,
+        message: convertResponseErrorMessageToCorrectFormat(
+          method as RequestMethod
+        ),
+      });
   }
 }
 

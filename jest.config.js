@@ -14,6 +14,8 @@ module.exports = {
     "!**/types*/**",
     "!**/lib*/**",
     "!**/model*/**",
+    "!**/middleware.ts**",
+    "!**/mocks*/**",
   ],
   moduleNameMapper: {
     "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
@@ -25,6 +27,7 @@ module.exports = {
     "^@/services/(.*)$": "<rootDir>/services/$1",
     "^@/utils/(.*)$": "<rootDir>/utils/$1",
     "^@/types/(.*)$": "<rootDir>/types/$1",
+    "^@/mocks/(.*)$": "<rootDir>/mocks/$1",
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],

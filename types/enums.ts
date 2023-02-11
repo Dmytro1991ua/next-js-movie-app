@@ -1,7 +1,9 @@
 export enum AppRoutes {
-  Home = "/",
+  Default = "/",
+  Movies = "/movies",
   SignIn = "/auth/sign-in",
   SignUp = "/auth/sign-up",
+  Profile = "/profile",
 }
 
 export enum RequestMethod {

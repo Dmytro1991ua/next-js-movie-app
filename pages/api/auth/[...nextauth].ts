@@ -1,6 +1,6 @@
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import { compare } from "bcryptjs";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
@@ -8,18 +8,25 @@ import GoogleProvider from "next-auth/providers/google";
 import connectMongoDb from "@/lib/connectMongoDb";
 import clientPromise from "@/lib/mongoDb";
 import { User } from "@/model/user";
+import { AppRoutes } from "@/types/enums";
 
-export default NextAuth({
+const authOptions: NextAuthOptions = {
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT ?? "",
       clientSecret: process.env.GITHUB_SECRET_KEY ?? "",
       allowDangerousEmailAccountLinking: true,
+      httpOptions: {
+        timeout: 40000,
+      },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT ?? "",
       clientSecret: process.env.GOOGLE_SECRET_KEY ?? "",
       allowDangerousEmailAccountLinking: true,
+      httpOptions: {
+        timeout: 40000,
+      },
     }),
     CredentialsProvider({
       id: "credentials",
@@ -52,6 +59,9 @@ export default NextAuth({
   adapter: MongoDBAdapter(clientPromise, {
     databaseName: "nextauthDb",
   }),
+  pages: {
+    signIn: AppRoutes.SignIn,
+  },
   callbacks: {
     async signIn({ user }) {
       const filterUsersByEmail = { email: user.email };
@@ -85,4 +95,6 @@ export default NextAuth({
       return session;
     },
   },
-});
+};
+
+export default NextAuth(authOptions);

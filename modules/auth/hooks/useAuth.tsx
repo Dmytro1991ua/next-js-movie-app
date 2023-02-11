@@ -1,5 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import { signIn, signOut } from "next-auth/react";
+import fetch from "node-fetch";
 
 import { toastService } from "@/services/toast.service";
 import {
@@ -34,7 +35,7 @@ const useAuth = (): HookReturnedType => {
 
   async function onSignInViaGithub(): Promise<void> {
     try {
-      signIn("github", { callbackUrl: AppRoutes.Home });
+      signIn("github", { callbackUrl: AppRoutes.Movies });
 
       toastService.success("Successfully signed in via Github");
     } catch (err) {
@@ -50,7 +51,7 @@ const useAuth = (): HookReturnedType => {
       const loginStatus = await signIn("credentials", {
         email,
         password,
-        callbackUrl: AppRoutes.Home,
+        callbackUrl: AppRoutes.Movies,
         redirect: false,
       });
 
@@ -98,7 +99,7 @@ const useAuth = (): HookReturnedType => {
 
   async function onSignInViaGoogle(): Promise<void> {
     try {
-      signIn("google", { callbackUrl: AppRoutes.Home });
+      signIn("google", { callbackUrl: AppRoutes.Movies });
 
       toastService.success("Successfully signed in via Google");
     } catch (err) {
@@ -108,9 +109,15 @@ const useAuth = (): HookReturnedType => {
 
   async function onSignOut(): Promise<void> {
     try {
-      signOut({ callbackUrl: AppRoutes.SignIn, redirect: false });
+      const data = await signOut({
+        callbackUrl: AppRoutes.SignIn,
+        redirect: false,
+      });
 
-      toastService.success("Successfully signed out");
+      if (data.url) {
+        router.push(data.url);
+        toastService.success("Successfully signed out");
+      }
     } catch (err) {
       toastService.error((err as Error).message);
     }

@@ -15,23 +15,17 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
-describe("useAuth", () => {
-  beforeEach(() => {
-    global.fetch = jest.fn(() =>
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () =>
       Promise.resolve({
-        json: () =>
-          Promise.resolve({
-            user: { name: "John Doe", email: "john@doe.com" },
-            password: "12456",
-          }),
-      })
-    );
-  });
+        user: { name: "John Doe", email: "john@doe.com" },
+        password: "12456",
+      }),
+  })
+);
 
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
+describe("useAuth", () => {
   const { result } = renderHook(() => useAuth());
 
   it("Should call onSignInViaGithub", async () => {
@@ -42,7 +36,7 @@ describe("useAuth", () => {
 
       await waitFor(() =>
         expect(signIn).toHaveBeenCalledWith("github", {
-          callbackUrl: AppRoutes.Home,
+          callbackUrl: AppRoutes.Movies,
         })
       );
 
@@ -60,7 +54,7 @@ describe("useAuth", () => {
 
       await waitFor(() =>
         expect(signIn).toHaveBeenCalledWith("google", {
-          callbackUrl: AppRoutes.Home,
+          callbackUrl: AppRoutes.Movies,
         })
       );
 
@@ -83,7 +77,7 @@ describe("useAuth", () => {
 
       await waitFor(() =>
         expect(signIn).toHaveBeenCalledWith("credentials", {
-          callbackUrl: AppRoutes.Home,
+          callbackUrl: AppRoutes.Movies,
           redirect: false,
           email: mockEmail,
           password: mockPassword,
