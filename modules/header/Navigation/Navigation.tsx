@@ -17,15 +17,15 @@ const Navigation: FC = () => {
   }
 
   return (
-    <nav className="flex items-center ml-auto">
+    <nav className="navigation">
       <Link href={AppRoutes.Profile}>Profile</Link>
       <div className="ml-auto">
         {session?.user ? (
-          <button className="bg-blue-600 p-2" onClick={handleSignOut}>
+          <button className="bg-mantisDarker p-2" onClick={handleSignOut}>
             Sign Out
           </button>
         ) : (
-          <button className="bg-blue-600 p-2" onClick={() => signIn()}>
+          <button className="bg-mantisDarker p-2" onClick={() => signIn()}>
             Sign In
           </button>
         )}
