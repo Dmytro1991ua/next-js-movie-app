@@ -41,3 +41,29 @@ img {
   display: block;
   height: auto;
 }
+
+@layer components {
+  .auth-layout {
+    @apply m-auto bg-darkBlue rounded-md border-4 border-mantis w-3/4 h-3/4 grid lg:grid-cols-2 lg:w-3/5;
+  }
+
+  .main-layout {
+    @apply flex flex-col h-screen w-screen relative	bg-darkBlue text-white z-10;
+  }
+
+  .layout-with-bg-image {
+    @apply flex flex-col h-screen w-screen fixed -z-10 top-0 left-0;
+  }
+
+  .img-overlay {
+    @apply flex flex-col h-screen w-screen absolute z-10 bg-gradient-to-br from-fadedBlack  to-fadedBlack;
+  }
+
+  .header {
+    @apply bg-lighterBlue text-white border-b-4 border-mantis flex items-center p-3;
+  }
+
+  .navigation {
+    @apply flex items-center ml-auto;
+  }
+}

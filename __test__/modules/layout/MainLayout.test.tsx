@@ -45,4 +45,28 @@ describe("MainLayout", () => {
     expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
     expect(screen.queryByText(/Sign In/)).not.toBeInTheDocument();
   });
+
+  it("Should render Image component when user is not authenticated", () => {
+    render(
+      <SessionProvider>
+        <MainLayout />
+      </SessionProvider>
+    );
+
+    const image = screen.getByTestId("image");
+
+    expect(image).toBeInTheDocument();
+  });
+
+  it("Should not render Image component when user is authenticated", () => {
+    render(
+      <SessionProvider session={mockSession}>
+        <MainLayout />
+      </SessionProvider>
+    );
+
+    const image = screen.queryByTestId("image");
+
+    expect(image).not.toBeInTheDocument();
+  });
 });

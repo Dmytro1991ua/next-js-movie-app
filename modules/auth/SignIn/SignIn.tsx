@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
 import { FC } from "react";
 
+import AuthLayout from "@/modules/layout/AuthLayout";
+
 import useAuth from "../hooks/useAuth";
 
 type FormInitialValues = {
@@ -41,7 +43,7 @@ const SignIn: FC = () => {
   }
 
   return (
-    <>
+    <AuthLayout>
       <div>Sign In</div>
       <form className="flex flex-col p-3" onSubmit={formik.handleSubmit}>
         <input
@@ -74,7 +76,7 @@ const SignIn: FC = () => {
           Login here via Google
         </button>
       </form>
-    </>
+    </AuthLayout>
   );
 };
 
