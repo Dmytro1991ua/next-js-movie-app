@@ -22,7 +22,8 @@
       "@services": ["./services/*"],
       "@types": ["./types/*"],
       "@model": ["./model/*"],
-      "@lib": ["./lib/*"]
+      "@lib": ["./lib/*"],
+      "@mocks": ["./mocks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

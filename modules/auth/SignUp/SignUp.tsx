@@ -34,7 +34,6 @@ const SignUp: FC = () => {
   function handleSubmitWithCredentials(values: FormInitialValues): void {
     const { name, email, password } = values;
 
-    alert(JSON.stringify(values, null, 2));
     onCreateNewUser({ name, email, password });
   }
 

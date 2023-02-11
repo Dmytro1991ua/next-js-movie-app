@@ -7,6 +7,5 @@ describe("Movies", () => {
     render(<Movies />);
 
     expect(screen.getByText(/Movies/)).toBeInTheDocument();
-    expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
   });
 });

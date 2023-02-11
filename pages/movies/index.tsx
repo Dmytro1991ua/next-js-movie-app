@@ -2,8 +2,8 @@ import { NextPage } from "next";
 
 import Movies from "@/modules/movies";
 
-const Home: NextPage = () => {
+const MoviesPage: NextPage = () => {
   return <Movies />;
 };
 
-export default Home;
+export default MoviesPage;
