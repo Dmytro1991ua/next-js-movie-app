@@ -44,7 +44,14 @@ img {
 
 @layer components {
   .auth-layout {
-    @apply m-auto bg-darkBlue rounded-md border-4 border-mantis w-3/4 h-3/4 grid lg:grid-cols-2 lg:w-3/5;
+    @apply relative m-auto bg-darkBlue rounded-md border-4 border-mantis w-4/5 h-4/5 grid;
+
+    @screen lg {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.2rem;
+      width: 75%;
+      height: 75%;
+    }
   }
 
   .main-layout {
@@ -56,7 +63,23 @@ img {
   }
 
   .img-overlay {
-    @apply flex flex-col h-screen w-screen absolute z-10 bg-gradient-to-br from-fadedBlack  to-fadedBlack;
+    @apply flex flex-col h-screen w-screen absolute z-10 bg-gradient-to-br from-fadedBlack1  to-fadedBlack1;
+  }
+
+  .auth-layout-img-wrapper {
+    @apply relative h-full;
+  }
+
+  .auth-layout-img-overlay {
+    @apply absolute top-0 left-0 right-0 bottom-0 z-10 bg-gradient-to-br from-fadedBlack1 to-fadedBlack2;
+  }
+
+  .form-wrapper {
+    @apply absolute flex flex-col items-stretch justify-center w-full h-full z-20;
+
+    @screen lg {
+      position: relative;
+    }
   }
 
   .header {

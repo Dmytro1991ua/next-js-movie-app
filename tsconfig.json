@@ -23,7 +23,8 @@
       "@types": ["./types/*"],
       "@model": ["./model/*"],
       "@lib": ["./lib/*"],
-      "@mocks": ["./mocks/*"]
+      "@mocks": ["./mocks/*"],
+      "@components": ["./components/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

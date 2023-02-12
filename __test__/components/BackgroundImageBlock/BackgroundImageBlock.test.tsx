@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 
-import AuthLayout from "@/modules/layout/AuthLayout";
+import BackgroundImageBlock from "@/components/BackgroundImageBlock/BackgroundImageBlock";
 
 import SignInImage from "../../../public/assets/auth-layout/sign-in-bg.jpg";
 
@@ -10,11 +10,11 @@ export const mockSession = {
   user: { name: "Test user", email: "test@example.com", id: "1" },
 };
 
-describe("AuthLayout", () => {
+describe("BackgroundImageBlock", () => {
   it("Should render component without crashing ", () => {
     render(
       <SessionProvider>
-        <AuthLayout image={SignInImage} layout="fill" />
+        <BackgroundImageBlock layout="fill" src={SignInImage} />
       </SessionProvider>
     );
 
