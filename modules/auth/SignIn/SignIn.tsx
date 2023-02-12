@@ -3,6 +3,7 @@ import { FC } from "react";
 
 import AuthLayout from "@/modules/layout/AuthLayout";
 
+import SignInImage from "../../../public/assets/auth-layout/sign-in-bg.jpg";
 import useAuth from "../hooks/useAuth";
 
 type FormInitialValues = {
@@ -43,7 +44,11 @@ const SignIn: FC = () => {
   }
 
   return (
-    <AuthLayout>
+    <AuthLayout
+      alt="Sign-In Background movie"
+      image={SignInImage}
+      layout="fill"
+    >
       <div>Sign In</div>
       <form className="flex flex-col p-3" onSubmit={formik.handleSubmit}>
         <input
