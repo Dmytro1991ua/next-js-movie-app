@@ -1,17 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 
+import { mockSessionWithNoUser, mockSessionWithUser } from "@/mocks/testMocks";
 import MainLayout from "@/modules/layout/MainLayout";
-
-export const mockSession = {
-  expires: new Date(Date.now() + 2 * 86400).toISOString(),
-  user: { name: "Test user", email: "test@example.com", id: "1" },
-};
 
 describe("MainLayout", () => {
   it("Should render component without crashing and Sign-In button if user is not authenticated", () => {
     render(
-      <SessionProvider>
+      <SessionProvider session={mockSessionWithNoUser}>
         <MainLayout />
       </SessionProvider>
     );
@@ -24,7 +20,7 @@ describe("MainLayout", () => {
 
   it("Should render component without crashing and Sign-In button if user is not authenticated", () => {
     render(
-      <SessionProvider>
+      <SessionProvider session={mockSessionWithNoUser}>
         <MainLayout />
       </SessionProvider>
     );
@@ -37,7 +33,7 @@ describe("MainLayout", () => {
 
   it("Should render Sign-Out button when user is authenticated", () => {
     render(
-      <SessionProvider session={mockSession}>
+      <SessionProvider session={mockSessionWithUser}>
         <MainLayout />
       </SessionProvider>
     );
@@ -48,7 +44,7 @@ describe("MainLayout", () => {
 
   it("Should render Image component when user is not authenticated", () => {
     render(
-      <SessionProvider>
+      <SessionProvider session={mockSessionWithNoUser}>
         <MainLayout />
       </SessionProvider>
     );
@@ -60,7 +56,7 @@ describe("MainLayout", () => {
 
   it("Should not render Image component when user is authenticated", () => {
     render(
-      <SessionProvider session={mockSession}>
+      <SessionProvider session={mockSessionWithUser}>
         <MainLayout />
       </SessionProvider>
     );
