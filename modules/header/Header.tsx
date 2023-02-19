@@ -3,7 +3,7 @@ import React, { FC } from "react";
 
 import { AppRoutes } from "@/types/enums";
 
-import Navigation from "./Navigation/Navigation";
+import Navigation from "./Navigation";
 
 const Header: FC = () => {
   return (

@@ -7,11 +7,10 @@ import * as nextAuth from "next-auth/react";
 import { toast } from "react-toastify";
 
 import createMockRouter from "@/mocks/createMockRouter";
+import { mockSessionWithNoUser, mockSessionWithUser } from "@/mocks/testMocks";
 import useAuth from "@/modules/auth/hooks/useAuth";
-import Navigation from "@/modules/header/Navigation/Navigation";
+import Navigation from "@/modules/header/Navigation";
 import { AppRoutes } from "@/types/enums";
-
-import { mockSession } from "../Header.test";
 
 jest.mock("react-toastify", () => ({
   toast: {
@@ -37,7 +36,7 @@ describe("Navigation", () => {
 
   it("Should render component without crashing and Sign-In button if user is not authenticated", () => {
     render(
-      <SessionProvider>
+      <SessionProvider session={mockSessionWithNoUser}>
         <Navigation />
       </SessionProvider>
     );
@@ -49,7 +48,7 @@ describe("Navigation", () => {
 
   it("Should render Sign-Out button when user is authenticated", () => {
     render(
-      <SessionProvider session={mockSession}>
+      <SessionProvider session={mockSessionWithUser}>
         <Navigation />
       </SessionProvider>
     );
@@ -60,7 +59,7 @@ describe("Navigation", () => {
 
   it("Should redirect to Profile page on Logo click", async () => {
     render(
-      <SessionProvider>
+      <SessionProvider session={mockSessionWithUser}>
         <RouterContext.Provider
           value={createMockRouter({ pathname: AppRoutes.Profile })}
         >
@@ -73,17 +72,19 @@ describe("Navigation", () => {
 
     userEvent.click(profileBtn);
 
-    expect(profileBtn).toHaveAttribute("href", AppRoutes.Profile);
+    await waitFor(() =>
+      expect(profileBtn).toHaveAttribute("href", AppRoutes.Profile)
+    );
   });
 
-  it("Should call onSignOut on Sign Out button click", async () => {
+  it("Should call onSignOut method on Sign Out button click", async () => {
     const signOut = jest.spyOn(nextAuth, "signOut").mockImplementation({
       url: AppRoutes.SignIn,
       redirect: false,
     });
 
     render(
-      <SessionProvider session={mockSession}>
+      <SessionProvider session={mockSessionWithUser}>
         <Navigation />
       </SessionProvider>
     );
@@ -101,11 +102,11 @@ describe("Navigation", () => {
     }
   });
 
-  it("Should call onSignOut on Sign Out button click", async () => {
+  it("Should call onSignOut method on Sign Out button click", async () => {
     const signIn = jest.spyOn(nextAuth, "signIn");
 
     render(
-      <SessionProvider>
+      <SessionProvider session={mockSessionWithNoUser}>
         <Navigation />
       </SessionProvider>
     );

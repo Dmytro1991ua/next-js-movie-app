@@ -4,18 +4,14 @@ import { RouterContext } from "next/dist/shared/lib/router-context";
 import { SessionProvider } from "next-auth/react";
 
 import createMockRouter from "@/mocks/createMockRouter";
-import Header from "@/modules/header/Header";
+import { mockSessionWithNoUser, mockSessionWithUser } from "@/mocks/testMocks";
+import Header from "@/modules/header";
 import { AppRoutes } from "@/types/enums";
-
-export const mockSession = {
-  expires: new Date(Date.now() + 2 * 86400).toISOString(),
-  user: { name: "Test user", email: "test@example.com", id: "1" },
-};
 
 describe("Header", () => {
   it("Should render component without crashing and Sign-In button if user is not authenticated", () => {
     render(
-      <SessionProvider>
+      <SessionProvider session={mockSessionWithNoUser}>
         <Header />
       </SessionProvider>
     );
@@ -28,7 +24,7 @@ describe("Header", () => {
 
   it("Should render Sign-Out button when user is authenticated", () => {
     render(
-      <SessionProvider session={mockSession}>
+      <SessionProvider session={mockSessionWithUser}>
         <Header />
       </SessionProvider>
     );
@@ -39,7 +35,7 @@ describe("Header", () => {
 
   it("Should redirect to Home page on Logo click", () => {
     render(
-      <SessionProvider>
+      <SessionProvider session={mockSessionWithUser}>
         <RouterContext.Provider
           value={createMockRouter({ pathname: AppRoutes.Movies })}
         >

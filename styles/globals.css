@@ -44,7 +44,7 @@ img {
 
 @layer components {
   .auth-layout {
-    @apply relative m-auto bg-darkBlue rounded-md border-4 border-mantis w-4/5 h-4/5 grid;
+    @apply relative m-auto bg-darkBlue rounded-md border-4 border-mantis w-11/12 h-4/6 grid md:w-4/5;
 
     @screen lg {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -79,6 +79,15 @@ img {
 
     @screen lg {
       position: relative;
+      padding: 2rem 1.2rem 2rem 0;
+    }
+  }
+
+  .form {
+    @apply flex flex-col rounded-lg p-3;
+
+    @screen lg {
+      border: 4px solid theme(colors.mantisDarker);
     }
   }
 

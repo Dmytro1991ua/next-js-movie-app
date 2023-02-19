@@ -1,10 +1,10 @@
 import { useSession } from "next-auth/react";
 import React, { FC, ReactNode } from "react";
 
-import BackgroundImageBlock from "@/components/BackgroundImageBlock/BackgroundImageBlock";
+import BackgroundImageBlock from "@/components/BackgroundImageBlock";
 
 import LayoutBgImage from "../../public/assets/auth-layout/auth-layout-bg-big.jpg";
-import Header from "../header/Header";
+import Header from "../header";
 
 interface MainLayoutProps {
   children?: ReactNode;

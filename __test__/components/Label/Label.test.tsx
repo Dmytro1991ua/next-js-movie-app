@@ -1,19 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 
-import BackgroundImageBlock from "@/components/BackgroundImageBlock";
+import Label from "@/components/Label";
 import { mockSessionWithNoUser } from "@/mocks/testMocks";
 
-import SignInImage from "../../../public/assets/auth-layout/sign-in-bg.jpg";
-
-describe("BackgroundImageBlock", () => {
+describe("Label", () => {
   it("Should render component without crashing ", () => {
     render(
       <SessionProvider session={mockSessionWithNoUser}>
-        <BackgroundImageBlock layout="fill" src={SignInImage} />
+        <Label>Test Label</Label>
       </SessionProvider>
     );
 
-    expect(screen.getByTestId("image")).toBeInTheDocument();
+    expect(screen.getByText(/Test Label/)).toBeInTheDocument();
   });
 });

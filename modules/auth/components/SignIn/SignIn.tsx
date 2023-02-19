@@ -1,10 +1,19 @@
 import { useFormik } from "formik";
 import { FC } from "react";
 
+import Input from "@/components/Input";
 import AuthLayout from "@/modules/layout/AuthLayout";
+import {
+  SIGN_IN_FORM_HEADER_SUBTITLE,
+  SIGN_IN_FORM_HEADER_TITLE,
+  SIGN_IN_FORM_REDIRECTION_LINK,
+} from "@/types/constants";
+import { AppRoutes } from "@/types/enums";
 
-import SignInImage from "../../../public/assets/auth-layout/sign-in-bg.jpg";
-import useAuth from "../hooks/useAuth";
+import SignInImage from "../../../../public/assets/auth-layout/sign-in-bg.jpg";
+import useAuth from "../../hooks/useAuth";
+import FormHeader from "../FormHeader";
+import FormRedirectLink from "../FormRedirectLink";
 
 type FormInitialValues = {
   email: string;
@@ -49,37 +58,44 @@ const SignIn: FC = () => {
       image={SignInImage}
       layout="fill"
     >
-      <div>Sign In</div>
-      <form className="flex flex-col p-3" onSubmit={formik.handleSubmit}>
-        <input
-          className="p-1 bg-slate-100 border-solid border-2 border-indigo-600"
-          id="email"
-          placeholder="Enter Email"
-          type="text"
-          {...formik.getFieldProps("email")}
+      <form className="form" onSubmit={formik.handleSubmit}>
+        <FormHeader
+          subtitle={SIGN_IN_FORM_HEADER_SUBTITLE}
+          title={SIGN_IN_FORM_HEADER_TITLE}
         />
-        <input
-          className="p-1 bg-slate-100 border-solid border-2 border-indigo-600"
-          id="password"
-          placeholder="Enter Password"
+        <Input
+          required
+          label="Email"
+          type="email"
+          {...formik.getFieldProps("email")}
+          placeholder="Enter your email"
+        />
+        <Input
+          required
+          label="Password"
           type="password"
           {...formik.getFieldProps("password")}
+          placeholder="Enter your password"
         />
         <button className="bg-green-400 p-1.5" type="submit">
-          Submit With Credentials
+          Sign-In with Credentials
         </button>
         <button
           className="bg-blue-400 p-1.5"
           onClick={(e) => handleSignInViaGithub(e)}
         >
-          Login here via Github
+          Sign-In with Github
         </button>
         <button
           className="bg-orange-400 p-1.5"
           onClick={(e) => handleSignInViaGoogle(e)}
         >
-          Login here via Google
+          Sign-In with Google
         </button>
+        <FormRedirectLink
+          route={AppRoutes.SignUp}
+          title={SIGN_IN_FORM_REDIRECTION_LINK}
+        />
       </form>
     </AuthLayout>
   );
