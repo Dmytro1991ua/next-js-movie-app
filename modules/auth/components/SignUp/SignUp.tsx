@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { FC } from "react";
 
+import Button from "@/components/Button";
 import Input from "@/components/Input";
 import AuthLayout from "@/modules/layout/AuthLayout";
 import {
@@ -54,33 +55,39 @@ const SignUp: FC = () => {
         />
         <Input
           {...formik.getFieldProps("name")}
+          fullWidth
           placeholder="Enter your name"
         />
         <Input
           required
           type="email"
           {...formik.getFieldProps("email")}
+          fullWidth
           placeholder="Enter your email"
         />
         <Input
           required
           type="password"
           {...formik.getFieldProps("password")}
+          fullWidth
           placeholder="Enter your password"
         />
         <Input
           required
           type="password"
           {...formik.getFieldProps("confirmPassword")}
+          fullWidth
           placeholder="Confirm password"
         />
-        <button className="bg-green-400 p-1.5" type="submit">
-          Create a new user with credentials
-        </button>
-        <FormRedirectLink
-          route={AppRoutes.SignIn}
-          title={SIGN_UP_FORM_REDIRECTION_LINK}
-        />
+        <div className="flex flex-col mt-5">
+          <Button fullWidth className="mb-3" type="submit" value="primary">
+            Create a new user with credentials
+          </Button>
+          <FormRedirectLink
+            route={AppRoutes.SignIn}
+            title={SIGN_UP_FORM_REDIRECTION_LINK}
+          />
+        </div>
       </form>
     </AuthLayout>
   );

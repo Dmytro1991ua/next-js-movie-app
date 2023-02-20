@@ -4,12 +4,18 @@ import "tailwindcss/tailwind.css";
 import "react-toastify/dist/ReactToastify.css";
 
 import type { AppProps } from "next/app";
+import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ToastContainer } from "react-toastify";
 
 import MainLayout from "@/modules/layout/MainLayout";
 
-const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
+const App = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps<{
+  session: Session;
+}>) => {
   return (
     <SessionProvider session={session}>
       <MainLayout>

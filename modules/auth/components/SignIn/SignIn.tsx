@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { FC } from "react";
 
+import Button from "@/components/Button";
 import Input from "@/components/Input";
 import AuthLayout from "@/modules/layout/AuthLayout";
 import {
@@ -64,6 +65,7 @@ const SignIn: FC = () => {
           title={SIGN_IN_FORM_HEADER_TITLE}
         />
         <Input
+          fullWidth
           required
           label="Email"
           type="email"
@@ -71,31 +73,37 @@ const SignIn: FC = () => {
           placeholder="Enter your email"
         />
         <Input
-          required
+          fullWidth
           label="Password"
           type="password"
           {...formik.getFieldProps("password")}
           placeholder="Enter your password"
         />
-        <button className="bg-green-400 p-1.5" type="submit">
-          Sign-In with Credentials
-        </button>
-        <button
-          className="bg-blue-400 p-1.5"
-          onClick={(e) => handleSignInViaGithub(e)}
-        >
-          Sign-In with Github
-        </button>
-        <button
-          className="bg-orange-400 p-1.5"
-          onClick={(e) => handleSignInViaGoogle(e)}
-        >
-          Sign-In with Google
-        </button>
-        <FormRedirectLink
-          route={AppRoutes.SignUp}
-          title={SIGN_IN_FORM_REDIRECTION_LINK}
-        />
+        <div className="flex flex-col mt-5">
+          <Button fullWidth className="mb-3" type="submit" variant="primary">
+            Sign-In with Credentials
+          </Button>
+          <Button
+            fullWidth
+            className="mb-3"
+            variant="secondary"
+            onClick={(e) => handleSignInViaGithub(e)}
+          >
+            Sign-In with Github
+          </Button>
+          <Button
+            fullWidth
+            className="mb-3"
+            variant="tertiary"
+            onClick={(e) => handleSignInViaGoogle(e)}
+          >
+            Sign-In with Google
+          </Button>
+          <FormRedirectLink
+            route={AppRoutes.SignUp}
+            title={SIGN_IN_FORM_REDIRECTION_LINK}
+          />
+        </div>
       </form>
     </AuthLayout>
   );

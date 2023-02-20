@@ -9,7 +9,7 @@ interface FormRedirectLinkProps {
 const FormRedirectLink: FC<FormRedirectLinkProps> = ({ route, title }) => {
   return (
     <Link href={route}>
-      <a className="text-sm text-white text-center opacity-70 underline cursor-pointer">
+      <a className="text-sm text-white text-center underline cursor-pointer lg:text-white lg:opacity-70 ">
         {title}
       </a>
     </Link>
