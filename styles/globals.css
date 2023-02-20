@@ -44,7 +44,7 @@ img {
 
 @layer components {
   .auth-layout {
-    @apply relative m-auto bg-darkBlue rounded-md border-4 border-mantis w-11/12 h-4/6 grid md:w-4/5;
+    @apply relative m-auto bg-darkBlue rounded-md border-4 border-mantis w-11/12 h-4/5 grid sm:h-4/6 md:w-4/5;
 
     @screen lg {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -71,7 +71,11 @@ img {
   }
 
   .auth-layout-img-overlay {
-    @apply absolute top-0 left-0 right-0 bottom-0 z-10 bg-gradient-to-br from-fadedBlack1 to-fadedBlack2;
+    @apply absolute top-0 left-0 right-0 bottom-0 z-10 bg-gradient-to-br from-transparentMantisDarker2 to-transparentMantisDarker1;
+
+    @screen lg {
+      background-image: linear-gradient(to bottom right, theme(colors.fadedBlack1), theme(colors.fadedBlack2));
+    }
   }
 
   .form-wrapper {
@@ -88,6 +92,7 @@ img {
 
     @screen lg {
       border: 4px solid theme(colors.mantisDarker);
+      background-color: theme(colors.transparentMantisDarker1);
     }
   }
 

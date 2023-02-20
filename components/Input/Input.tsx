@@ -17,6 +17,9 @@ interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
   disabled?: boolean;
   rounded?: RoundedInput;
   placeholder?: string;
+  className?: string;
+  isBaseInput?: boolean;
+  fullWidth?: boolean;
 }
 
 const Input: FC<InputProps> = ({
@@ -30,16 +33,21 @@ const Input: FC<InputProps> = ({
   disabled = false,
   rounded = "lg",
   placeholder = "",
+  className = "",
+  isBaseInput = false,
+  fullWidth = false,
   ...rest
 }) => {
   const stylesConfig = {
-    base: "border-transparent flex-1 appearance-none border w-full py-2 px-2 bg-white text-black shadow-sm text-base focus:outline-none focus:ring-black",
+    base: "border-transparent flex-1 placeholder-darkBlue appearance-none border py-2 px-2 bg-white text-darkBlue shadow-sm text-base focus:outline-none focus:ring-black",
     state: {
+      general:
+        "!bg-white !text-darkBlue !placeholder-darkBlue !border-2 !border-solid !border-mantis !focus:border-mantisDarker",
       normal:
         "bg-mantis placeholder-white text-white border-2 border-mantisDarker focus:border-mantisDarker border-2 border-solid",
       error:
-        "bg-errorBg text-white border-2 border-tomato placeholder-errorText focus:border-errorBg border-2 border-solid",
-      disabled: "cursor-not-allowed bg-gray95 shadow-inner opacity-50",
+        "bg-errorBg border-2 border-tomato !placeholder-errorText focus:border-errorBg border-2 border-solid",
+      disabled: "pointer-events-none shadow-inner opacity-50",
     },
     rounded: {
       none: null,
@@ -62,6 +70,9 @@ const Input: FC<InputProps> = ({
           rounded && stylesConfig.rounded[rounded],
           error ? stylesConfig.state.error : stylesConfig.state.normal,
           disabled && stylesConfig.state.disabled,
+          isBaseInput && stylesConfig.state.general,
+          fullWidth ? "w-full" : "w-fit",
+          className,
         ])}
         disabled={disabled}
         id={id}

@@ -25,7 +25,21 @@ describe("Label", () => {
     expect(screen.getByRole("textbox")).toBeInTheDocument();
   });
 
-  it("Should have general styles applied", () => {
+  it("Should have base styles applied", () => {
+    render(
+      <SessionProvider session={mockSessionWithNoUser}>
+        <Input isBaseInput />
+      </SessionProvider>
+    );
+
+    const input = screen.getByRole("textbox");
+
+    expect(input).toHaveClass(
+      "!bg-white !text-darkBlue !placeholder-darkBlue !border-2 !border-solid !border-mantis !focus:border-mantisDarker"
+    );
+  });
+
+  it("Should have normal styles applied", () => {
     render(
       <SessionProvider session={mockSessionWithNoUser}>
         <Input />
@@ -49,7 +63,22 @@ describe("Label", () => {
     const input = screen.getByRole("textbox");
 
     expect(input).toHaveClass(
-      "bg-errorBg text-white border-2 border-tomato placeholder-errorText focus:border-errorBg border-2 border-solid"
+      "bg-errorBg border-2 border-tomato !placeholder-errorText focus:border-errorBg"
+    );
+    expect(screen.getByText(/Test Error Message/)).toBeInTheDocument();
+  });
+
+  it("Should have error styles applied", () => {
+    render(
+      <SessionProvider session={mockSessionWithNoUser}>
+        <Input error errorText="Test Error Message" />
+      </SessionProvider>
+    );
+
+    const input = screen.getByRole("textbox");
+
+    expect(input).toHaveClass(
+      "bg-errorBg border-2 border-tomato !placeholder-errorText focus:border-errorBg"
     );
     expect(screen.getByText(/Test Error Message/)).toBeInTheDocument();
   });
@@ -63,9 +92,7 @@ describe("Label", () => {
 
     const input = screen.getByRole("textbox");
 
-    expect(input).toHaveClass(
-      "cursor-not-allowed bg-gray95 shadow-inner opacity-50"
-    );
+    expect(input).toHaveClass("pointer-events-none shadow-inner opacity-50");
   });
 
   it("Should have label if it has been provided", () => {
