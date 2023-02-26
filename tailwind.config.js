@@ -110,7 +110,7 @@ module.exports = {
       mantis: "#7ac142",
       mantisDarker: " #5a803d",
       transparentMantisDarker1: "rgba(90, 128, 61, 0.3)",
-      transparentMantisDarker2: "rgba(90, 128, 61, 0.5)",
+      transparentMantisDarker2: "rgba(90, 128, 61, 0.7)",
       fadedBlack1: "rgba(0, 0, 0, 0.7)",
       fadedBlack2: "rgba(0, 0, 0, 0.4)",
       lighterBlue: "#153c6b",

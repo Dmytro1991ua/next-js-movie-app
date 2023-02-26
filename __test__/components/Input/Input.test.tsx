@@ -10,7 +10,7 @@ jest.mock("uuid", () => {
   };
 });
 
-describe("Label", () => {
+describe("Input", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -23,20 +23,6 @@ describe("Label", () => {
     );
 
     expect(screen.getByRole("textbox")).toBeInTheDocument();
-  });
-
-  it("Should have base styles applied", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <Input isBaseInput />
-      </SessionProvider>
-    );
-
-    const input = screen.getByRole("textbox");
-
-    expect(input).toHaveClass(
-      "!bg-white !text-darkBlue !placeholder-darkBlue !border-2 !border-solid !border-mantis !focus:border-mantisDarker"
-    );
   });
 
   it("Should have normal styles applied", () => {
@@ -56,7 +42,7 @@ describe("Label", () => {
   it("Should have error styles applied", () => {
     render(
       <SessionProvider session={mockSessionWithNoUser}>
-        <Input error errorText="Test Error Message" />
+        <Input error />
       </SessionProvider>
     );
 
@@ -65,22 +51,6 @@ describe("Label", () => {
     expect(input).toHaveClass(
       "bg-errorBg border-2 border-tomato !placeholder-errorText focus:border-errorBg"
     );
-    expect(screen.getByText(/Test Error Message/)).toBeInTheDocument();
-  });
-
-  it("Should have error styles applied", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <Input error errorText="Test Error Message" />
-      </SessionProvider>
-    );
-
-    const input = screen.getByRole("textbox");
-
-    expect(input).toHaveClass(
-      "bg-errorBg border-2 border-tomato !placeholder-errorText focus:border-errorBg"
-    );
-    expect(screen.getByText(/Test Error Message/)).toBeInTheDocument();
   });
 
   it("Should have disabled styles applied", () => {
@@ -103,5 +73,17 @@ describe("Label", () => {
     );
 
     expect(screen.getByText(/Test Label/)).toBeInTheDocument();
+  });
+
+  it("Should add to label '*' sign if field is required", () => {
+    render(
+      <SessionProvider session={mockSessionWithNoUser}>
+        <Input required label="Test Label" />
+      </SessionProvider>
+    );
+
+    const label = screen.getByText(/Test Label/);
+
+    expect(label.textContent).toEqual("Test Label *");
   });
 });

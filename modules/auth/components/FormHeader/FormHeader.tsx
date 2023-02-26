@@ -8,7 +8,7 @@ interface FormHeaderProps {
 
 const FormHeader: FC<FormHeaderProps> = ({ title, subtitle = "" }) => {
   return (
-    <div className="flex flex-col items-center mb-5 border-b-2 border-mantisDarker pb-2.5">
+    <div className="flex flex-col items-center mb-5 border-b-2 border-white pb-2.5 lg:border-mantisDarker">
       <h3
         className={clsx("text-lg font-medium uppercase", [
           subtitle ? "mb-2" : "mb-0",

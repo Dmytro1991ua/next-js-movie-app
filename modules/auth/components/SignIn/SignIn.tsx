@@ -1,57 +1,31 @@
-import { useFormik } from "formik";
+import { Form, Formik } from "formik";
 import { FC } from "react";
 
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import AuthLayout from "@/modules/layout/AuthLayout";
 import {
   SIGN_IN_FORM_HEADER_SUBTITLE,
   SIGN_IN_FORM_HEADER_TITLE,
   SIGN_IN_FORM_REDIRECTION_LINK,
-} from "@/types/constants";
+} from "@/modules/auth/auth.constants";
+import AuthLayout from "@/modules/layout/AuthLayout";
 import { AppRoutes } from "@/types/enums";
 
+import {
+  SIGN_IN_FORM_INITIAL_VALUE,
+  SIGN_IN_FORM_VALIDATION,
+} from "./SignIn.schema";
 import SignInImage from "../../../../public/assets/auth-layout/sign-in-bg.jpg";
+import { SIGN_IN_FORM_INPUTS_CONFIG } from "../../auth.configs";
 import useAuth from "../../hooks/useAuth";
+import FormActions from "../FormActions";
 import FormHeader from "../FormHeader";
-import FormRedirectLink from "../FormRedirectLink";
-
-type FormInitialValues = {
-  email: string;
-  password: string;
-};
+import FormInputs from "../FormInputs";
 
 const SignIn: FC = () => {
-  const { onSignInViaGithub, onSignInViaEmailAndPAssword, onSignInViaGoogle } =
-    useAuth();
-
-  const formik = useFormik<FormInitialValues>({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: (values) => handleSubmitWithCredentials(values),
-  });
-
-  function handleSignInViaGithub(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ): void {
-    e.preventDefault();
-
-    onSignInViaGithub();
-  }
-
-  function handleSubmitWithCredentials(values: FormInitialValues): void {
-    onSignInViaEmailAndPAssword(values.email, values.password);
-  }
-
-  function handleSignInViaGoogle(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
-    e.preventDefault();
-
-    onSignInViaGoogle();
-  }
+  const {
+    onSubmitFormWithCredentials,
+    onSubmitFormViaGithub,
+    onSubmitFormViaGoogle,
+  } = useAuth();
 
   return (
     <AuthLayout
@@ -59,52 +33,31 @@ const SignIn: FC = () => {
       image={SignInImage}
       layout="fill"
     >
-      <form className="form" onSubmit={formik.handleSubmit}>
-        <FormHeader
-          subtitle={SIGN_IN_FORM_HEADER_SUBTITLE}
-          title={SIGN_IN_FORM_HEADER_TITLE}
-        />
-        <Input
-          fullWidth
-          required
-          label="Email"
-          type="email"
-          {...formik.getFieldProps("email")}
-          placeholder="Enter your email"
-        />
-        <Input
-          fullWidth
-          label="Password"
-          type="password"
-          {...formik.getFieldProps("password")}
-          placeholder="Enter your password"
-        />
-        <div className="flex flex-col mt-5">
-          <Button fullWidth className="mb-3" type="submit" variant="primary">
-            Sign-In with Credentials
-          </Button>
-          <Button
-            fullWidth
-            className="mb-3"
-            variant="secondary"
-            onClick={(e) => handleSignInViaGithub(e)}
-          >
-            Sign-In with Github
-          </Button>
-          <Button
-            fullWidth
-            className="mb-3"
-            variant="tertiary"
-            onClick={(e) => handleSignInViaGoogle(e)}
-          >
-            Sign-In with Google
-          </Button>
-          <FormRedirectLink
-            route={AppRoutes.SignUp}
-            title={SIGN_IN_FORM_REDIRECTION_LINK}
-          />
-        </div>
-      </form>
+      <Formik
+        initialValues={SIGN_IN_FORM_INITIAL_VALUE}
+        validationSchema={SIGN_IN_FORM_VALIDATION}
+        onSubmit={onSubmitFormWithCredentials}
+      >
+        {({ submitForm, isSubmitting, errors }) => {
+          return (
+            <Form className="form">
+              <FormHeader
+                subtitle={SIGN_IN_FORM_HEADER_SUBTITLE}
+                title={SIGN_IN_FORM_HEADER_TITLE}
+              />
+              <FormInputs config={SIGN_IN_FORM_INPUTS_CONFIG} />
+              <FormActions
+                isDisabled={isSubmitting || Object.keys(errors).length > 0}
+                route={AppRoutes.SignUp}
+                title={SIGN_IN_FORM_REDIRECTION_LINK}
+                onSubmitWithCredentials={submitForm}
+                onSubmitWithGithub={onSubmitFormViaGithub}
+                onSubmitWithGoogle={onSubmitFormViaGoogle}
+              />
+            </Form>
+          );
+        }}
+      </Formik>
     </AuthLayout>
   );
 };

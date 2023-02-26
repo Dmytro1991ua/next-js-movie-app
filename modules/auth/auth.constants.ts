@@ -15,3 +15,4 @@ export const SIGN_UP_FORM_HEADER_SUBTITLE =
   '"I am gonna make him an offer he can not refuse."" - The Godfather (1972)';
 export const SIGN_IN_FORM_REDIRECTION_LINK = "Do not have an account?";
 export const SIGN_UP_FORM_REDIRECTION_LINK = "Already have have an account?";
+export const SIGN_UP_SUCCESSFUL_MESSAGE = "Successfully signed out";
