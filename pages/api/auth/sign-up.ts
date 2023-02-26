@@ -7,7 +7,7 @@ import {
   NO_DATA_IN_REQUEST_BODY_MESSAGE,
   SUCCESSFULLY_CREATED_USER_MESSAGE,
   USER_ALREADY_EXIST_MESSAGE,
-} from "@/types/constants";
+} from "@/modules/auth/auth.constants";
 import { RequestMethod } from "@/types/enums";
 import { CreateUser, UpdateExistingUser } from "@/types/interfaces";
 import { convertResponseErrorMessageToCorrectFormat } from "@/utils/utils";

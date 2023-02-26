@@ -1,46 +1,27 @@
-import { useFormik } from "formik";
+import { Form, Formik } from "formik";
 import { FC } from "react";
 
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import AuthLayout from "@/modules/layout/AuthLayout";
 import {
   SIGN_UP_FORM_HEADER_SUBTITLE,
   SIGN_UP_FORM_HEADER_TITLE,
   SIGN_UP_FORM_REDIRECTION_LINK,
-} from "@/types/constants";
+} from "@/modules/auth/auth.constants";
+import AuthLayout from "@/modules/layout/AuthLayout";
 import { AppRoutes } from "@/types/enums";
 
+import {
+  SIGN_UP_FORM_INITIAL_VALUE,
+  SIGN_UP_FORM_VALIDATION,
+} from "./SignUp.schema";
 import SignUpImage from "../../../../public/assets/auth-layout/sign-up-bg.webp";
+import { SIGN_UP_FORM_INPUTS_CONFIG } from "../../auth.configs";
 import useAuth from "../../hooks/useAuth";
+import FormActions from "../FormActions";
 import FormHeader from "../FormHeader";
-import FormRedirectLink from "../FormRedirectLink";
-
-type FormInitialValues = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+import FormInputs from "../FormInputs";
 
 const SignUp: FC = () => {
-  const { onCreateNewUser } = useAuth();
-
-  const formik = useFormik<FormInitialValues>({
-    initialValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-    onSubmit: (values) => handleSubmitWithCredentials(values),
-  });
-
-  function handleSubmitWithCredentials(values: FormInitialValues): void {
-    const { name, email, password } = values;
-
-    onCreateNewUser({ name, email, password });
-  }
+  const { onSubmitFormAndCreateNewUser } = useAuth();
 
   return (
     <AuthLayout
@@ -48,47 +29,28 @@ const SignUp: FC = () => {
       image={SignUpImage}
       layout="fill"
     >
-      <form className="form" onSubmit={formik.handleSubmit}>
-        <FormHeader
-          subtitle={SIGN_UP_FORM_HEADER_SUBTITLE}
-          title={SIGN_UP_FORM_HEADER_TITLE}
-        />
-        <Input
-          {...formik.getFieldProps("name")}
-          fullWidth
-          placeholder="Enter your name"
-        />
-        <Input
-          required
-          type="email"
-          {...formik.getFieldProps("email")}
-          fullWidth
-          placeholder="Enter your email"
-        />
-        <Input
-          required
-          type="password"
-          {...formik.getFieldProps("password")}
-          fullWidth
-          placeholder="Enter your password"
-        />
-        <Input
-          required
-          type="password"
-          {...formik.getFieldProps("confirmPassword")}
-          fullWidth
-          placeholder="Confirm password"
-        />
-        <div className="flex flex-col mt-5">
-          <Button fullWidth className="mb-3" type="submit" value="primary">
-            Create a new user with credentials
-          </Button>
-          <FormRedirectLink
-            route={AppRoutes.SignIn}
-            title={SIGN_UP_FORM_REDIRECTION_LINK}
-          />
-        </div>
-      </form>
+      <Formik
+        initialValues={SIGN_UP_FORM_INITIAL_VALUE}
+        validationSchema={SIGN_UP_FORM_VALIDATION}
+        onSubmit={onSubmitFormAndCreateNewUser}
+      >
+        {({ submitForm, isSubmitting, errors }) => (
+          <Form className="form">
+            <FormHeader
+              subtitle={SIGN_UP_FORM_HEADER_SUBTITLE}
+              title={SIGN_UP_FORM_HEADER_TITLE}
+            />
+            <FormInputs config={SIGN_UP_FORM_INPUTS_CONFIG} />
+            <FormActions
+              isSignUpForm
+              isDisabled={isSubmitting || Object.keys(errors).length > 0}
+              route={AppRoutes.SignIn}
+              title={SIGN_UP_FORM_REDIRECTION_LINK}
+              onSubmitWithCredentials={submitForm}
+            />
+          </Form>
+        )}
+      </Formik>
     </AuthLayout>
   );
 };

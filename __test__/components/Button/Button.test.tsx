@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 
 import Button from "@/components/Button";
-import { ButtonVariant } from "@/components/Button/Button";
+import { ButtonVariant } from "@/components/Button/Button.types";
 import { mockSessionWithNoUser } from "@/mocks/testMocks";
 
 describe("Button", () => {
@@ -19,14 +19,14 @@ describe("Button", () => {
   it("Should have primary styles applied", () => {
     render(
       <SessionProvider session={mockSessionWithNoUser}>
-        <Button />
+        <Button variant={"primary" as ButtonVariant} />
       </SessionProvider>
     );
 
     const button = screen.getByRole("button");
 
     expect(button).toHaveClass(
-      "focus:outline-none transition ease-in-out duration-300 rounded-lg bg-mantisDarker hover:bg-mantis text-white focus:ring-2 focus:ring-mantisDarker focus:ring-opacity-50 px-4 py-2 w-fit"
+      "focus:outline-none transition ease-in-out duration-300 rounded-lg bg-mantis hover:bg-mantisDarker text-white focus:ring-2 focus:ring-mantisDarker focus:ring-opacity-50 lg:bg-mantisDarker lg:hover:bg-mantis px-4 py-2 w-fit"
     );
   });
 

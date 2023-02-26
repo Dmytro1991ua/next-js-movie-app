@@ -44,13 +44,13 @@ img {
 
 @layer components {
   .auth-layout {
-    @apply relative m-auto bg-darkBlue rounded-md border-4 border-mantis w-11/12 h-4/5 grid sm:h-4/6 md:w-4/5;
+    @apply relative m-auto bg-darkBlue rounded-md border-4 border-mantis w-11/12 h-4/5 grid;
 
     @screen lg {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1.2rem;
       width: 75%;
-      height: 75%;
+      height: auto;
     }
   }
 
@@ -71,7 +71,7 @@ img {
   }
 
   .auth-layout-img-overlay {
-    @apply absolute top-0 left-0 right-0 bottom-0 z-10 bg-gradient-to-br from-transparentMantisDarker2 to-transparentMantisDarker1;
+    @apply absolute top-0 left-0 right-0 bottom-0 z-10 bg-gradient-to-br from-transparentMantisDarker2 to-transparentMantisDarker2;
 
     @screen lg {
       background-image: linear-gradient(to bottom right, theme(colors.fadedBlack1), theme(colors.fadedBlack2));

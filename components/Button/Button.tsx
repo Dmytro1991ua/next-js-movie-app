@@ -1,21 +1,7 @@
 import clsx from "clsx";
 import React, { FC } from "react";
 
-type ButtonType = "submit" | "button" | "reset";
-export type ButtonVariant = "primary" | "secondary" | "danger" | "tertiary";
-type ButtonSize = "small" | "normal" | "large";
-type RoundedButton = "sm" | "md" | "lg";
-
-interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
-  children?: React.ReactNode;
-  type?: ButtonType;
-  className?: string;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  rounded?: RoundedButton;
-  disabled?: boolean;
-  fullWidth?: boolean;
-}
+import { ButtonProps } from "./Button.types";
 
 const Button: FC<ButtonProps> = ({
   children,
@@ -37,7 +23,7 @@ const Button: FC<ButtonProps> = ({
     },
     variant: {
       primary:
-        "bg-mantisDarker hover:bg-mantis text-white focus:ring-2 focus:ring-mantisDarker focus:ring-opacity-50",
+        "bg-mantis hover:bg-mantisDarker text-white focus:ring-2 focus:ring-mantisDarker focus:ring-opacity-50 lg:bg-mantisDarker lg:hover:bg-mantis ",
       secondary:
         "bg-lighterBlue hover:bg-blue focus:ring-2 focus:ring-lighterBlue focus:ring-opacity-50",
       tertiary:
