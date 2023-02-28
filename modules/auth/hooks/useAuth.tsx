@@ -1,20 +1,13 @@
 import { FormikHelpers } from "formik";
-import { useRouter } from "next/dist/client/router";
-import { signIn, signOut } from "next-auth/react";
-import fetch from "node-fetch";
+import { useRouter } from "next/router";
 
-import {
-  SIGN_UP_SUCCESSFUL_MESSAGE,
-  SUCCESSFULLY_CREATED_USER_MESSAGE,
-  SUCCESSFULLY_SIGNED_IN_WITH_CREDENTIALS_MESSAGE,
-  USERNAME_OR_PASSWORD_DOES_NOT_MATCH_MESSAGE,
-  USER_ALREADY_EXIST_MESSAGE,
-} from "@/modules/auth/auth.constants";
-import { toastService } from "@/services/toast.service";
-import { AppRoutes } from "@/types/enums";
+import { AppRoutes, AuthProvider } from "@/types/enums";
 
+import { authService } from "./../auth.service";
 import {
   HookReturnedType,
+  NewUser,
+  RequestOption,
   SignInFormInitialValues,
   SignUpFormInitialValues,
 } from "../auth.types";
@@ -23,93 +16,36 @@ const useAuth = (): HookReturnedType => {
   const router = useRouter();
 
   async function onSignInViaGithub(): Promise<void> {
-    try {
-      signIn("github", { callbackUrl: AppRoutes.Movies });
-
-      toastService.success("Successfully signed in via Github");
-    } catch (err) {
-      toastService.error((err as Error).message);
-    }
+    await authService.loginWithProvider(AuthProvider.GitHub, AppRoutes.Movies);
   }
 
   async function onSignInViaEmailAndPassword(
     email: string,
     password: string
   ): Promise<void> {
-    try {
-      const loginStatus = await signIn("credentials", {
-        email,
-        password,
-        callbackUrl: AppRoutes.Movies,
-        redirect: false,
-      });
-
-      if (loginStatus?.ok) {
-        router.push(loginStatus.url as AppRoutes);
-        toastService.success(SUCCESSFULLY_SIGNED_IN_WITH_CREDENTIALS_MESSAGE);
-      } else {
-        toastService.error(USERNAME_OR_PASSWORD_DOES_NOT_MATCH_MESSAGE);
-      }
-    } catch (err) {
-      toastService.error((err as Error).message);
-    }
+    await authService.loginWithCredentials(email, password, router);
   }
 
   async function onCreateNewUser({
     name,
     email,
     password,
-  }: {
-    name?: string;
-    email: string;
-    password: string;
-  }): Promise<void> {
-    const options = {
+  }: NewUser): Promise<void> {
+    const options: RequestOption = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, password, email }),
     };
 
-    try {
-      const response = await fetch(`/api/auth/sign-up`, options);
-
-      const data = await response.json();
-
-      if (data.message === USER_ALREADY_EXIST_MESSAGE) {
-        toastService.warn(USER_ALREADY_EXIST_MESSAGE);
-      } else {
-        router.push(AppRoutes.SignIn);
-        toastService.success(SUCCESSFULLY_CREATED_USER_MESSAGE);
-      }
-    } catch (err) {
-      toastService.error((err as Error).message);
-    }
+    await authService.register(options, router);
   }
 
   async function onSignInViaGoogle(): Promise<void> {
-    try {
-      signIn("google", { callbackUrl: AppRoutes.Movies });
-
-      toastService.success("Successfully signed in via Google");
-    } catch (err) {
-      toastService.error((err as Error).message);
-    }
+    await authService.loginWithProvider(AuthProvider.Google, AppRoutes.Movies);
   }
 
   async function onSignOut(): Promise<void> {
-    try {
-      const data = await signOut({
-        callbackUrl: AppRoutes.SignIn,
-        redirect: false,
-      });
-
-      if (data.url) {
-        router.push(data.url);
-        toastService.success(SIGN_UP_SUCCESSFUL_MESSAGE);
-      }
-    } catch (err) {
-      toastService.error((err as Error).message);
-    }
+    await authService.logOut(router);
   }
 
   async function onSubmitFormWithCredentials(

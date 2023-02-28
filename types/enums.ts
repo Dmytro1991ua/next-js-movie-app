@@ -13,3 +13,8 @@ export enum RequestMethod {
   PUT = "PUT",
   PATCH = "PATCH",
 }
+
+export enum AuthProvider {
+  GitHub = "github",
+  Google = "google",
+}
