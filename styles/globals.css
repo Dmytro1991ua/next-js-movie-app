@@ -55,7 +55,7 @@ img {
   }
 
   .main-layout {
-    @apply flex flex-col h-screen w-screen relative	bg-darkBlue text-white z-10;
+    @apply flex flex-col min-h-screen w-screen relative	bg-darkBlue text-white z-10;
   }
 
   .layout-with-bg-image {
@@ -67,7 +67,7 @@ img {
   }
 
   .auth-layout-img-wrapper {
-    @apply relative h-full;
+    @apply relative min-h-[80vh];
   }
 
   .auth-layout-img-overlay {
