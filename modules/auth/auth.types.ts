@@ -89,3 +89,15 @@ export interface HookReturnedType {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
 }
+
+export type NewUser = {
+  name?: string;
+  email: string;
+  password: string;
+};
+
+export type RequestOption = {
+  method: string;
+  headers: { [key: string]: string };
+  body: string;
+};

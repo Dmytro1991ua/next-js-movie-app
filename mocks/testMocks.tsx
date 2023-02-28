@@ -73,3 +73,18 @@ export const MOCK_FORMIK_INSTANCE = {
     unregisterField: jest.fn(),
   },
 };
+
+export const mockRouter = {
+  push: jest.fn(),
+  pathname: "/",
+  route: "",
+  asPath: "",
+  query: {},
+  events: {
+    on: jest.fn(),
+    off: jest.fn(),
+    emit: jest.fn(),
+  },
+  basePath: "",
+  isLocaleDomain: false,
+};
