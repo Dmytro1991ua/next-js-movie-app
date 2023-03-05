@@ -1,21 +1,29 @@
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import React, { FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 
 import BackgroundImageBlock from "@/components/BackgroundImageBlock";
+import Header from "@/modules/header";
+import { AppRoutes } from "@/types/enums";
 
-import LayoutBgImage from "../../public/assets/auth-layout/auth-layout-bg-big.jpg";
-import Header from "../header";
+import GenerateMainLayoutSkeleton from "./GenerateMainLayoutSkeleton";
+import LayoutBgImage from "../../../public/assets/auth-layout/auth-layout-bg-big.jpg";
 
 interface MainLayoutProps {
   children?: ReactNode;
 }
 
 const MainLayout: FC<MainLayoutProps> = ({ children }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const { asPath } = useRouter();
+
+  if (status === "loading") {
+    return <GenerateMainLayoutSkeleton asPath={asPath as AppRoutes} />;
+  }
 
   const renderImageComponentFotAuthLayout = (
     <>
-      {!session?.user && (
+      {!session?.user && status === "unauthenticated" && (
         <BackgroundImageBlock
           alt="Movies Banner"
           layout="fill"

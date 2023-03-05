@@ -8,7 +8,7 @@ import FormRedirectLink from "../FormRedirectLink";
 
 const FormActions: FC<FormActionsProps> = ({
   isSignUpForm = false,
-  isDisabled = false,
+  isDisabled,
   route,
   title,
   onSubmitWithCredentials,

@@ -2,6 +2,7 @@ module.exports = {
   collectCoverageFrom: [
     "**/*.{js,jsx,ts,tsx}",
     "!**/*.d.ts",
+    "!**/*.skeleton.tsx",
     "!**/node_modules/**",
     "!**/__mocks__/**",
     "!**/.next/**",

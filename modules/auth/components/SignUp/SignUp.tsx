@@ -6,7 +6,7 @@ import {
   SIGN_UP_FORM_HEADER_TITLE,
   SIGN_UP_FORM_REDIRECTION_LINK,
 } from "@/modules/auth/auth.constants";
-import AuthLayout from "@/modules/layout/AuthLayout";
+import AuthLayout from "@/modules/layout/AuthLayout/AuthLayout";
 import { AppRoutes } from "@/types/enums";
 
 import {
