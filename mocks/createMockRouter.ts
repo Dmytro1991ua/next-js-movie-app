@@ -5,8 +5,8 @@ import { AppRoutes } from "@/types/enums";
 const createMockRouter = (router: Partial<NextRouter>): NextRouter => {
   return {
     basePath: "",
-    pathname: "/",
-    route: "/",
+    pathname: AppRoutes.Movies,
+    route: AppRoutes.Movies,
     query: {},
     asPath: AppRoutes.Movies,
     back: jest.fn(),

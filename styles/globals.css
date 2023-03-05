@@ -26,6 +26,19 @@ body {
   font-size: 16px;
 }
 
+::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: theme("colors.mantisDarker");
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: theme("colors.mantis");
+  border-radius: 1.2rem;
+}
+
 a {
   text-decoration: none;
   display: inline-block;
@@ -74,7 +87,11 @@ img {
     @apply absolute top-0 left-0 right-0 bottom-0 z-10 bg-gradient-to-br from-transparentMantisDarker2 to-transparentMantisDarker2;
 
     @screen lg {
-      background-image: linear-gradient(to bottom right, theme(colors.fadedBlack1), theme(colors.fadedBlack2));
+      background-image: linear-gradient(
+        to bottom right,
+        theme(colors.fadedBlack1),
+        theme(colors.fadedBlack2)
+      );
     }
   }
 

@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import "@/styles/overrides/toast.css";
 import "tailwindcss/tailwind.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import type { AppProps } from "next/app";
 import { Session } from "next-auth";
@@ -16,7 +17,9 @@ import {
 import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 
-import MainLayout from "@/modules/layout/MainLayout";
+import { MainLayout } from "@/modules/layout";
+import ProtectedRoutes from "@/modules/routes/ProtectedRoutes";
+import { protectedRoutes } from "@/types/constants";
 
 const App = ({
   Component,
@@ -31,9 +34,11 @@ const App = ({
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <SessionProvider session={session}>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
+          <ProtectedRoutes protectedRoutes={protectedRoutes}>
+            <MainLayout>
+              <Component {...pageProps} />
+            </MainLayout>
+          </ProtectedRoutes>
           <ToastContainer
             autoClose={1500}
             closeOnClick={false}

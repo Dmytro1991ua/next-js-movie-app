@@ -1,7 +1,7 @@
 import { StaticImageData } from "next/image";
 import React, { FC, ReactNode } from "react";
 
-import ImageBlock from "../auth/components/ImageBlock";
+import ImageBlock from "../../auth/components/ImageBlock";
 
 interface AuthLayoutProps {
   children?: ReactNode;

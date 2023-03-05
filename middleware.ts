@@ -9,6 +9,8 @@ export function middleware(request: NextRequest) {
     ? request.cookies?.get("next-auth.session-token")
     : null;
 
+  if (reqUrl.startsWith("/_next")) return NextResponse.next();
+
   if (reqUrl === AppRoutes.Default) {
     const clonedUrl = request.nextUrl.clone();
 
