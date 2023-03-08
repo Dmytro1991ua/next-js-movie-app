@@ -25,7 +25,9 @@ describe("MainLayout", () => {
       </SessionProvider>
     );
 
-    expect(screen.getByText(/MovieTime/)).toBeInTheDocument();
+    expect(screen.getByText(/Movie/)).toBeInTheDocument();
+    expect(screen.getByText(/Room/)).toBeInTheDocument();
+    expect(screen.getByAltText(/Popcorn Image/)).toBeInTheDocument();
     expect(screen.getByText(/Profile/)).toBeInTheDocument();
     expect(screen.getByText(/Sign In/)).toBeInTheDocument();
     expect(screen.queryByText(/Sign Out/)).not.toBeInTheDocument();
@@ -42,7 +44,9 @@ describe("MainLayout", () => {
       </SessionProvider>
     );
 
-    expect(screen.getByText(/MovieTime/)).toBeInTheDocument();
+    expect(screen.getByText(/Movie/)).toBeInTheDocument();
+    expect(screen.getByText(/Room/)).toBeInTheDocument();
+    expect(screen.getByAltText(/Popcorn Image/)).toBeInTheDocument();
     expect(screen.getByText(/Profile/)).toBeInTheDocument();
     expect(screen.getByText(/Sign In/)).toBeInTheDocument();
     expect(screen.queryByText(/Sign Out/)).not.toBeInTheDocument();

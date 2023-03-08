@@ -122,6 +122,10 @@ module.exports = {
         lightPurple: "#a855f7",
         darkPurple: "#581c87",
       },
+      fontFamily: {
+        righteous: ["Righteous", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
+      },
     },
   },
 

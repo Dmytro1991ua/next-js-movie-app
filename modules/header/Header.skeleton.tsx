@@ -4,7 +4,12 @@ import Skeleton from "react-loading-skeleton";
 const HeaderSkeleton: FC = () => {
   return (
     <header className=" flex items-center p-3 bg-mantisDarker">
-      <Skeleton baseColor="#7ac142" highlightColor="#5a803d" width={50} />
+      <Skeleton
+        baseColor="#7ac142"
+        height={60}
+        highlightColor="#5a803d"
+        width={120}
+      />
       <div className="ml-auto mr-4">
         <Skeleton
           baseColor="#7ac142"
