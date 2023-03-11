@@ -10,10 +10,7 @@ interface LabelProps {
 const Label: FC<LabelProps> = ({ id, className, children }) => {
   return (
     <label
-      className={clsx(
-        "block mb-2 text-base font-medium text-gray-700",
-        className
-      )}
+      className={clsx("block mb-2 text-base font-medium text-white", className)}
       htmlFor={id}
     >
       {children}
