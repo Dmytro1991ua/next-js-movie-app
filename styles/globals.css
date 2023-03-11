@@ -22,7 +22,6 @@ html,
 body {
   height: 100%;
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
@@ -87,7 +86,7 @@ img {
   }
 
   .main-layout {
-    @apply flex flex-col min-h-screen w-screen relative	bg-darkBlue text-white z-10;
+    @apply flex flex-col min-h-screen relative	bg-darkBlue text-white z-10;
   }
 
   .layout-with-bg-image {
@@ -133,7 +132,11 @@ img {
   }
 
   .header {
-    @apply bg-lighterBlue text-white border-b-4 border-mantis flex items-center p-3;
+    @apply sticky top-0  flex items-center transition-colors text-white p-3;
+  }
+
+  .header-on-scroll {
+    @apply max-h-[8.5rem] bg-lighterBlue border-b-4 border-mantis;
   }
 
   .navigation {

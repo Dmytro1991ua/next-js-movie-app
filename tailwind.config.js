@@ -113,6 +113,7 @@ module.exports = {
         fadedBlack1: "rgba(0, 0, 0, 0.7)",
         fadedBlack2: "rgba(0, 0, 0, 0.4)",
         lighterBlue: "#153c6b",
+        transparentLighterBlue: "rgba(21, 60, 107, 0.3)",
         blue: "#60a5fa",
         darkBlue: "#090c1b",
         tomato: "#ff6347",

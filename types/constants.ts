@@ -5,3 +5,5 @@ export const protectedRoutes = [
   AppRoutes.Profile,
   AppRoutes.Default,
 ];
+
+export const DEFAULT_SCROLL_POSITION_THRESHOLD = 133;
