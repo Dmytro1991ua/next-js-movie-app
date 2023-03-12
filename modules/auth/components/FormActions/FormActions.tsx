@@ -33,7 +33,8 @@ const FormActions: FC<FormActionsProps> = ({
   return (
     <div className="flex flex-col mt-5">
       {actionButtonsConfig.map((button) => {
-        const { id, label, variant, className, fullWidth, onClick } = button;
+        const { id, label, variant, className, fullWidth, icon, onClick } =
+          button;
 
         return (
           <Button
@@ -44,7 +45,7 @@ const FormActions: FC<FormActionsProps> = ({
             variant={variant}
             onClick={onClick}
           >
-            {label}
+            {label} {icon}
           </Button>
         );
       })}

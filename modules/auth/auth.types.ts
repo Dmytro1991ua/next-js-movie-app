@@ -37,6 +37,7 @@ export interface FormActionConfig {
   variant: ButtonVariant;
   fullWidth?: boolean;
   className?: string;
+  icon?: JSX.Element;
   onClick?: ButtonClick;
 }
 
