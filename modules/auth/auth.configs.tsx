@@ -1,3 +1,6 @@
+import { FcGoogle } from "react-icons/fc";
+import { MdAttachEmail } from "react-icons/md";
+import { RxGithubLogo } from "react-icons/rx";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -51,6 +54,8 @@ export const FORM_ACTIONS_CONFIG = ({
   onSubmitWithGithub,
   onSubmitWithGoogle,
 }: FormActionConfigProps): FormActionConfig[] => {
+  const withCredentialsButton = <MdAttachEmail className="ml-4 text-2xl" />;
+
   const signInWithCredentialsConfig: FormActionConfig[] = [
     {
       id: uuidv4(),
@@ -58,6 +63,7 @@ export const FORM_ACTIONS_CONFIG = ({
       variant: "primary",
       className: "mb-3",
       fullWidth: true,
+      icon: withCredentialsButton,
       onClick: onSubmitWithCredentials,
     },
   ];
@@ -73,6 +79,7 @@ export const FORM_ACTIONS_CONFIG = ({
       variant: "primary",
       className: "mb-3",
       fullWidth: true,
+      icon: withCredentialsButton,
       onClick: onSubmitWithCredentials,
     },
     {
@@ -81,6 +88,7 @@ export const FORM_ACTIONS_CONFIG = ({
       variant: "secondary",
       className: "mb-3",
       fullWidth: true,
+      icon: <RxGithubLogo className="ml-4 text-2xl" />,
       onClick: onSubmitWithGithub,
     },
     {
@@ -88,6 +96,7 @@ export const FORM_ACTIONS_CONFIG = ({
       label: "Sign-In with Google",
       variant: "tertiary",
       className: "mb-3",
+      icon: <FcGoogle className="ml-4 text-2xl" />,
       fullWidth: true,
       onClick: onSubmitWithGoogle,
     },
