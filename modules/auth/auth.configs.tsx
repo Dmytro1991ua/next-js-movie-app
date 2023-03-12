@@ -54,7 +54,7 @@ export const FORM_ACTIONS_CONFIG = ({
   onSubmitWithGithub,
   onSubmitWithGoogle,
 }: FormActionConfigProps): FormActionConfig[] => {
-  const withCredentialsButton = <MdAttachEmail className="ml-4 text-2xl" />;
+  const credentialsButtonIcon = <MdAttachEmail className="ml-4 text-2xl" />;
 
   const signInWithCredentialsConfig: FormActionConfig[] = [
     {
@@ -63,7 +63,7 @@ export const FORM_ACTIONS_CONFIG = ({
       variant: "primary",
       className: "mb-3",
       fullWidth: true,
-      icon: withCredentialsButton,
+      icon: credentialsButtonIcon,
       onClick: onSubmitWithCredentials,
     },
   ];
@@ -79,7 +79,7 @@ export const FORM_ACTIONS_CONFIG = ({
       variant: "primary",
       className: "mb-3",
       fullWidth: true,
-      icon: withCredentialsButton,
+      icon: credentialsButtonIcon,
       onClick: onSubmitWithCredentials,
     },
     {
