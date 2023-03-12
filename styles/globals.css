@@ -132,7 +132,7 @@ img {
   }
 
   .header {
-    @apply sticky top-0  flex items-center transition-colors text-white p-3;
+    @apply sticky top-0 flex items-center justify-between transition-colors duration-500 text-white p-3;
   }
 
   .header-on-scroll {
@@ -140,6 +140,6 @@ img {
   }
 
   .navigation {
-    @apply flex items-center ml-auto;
+    @apply hidden lg:flex items-center;
   }
 }
