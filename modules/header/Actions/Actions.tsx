@@ -1,15 +1,26 @@
-import { signIn, useSession } from "next-auth/react";
-import React, { FC } from "react";
+import clsx from "clsx";
+import { useSession } from "next-auth/react";
+import React, { FC, useMemo } from "react";
 
 import Button from "@/components/Button";
 import useAuth from "@/modules/auth/hooks/useAuth";
 
 import Avatar from "./../Avatar";
+import { getHeaderActionsVariant } from "../header.utils";
 
-const Actions: FC = () => {
+interface ActionsProps {
+  isMobileScreen?: boolean;
+}
+
+const Actions: FC<ActionsProps> = ({ isMobileScreen = false }) => {
   const { onSignOut } = useAuth();
 
   const { data: session } = useSession();
+
+  const actionVariant = useMemo(
+    () => getHeaderActionsVariant(isMobileScreen),
+    [isMobileScreen]
+  );
 
   function handleSignOut(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -17,26 +28,21 @@ const Actions: FC = () => {
     onSignOut();
   }
 
-  const renderUserAvatar = <>{session?.user && <Avatar />}</>;
-
-  const renderSignInOrSignOutButton = (
-    <>
-      {session?.user ? (
-        <Button variant="primary" onClick={handleSignOut}>
-          Sign Out
-        </Button>
-      ) : (
-        <Button variant="primary" onClick={() => signIn()}>
-          Sign In
-        </Button>
-      )}
-    </>
-  );
-
   return (
-    <section className="flex items-center">
-      {renderUserAvatar}
-      <div className="ml-2">{renderSignInOrSignOutButton}</div>
+    <section
+      className={clsx("hidden md:flex items-center", [
+        isMobileScreen ? "!flex" : "!ml-auto",
+        !session?.user && "!flex",
+      ])}
+    >
+      {session?.user && <Avatar />}
+      <div className="ml-2">
+        {session?.user && (
+          <Button variant={actionVariant} onClick={handleSignOut}>
+            Sign Out
+          </Button>
+        )}
+      </div>
     </section>
   );
 };

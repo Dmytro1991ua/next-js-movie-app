@@ -1,4 +1,10 @@
+import { render } from "@testing-library/react";
 import { Formik } from "formik";
+import { RouterContext } from "next/dist/shared/lib/router-context";
+import { Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
+
+import createMockRouter from "./createMockRouter";
 
 export const mockSessionWithUser = {
   expires: new Date(Date.now() + 2 * 86400).toISOString(),
@@ -88,3 +94,28 @@ export const mockRouter = {
   basePath: "",
   isLocaleDomain: false,
 };
+
+export const withSessionProviderAndReactContext = ({
+  path,
+  session,
+  component,
+}: {
+  path: string;
+  session: Session | null;
+  component: JSX.Element;
+}) =>
+  render(
+    <SessionProvider session={session}>
+      <RouterContext.Provider value={createMockRouter({ pathname: path })}>
+        {component}
+      </RouterContext.Provider>
+    </SessionProvider>
+  );
+
+export const withSessionProvider = ({
+  session,
+  component,
+}: {
+  session: Session | null;
+  component: JSX.Element;
+}) => render(<SessionProvider session={session}>{component}</SessionProvider>);

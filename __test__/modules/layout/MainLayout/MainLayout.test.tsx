@@ -1,81 +1,71 @@
 import { render, screen } from "@testing-library/react";
 import { RouterContext } from "next/dist/shared/lib/router-context";
-import { SessionProvider } from "next-auth/react";
 import * as hooks from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 
-import { mockSessionWithNoUser, mockSessionWithUser } from "@/mocks/testMocks";
+import createMockRouter from "@/mocks/createMockRouter";
+import {
+  mockSessionWithNoUser,
+  mockSessionWithUser,
+  withSessionProviderAndReactContext,
+} from "@/mocks/testMocks";
 import { MainLayout } from "@/modules/layout";
 import { AppRoutes } from "@/types/enums";
 
-import createMockRouter from "./../../../../mocks/createMockRouter";
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
 
 describe("MainLayout", () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it("Should render component without crashing and Sign-In button and logo if user is not authenticated", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ asPath: AppRoutes.SignIn })}
-        >
-          <MainLayout />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+  it("Should render component without crashing and logo if user is not authenticated", () => {
+    withSessionProviderAndReactContext({
+      path: AppRoutes.SignIn,
+      session: mockSessionWithNoUser,
+      component: <MainLayout />,
+    });
 
     expect(screen.getByText(/Movie/)).toBeInTheDocument();
     expect(screen.getByText(/Room/)).toBeInTheDocument();
     expect(screen.getByAltText(/Popcorn Image/)).toBeInTheDocument();
-    expect(screen.getByText(/Sign In/)).toBeInTheDocument();
     expect(screen.queryByText(/Sign Out/)).not.toBeInTheDocument();
     expect(screen.queryByAltText(/User Avatar/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Home/)).not.toBeInTheDocument();
   });
 
   it("Should render Sign-Out button, navigation and user avatar when user is authenticated", () => {
-    render(
-      <SessionProvider session={mockSessionWithUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ pathname: AppRoutes.Movies })}
-        >
-          <MainLayout />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Movies,
+      session: mockSessionWithUser,
+      component: <MainLayout />,
+    });
 
     expect(screen.getByAltText(/User Avatar/)).toBeInTheDocument();
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
-    expect(screen.queryByText(/Sign In/)).not.toBeInTheDocument();
   });
 
   it("Should render Sign-Out button when user is authenticated", () => {
-    render(
-      <SessionProvider session={mockSessionWithUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ asPath: AppRoutes.Movies })}
-        >
-          <MainLayout />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Movies,
+      session: mockSessionWithUser,
+      component: <MainLayout />,
+    });
 
     expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
-    expect(screen.queryByText(/Sign In/)).not.toBeInTheDocument();
   });
 
   it("Should render Image component when user is not authenticated", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ asPath: AppRoutes.SignIn })}
-        >
-          <MainLayout />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    withSessionProviderAndReactContext({
+      path: AppRoutes.SignIn,
+      session: mockSessionWithNoUser,
+      component: <MainLayout />,
+    });
 
     const image = screen.getByTestId("image");
 
@@ -83,15 +73,11 @@ describe("MainLayout", () => {
   });
 
   it("Should not render Image component when user is authenticated", () => {
-    render(
-      <SessionProvider session={mockSessionWithUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ asPath: AppRoutes.Movies })}
-        >
-          <MainLayout />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Movies,
+      session: mockSessionWithUser,
+      component: <MainLayout />,
+    });
 
     const image = screen.queryByTestId("image");
 
@@ -114,7 +100,7 @@ describe("MainLayout", () => {
     );
 
     const headerSkeleton = screen.getByTestId("header-skeleton");
-    const signInSkeleton = screen.getByTestId("sign-skeleton");
+    const signInSkeleton = screen.getByTestId("sign-in-skeleton");
 
     expect(headerSkeleton).toBeInTheDocument();
     expect(signInSkeleton).toBeInTheDocument();

@@ -1,13 +1,14 @@
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { act, screen, waitFor } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
 import userEvent from "@testing-library/user-event";
-import { RouterContext } from "next/dist/shared/lib/router-context";
-import { SessionProvider } from "next-auth/react";
 import * as nextAuth from "next-auth/react";
 import { toast } from "react-toastify";
 
-import createMockRouter from "@/mocks/createMockRouter";
-import { mockSessionWithNoUser, mockSessionWithUser } from "@/mocks/testMocks";
+import {
+  mockSessionWithNoUser,
+  mockSessionWithUser,
+  withSessionProviderAndReactContext,
+} from "@/mocks/testMocks";
 import useAuth from "@/modules/auth/hooks/useAuth";
 import Actions from "@/modules/header/Actions";
 import { AppRoutes } from "@/types/enums";
@@ -34,48 +35,34 @@ global.fetch = jest.fn(() =>
 describe("Navigation", () => {
   const { result } = renderHook(() => useAuth());
 
-  it("Should render component without crashing and Sign-In button if user is not authenticated", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ pathname: AppRoutes.SignIn })}
-        >
-          <Actions />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+  it("Should render component without crashing if user is not authenticated", () => {
+    withSessionProviderAndReactContext({
+      path: AppRoutes.SignIn,
+      session: mockSessionWithNoUser,
+      component: <Actions />,
+    });
 
-    expect(screen.getByText(/Sign In/)).toBeInTheDocument();
     expect(screen.queryByText(/Sign Out/)).not.toBeInTheDocument();
     expect(screen.queryByAltText(/User Avatar/)).not.toBeInTheDocument();
   });
 
   it("Should render Sign-Out button when user is authenticated", () => {
-    render(
-      <SessionProvider session={mockSessionWithUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ pathname: AppRoutes.Movies })}
-        >
-          <Actions />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Movies,
+      session: mockSessionWithUser,
+      component: <Actions />,
+    });
 
     expect(screen.getByAltText(/User Avatar/)).toBeInTheDocument();
     expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
-    expect(screen.queryByText(/Sign In/)).not.toBeInTheDocument();
   });
 
   it("Should redirect to Profile page on user avatar click", async () => {
-    render(
-      <SessionProvider session={mockSessionWithUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ pathname: AppRoutes.Profile })}
-        >
-          <Actions />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Profile,
+      session: mockSessionWithUser,
+      component: <Actions />,
+    });
 
     const userAvatar = screen.getByRole("link");
 
@@ -92,15 +79,11 @@ describe("Navigation", () => {
       redirect: false,
     });
 
-    render(
-      <SessionProvider session={mockSessionWithUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ pathname: AppRoutes.SignIn })}
-        >
-          <Actions />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Movies,
+      session: mockSessionWithUser,
+      component: <Actions />,
+    });
 
     const signOutBtn = screen.getByText(/Sign Out/);
 
@@ -115,23 +98,17 @@ describe("Navigation", () => {
     }
   });
 
-  it("Should call onSignOut method on Sign Out button click", async () => {
-    const signIn = jest.spyOn(nextAuth, "signIn");
+  it("Should have a secondary styles applied to SignOut button on mobile screen", () => {
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Movies,
+      session: mockSessionWithUser,
+      component: <Actions isMobileScreen />,
+    });
 
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ pathname: AppRoutes.Movies })}
-        >
-          <Actions />
-        </RouterContext.Provider>
-      </SessionProvider>
+    const signOutBtn = screen.getByText(/Sign Out/);
+
+    expect(signOutBtn).toHaveClass(
+      "bg-lighterBlue hover:bg-blue focus:ring-2 focus:ring-lighterBlue"
     );
-
-    const signInBtn = screen.getByText(/Sign In/);
-
-    userEvent.click(signInBtn);
-
-    await waitFor(() => expect(signIn).toHaveBeenCalled());
   });
 });

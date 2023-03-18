@@ -15,8 +15,8 @@ interface FallbackImageProps {
 const FallbackImage: FC<FallbackImageProps> = ({
   imageUrl,
   altText,
-  width = "50",
-  height = "50",
+  width,
+  height,
   isActive = false,
 }) => {
   const [imgSrc, setImgSrc] = useState<string | StaticImageData>(

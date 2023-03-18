@@ -1,7 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import { SessionProvider } from "next-auth/react";
+import { screen } from "@testing-library/react";
 
-import { mockSessionWithNoUser } from "@/mocks/testMocks";
+import { mockSessionWithNoUser, withSessionProvider } from "@/mocks/testMocks";
 import FormActions from "@/modules/auth/components/FormActions";
 import { AppRoutes } from "@/types/enums";
 
@@ -13,15 +12,16 @@ jest.mock("uuid", () => {
 
 describe("FormActions", () => {
   it("Should render component without crashing and disable primary button", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
+    withSessionProvider({
+      session: mockSessionWithNoUser,
+      component: (
         <FormActions
           isDisabled={true}
           route={AppRoutes.Movies}
           title="Test Button"
         />
-      </SessionProvider>
-    );
+      ),
+    });
 
     const button = screen.getByText("Sign-In with Credentials");
 

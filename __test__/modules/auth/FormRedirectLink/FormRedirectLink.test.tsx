@@ -1,20 +1,20 @@
-import { render, screen } from "@testing-library/react";
-import { SessionProvider } from "next-auth/react";
+import { screen } from "@testing-library/react";
 
-import { mockSessionWithNoUser } from "@/mocks/testMocks";
+import { mockSessionWithNoUser, withSessionProvider } from "@/mocks/testMocks";
 import FormRedirectLink from "@/modules/auth/components/FormRedirectLink";
 import { AppRoutes } from "@/types/enums";
 
 describe("FormRedirectLink", () => {
   it("Should render component without crashing", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
+    withSessionProvider({
+      session: mockSessionWithNoUser,
+      component: (
         <FormRedirectLink
           route={AppRoutes.SignIn}
           title="Test Redirection link text"
         />
-      </SessionProvider>
-    );
+      ),
+    });
 
     const link = screen.getByRole("link");
 

@@ -1,7 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import { SessionProvider } from "next-auth/react";
+import { screen } from "@testing-library/react";
 
-import { mockSessionWithNoUser } from "@/mocks/testMocks";
+import { mockSessionWithNoUser, withSessionProvider } from "@/mocks/testMocks";
 import SignIn from "@/modules/auth/components/SignIn";
 
 jest.mock("uuid", () => {
@@ -12,11 +11,10 @@ jest.mock("uuid", () => {
 
 describe("SignIn", () => {
   it("Should render component without crashing", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <SignIn />
-      </SessionProvider>
-    );
+    withSessionProvider({
+      session: mockSessionWithNoUser,
+      component: <SignIn />,
+    });
 
     expect(screen.getByText(/Sign-In with Credentials/)).toBeInTheDocument();
     expect(screen.getByText(/Sign-In with Github/)).toBeInTheDocument();

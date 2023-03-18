@@ -1,7 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import { SessionProvider } from "next-auth/react";
+import { screen } from "@testing-library/react";
 
-import { mockSessionWithNoUser } from "@/mocks/testMocks";
+import { mockSessionWithNoUser, withSessionProvider } from "@/mocks/testMocks";
 import SignUp from "@/modules/auth/components/SignUp";
 
 jest.mock("uuid", () => {
@@ -12,11 +11,10 @@ jest.mock("uuid", () => {
 
 describe("SignUp", () => {
   it("Should render component without crashing", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <SignUp />
-      </SessionProvider>
-    );
+    withSessionProvider({
+      session: mockSessionWithNoUser,
+      component: <SignUp />,
+    });
 
     expect(
       screen.getByText(/Create a new user with credentials/)

@@ -1,61 +1,54 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { RouterContext } from "next/dist/shared/lib/router-context";
-import { SessionProvider } from "next-auth/react";
 
-import createMockRouter from "@/mocks/createMockRouter";
-import { mockSessionWithNoUser, mockSessionWithUser } from "@/mocks/testMocks";
+import {
+  mockSessionWithNoUser,
+  mockSessionWithUser,
+  withSessionProviderAndReactContext,
+} from "@/mocks/testMocks";
 import Header from "@/modules/header";
 import { AppRoutes } from "@/types/enums";
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 describe("Header", () => {
-  it("Should render component without crashing with Sign-In button and logo if user is not authenticated", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ pathname: AppRoutes.SignIn })}
-        >
-          <Header />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+  it("Should render component without crashing with logo if user is not authenticated", () => {
+    withSessionProviderAndReactContext({
+      path: AppRoutes.SignIn,
+      session: mockSessionWithNoUser,
+      component: <Header />,
+    });
 
     expect(screen.getByText(/Movie/)).toBeInTheDocument();
     expect(screen.getByText(/Room/)).toBeInTheDocument();
     expect(screen.getByAltText(/Popcorn Image/)).toBeInTheDocument();
-    expect(screen.getByText(/Sign In/)).toBeInTheDocument();
     expect(screen.queryByText(/Sign Out/)).not.toBeInTheDocument();
     expect(screen.queryByAltText(/User Avatar/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Home/)).not.toBeInTheDocument();
   });
 
   it("Should render Sign-Out button, navigation and user avatar when user is authenticated", () => {
-    render(
-      <SessionProvider session={mockSessionWithUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ pathname: AppRoutes.Movies })}
-        >
-          <Header />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Movies,
+      session: mockSessionWithUser,
+      component: <Header />,
+    });
 
     expect(screen.getByAltText(/User Avatar/)).toBeInTheDocument();
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
-    expect(screen.queryByText(/Sign In/)).not.toBeInTheDocument();
   });
 
   it("Should redirect to Home page on Logo click", () => {
-    render(
-      <SessionProvider session={mockSessionWithUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ pathname: AppRoutes.Movies })}
-        >
-          <Header />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Movies,
+      session: mockSessionWithUser,
+      component: <Header />,
+    });
 
     const logo = screen.getByTestId("logo");
 

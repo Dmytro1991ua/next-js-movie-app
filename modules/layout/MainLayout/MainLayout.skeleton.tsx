@@ -3,7 +3,7 @@ import { FC, ReactNode } from "react";
 import BackgroundImageBlock from "@/components/BackgroundImageBlock";
 
 import LayoutBgImage from "../../../public/assets/auth-layout/auth-layout-bg-big.jpg";
-import HeaderSkeleton from "../../header/Header.skeleton";
+import HeaderSkeleton from "../../header/header.skeleton";
 
 interface MainLayoutSkeletonProps {
   children?: ReactNode;

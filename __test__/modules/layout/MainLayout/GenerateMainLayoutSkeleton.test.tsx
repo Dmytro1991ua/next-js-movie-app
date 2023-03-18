@@ -20,7 +20,7 @@ describe("GenerateMainLayoutSkeleton", () => {
     );
 
     const headerSkeleton = screen.getByTestId("header-skeleton");
-    const signInSkeleton = screen.getByTestId("sign-skeleton");
+    const signInSkeleton = screen.getByTestId("sign-in-skeleton");
 
     expect(headerSkeleton).toBeInTheDocument();
     expect(signInSkeleton).toBeInTheDocument();
