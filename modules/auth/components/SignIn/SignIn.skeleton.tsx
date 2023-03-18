@@ -7,7 +7,7 @@ const SignInSkeleton: FC = () => {
       <Skeleton
         baseColor="#7ac142"
         containerClassName="block text-center mb-2.5"
-        containerTestId="sign-skeleton"
+        containerTestId="sign-in-skeleton"
         highlightColor="#5a803d"
         width={200}
       />
