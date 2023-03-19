@@ -33,19 +33,21 @@ describe("Header", () => {
 
   it("Should render Sign-Out button, navigation and user avatar when user is authenticated", () => {
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <Header />,
     });
 
     expect(screen.getByAltText(/User Avatar/)).toBeInTheDocument();
     expect(screen.getByText(/Home/)).toBeInTheDocument();
+    expect(screen.getByText(/Movies/)).toBeInTheDocument();
+    expect(screen.getByText(/Serials/)).toBeInTheDocument();
     expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
   });
 
   it("Should redirect to Home page on Logo click", () => {
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <Header />,
     });
@@ -54,6 +56,6 @@ describe("Header", () => {
 
     userEvent.click(logo);
 
-    expect(logo).toHaveAttribute("href", AppRoutes.Movies);
+    expect(logo).toHaveAttribute("href", AppRoutes.Home);
   });
 });

@@ -6,7 +6,7 @@ import {
 } from "react-query";
 import * as hooks from "react-query";
 
-import Movies from "@/modules/movies";
+import Home from "@/modules/home";
 
 jest.mock("react-query", () => {
   const originalModule = jest.requireActual("react-query");
@@ -17,7 +17,7 @@ jest.mock("react-query", () => {
   };
 });
 
-describe("Movies", () => {
+describe("Home", () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -33,7 +33,7 @@ describe("Movies", () => {
 
     render(
       <QueryClientProvider client={queryClient}>
-        <Movies />
+        <Home />
       </QueryClientProvider>
     );
 

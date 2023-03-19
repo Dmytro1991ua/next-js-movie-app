@@ -1,6 +1,8 @@
 export enum AppRoutes {
   Default = "/",
+  Home = "/home",
   Movies = "/movies",
+  Serials = "/serials",
   SignIn = "/auth/sign-in",
   SignUp = "/auth/sign-up",
   Profile = "/profile",

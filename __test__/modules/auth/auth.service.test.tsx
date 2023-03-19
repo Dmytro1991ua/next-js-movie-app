@@ -55,12 +55,12 @@ describe("AuthService", () => {
 
     try {
       await act(() =>
-        authService.loginWithProvider(AuthProvider.GitHub, AppRoutes.Movies)
+        authService.loginWithProvider(AuthProvider.GitHub, AppRoutes.Home)
       );
 
       await waitFor(() =>
         expect(signIn).toHaveBeenCalledWith(AuthProvider.GitHub, {
-          callbackUrl: AppRoutes.Movies,
+          callbackUrl: AppRoutes.Home,
         })
       );
     } catch {
@@ -73,12 +73,12 @@ describe("AuthService", () => {
 
     try {
       await act(() =>
-        authService.loginWithProvider(AuthProvider.Google, AppRoutes.Movies)
+        authService.loginWithProvider(AuthProvider.Google, AppRoutes.Home)
       );
 
       await waitFor(() =>
         expect(signIn).toHaveBeenCalledWith(AuthProvider.Google, {
-          callbackUrl: AppRoutes.Movies,
+          callbackUrl: AppRoutes.Home,
         })
       );
     } catch {
@@ -92,7 +92,7 @@ describe("AuthService", () => {
 
     const signIn = jest.spyOn(nextAuth, "signIn").mockReturnValue({
       ok: true,
-      url: AppRoutes.Movies,
+      url: AppRoutes.Home,
     });
 
     await act(() =>
@@ -105,7 +105,7 @@ describe("AuthService", () => {
 
     await waitFor(() =>
       expect(signIn).toHaveBeenCalledWith("credentials", {
-        callbackUrl: AppRoutes.Movies,
+        callbackUrl: AppRoutes.Home,
         redirect: false,
         email: mockEmail,
         password: mockPassword,
@@ -137,7 +137,7 @@ describe("AuthService", () => {
 
     await waitFor(() =>
       expect(signIn).toHaveBeenCalledWith("credentials", {
-        callbackUrl: AppRoutes.Movies,
+        callbackUrl: AppRoutes.Home,
         redirect: false,
         email: mockEmail,
         password: mockPassword,

@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { useQuery } from "react-query";
 
-import { fetchPosts } from "@/pages/movies";
+import { fetchPosts } from "@/pages/home";
 
-const Movies: FC = () => {
+const Home: FC = () => {
   //TODO Test posts data to check that react query works
   const { data: posts } = useQuery(["post"], fetchPosts, {
     refetchOnMount: false,
@@ -24,4 +24,4 @@ const Movies: FC = () => {
   );
 };
 
-export default Movies;
+export default Home;

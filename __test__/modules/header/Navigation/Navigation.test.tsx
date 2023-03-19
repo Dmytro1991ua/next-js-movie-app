@@ -36,6 +36,7 @@ describe("Navigation", () => {
     );
 
     expect(screen.getByText(/Home/)).toBeInTheDocument();
+    expect(screen.getByText(/Movies/)).toBeInTheDocument();
     expect(screen.getByText(/Serials/)).toBeInTheDocument();
   });
 });
