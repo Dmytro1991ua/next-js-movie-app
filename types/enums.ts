@@ -20,3 +20,9 @@ export enum AuthProvider {
   GitHub = "github",
   Google = "google",
 }
+
+export enum QueryString {
+  serials = "serials",
+  moviesByGenre = "moviesByGenre",
+  moviesForHomePage = "moviesForHomePage",
+}

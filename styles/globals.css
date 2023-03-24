@@ -94,7 +94,11 @@ img {
   }
 
   .img-overlay {
-    @apply flex flex-col h-screen w-screen absolute z-10 bg-gradient-to-br from-fadedBlack1  to-fadedBlack1;
+    @apply flex flex-col h-screen w-screen absolute z-10 bg-gradient-to-b from-fadedBlack1  to-fadedBlack2;
+  }
+
+  .hero-image-overlay {
+    @apply absolute h-screen w-screen z-10 bg-gradient-to-b from-fadedDarkBlue to-darkBlue;
   }
 
   .auth-layout-img-wrapper {
@@ -132,11 +136,11 @@ img {
   }
 
   .header {
-    @apply sticky max-h-[8.5rem] top-0 flex items-center transition-colors duration-500 text-white px-3;
+    @apply fixed max-h-[8.5rem] top-0 w-full flex items-center transition-colors duration-500 text-white px-3 z-20;
   }
 
   .header-on-scroll {
-    @apply bg-lighterBlue border-b-4 border-mantis py-2;
+    @apply bg-lighterBlue border-b-4 border-mantis py-2 z-10;
   }
 
   .navigation {

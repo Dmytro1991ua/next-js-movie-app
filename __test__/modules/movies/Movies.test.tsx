@@ -4,7 +4,7 @@ import * as hooks from "react-query";
 
 import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
 import { mockMovie, withQueryClientProvider } from "@/mocks/testMocks";
-import Home from "@/modules/home";
+import Movies from "@/modules/movies";
 
 jest.mock("react-query", () => {
   const originalModule = jest.requireActual("react-query");
@@ -17,7 +17,7 @@ jest.mock("react-query", () => {
 
 jest.mock("@/hooks/useGetRandomMovieOrSerial");
 
-describe("Home", () => {
+describe("Movies", () => {
   beforeEach(() => {
     jest.spyOn(hooks, "useQuery").mockReturnValue({
       data: {
@@ -36,7 +36,7 @@ describe("Home", () => {
   });
 
   it("Should render component without crashing", () => {
-    withQueryClientProvider(<Home />);
+    withQueryClientProvider(<Movies />);
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();
