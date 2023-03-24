@@ -48,7 +48,7 @@ describe("Navigation", () => {
 
   it("Should render Sign-Out button when user is authenticated", () => {
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <Actions />,
     });
@@ -80,7 +80,7 @@ describe("Navigation", () => {
     });
 
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <Actions />,
     });
@@ -100,7 +100,7 @@ describe("Navigation", () => {
 
   it("Should have a secondary styles applied to SignOut button on mobile screen", () => {
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <Actions isMobileScreen />,
     });

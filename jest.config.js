@@ -31,6 +31,7 @@ module.exports = {
     "^@/mocks/(.*)$": "<rootDir>/mocks/$1",
     "^@/hooks/(.*)$": "<rootDir>/hooks/$1",
   },
+  setupFiles: ["<rootDir>/test.env.ts"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
   transform: {

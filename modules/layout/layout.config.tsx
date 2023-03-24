@@ -22,6 +22,10 @@ export const mainLayoutContentBasedOnRoute: Record<AppRoutes, JSX.Element> = {
     </>
   ),
   [AppRoutes.Profile]: <Skeleton />,
+  [AppRoutes.Home]: <Skeleton baseColor="#5a803d" height={500} width={500} />,
   [AppRoutes.Movies]: <Skeleton baseColor="#5a803d" height={500} width={500} />,
+  [AppRoutes.Serials]: (
+    <Skeleton baseColor="#5a803d" height={500} width={500} />
+  ),
   [AppRoutes.Default]: <Skeleton />,
 };

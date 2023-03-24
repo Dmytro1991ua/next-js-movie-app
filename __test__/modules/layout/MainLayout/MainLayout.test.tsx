@@ -40,7 +40,7 @@ describe("MainLayout", () => {
 
   it("Should render Sign-Out button, navigation and user avatar when user is authenticated", () => {
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <MainLayout />,
     });
@@ -52,7 +52,7 @@ describe("MainLayout", () => {
 
   it("Should render Sign-Out button when user is authenticated", () => {
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <MainLayout />,
     });
@@ -74,7 +74,7 @@ describe("MainLayout", () => {
 
   it("Should not render Image component when user is authenticated", () => {
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <MainLayout />,
     });

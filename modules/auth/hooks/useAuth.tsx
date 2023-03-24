@@ -16,7 +16,7 @@ const useAuth = (): HookReturnedType => {
   const router = useRouter();
 
   async function onSignInViaGithub(): Promise<void> {
-    await authService.loginWithProvider(AuthProvider.GitHub, AppRoutes.Movies);
+    await authService.loginWithProvider(AuthProvider.GitHub, AppRoutes.Home);
   }
 
   async function onSignInViaEmailAndPassword(
@@ -41,7 +41,7 @@ const useAuth = (): HookReturnedType => {
   }
 
   async function onSignInViaGoogle(): Promise<void> {
-    await authService.loginWithProvider(AuthProvider.Google, AppRoutes.Movies);
+    await authService.loginWithProvider(AuthProvider.Google, AppRoutes.Home);
   }
 
   async function onSignOut(): Promise<void> {

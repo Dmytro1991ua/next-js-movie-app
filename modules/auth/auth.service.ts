@@ -32,7 +32,7 @@ class AuthService {
       const loginStatus = await signIn("credentials", {
         email,
         password,
-        callbackUrl: AppRoutes.Movies,
+        callbackUrl: AppRoutes.Home,
         redirect: false,
       });
 

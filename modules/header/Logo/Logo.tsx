@@ -27,7 +27,7 @@ const Logo: FC = () => {
   );
 
   return (
-    <Link passHref href={AppRoutes.Movies}>
+    <Link passHref href={AppRoutes.Home}>
       <a
         className="relative flex items-center mr-[5rem] z-10"
         data-testid="logo"

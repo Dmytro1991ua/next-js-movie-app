@@ -1,12 +1,16 @@
-import { render, screen } from "@testing-library/react";
-import {
-  QueryClient,
-  QueryClientProvider,
-  QueryObserverSuccessResult,
-} from "react-query";
+import { screen } from "@testing-library/react";
+import { GetServerSidePropsContext } from "next";
+import { QueryObserverSuccessResult } from "react-query";
 import * as hooks from "react-query";
 
-import MoviesPage from "@/pages/movies/index";
+import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
+import {
+  mockMovie,
+  mockSessionWithUser,
+  withQueryClientProvider,
+} from "@/mocks/testMocks";
+import { moviesPageService } from "@/modules/movies/movies.service";
+import MoviesPage, { getServerSideProps } from "@/pages/movies";
 
 jest.mock("react-query", () => {
   const originalModule = jest.requireActual("react-query");
@@ -17,28 +21,44 @@ jest.mock("react-query", () => {
   };
 });
 
-describe("MoviesPage Page", () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
+jest.mock("@/hooks/useGetRandomMovieOrSerial");
+
+describe("MoviesPage", () => {
+  beforeEach(() => {
+    jest.spyOn(hooks, "useQuery").mockReturnValue({
+      data: {
+        popularMovies: {
+          results: [mockMovie],
+        },
       },
-    },
+    } as unknown as QueryObserverSuccessResult<unknown, unknown>);
+    (useGetRandomMovieOrSerial as jest.Mock).mockImplementation(() => ({
+      data: mockMovie,
+    }));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it("Should render component without crashing", () => {
-    jest.spyOn(hooks, "useQuery").mockReturnValue({
-      data: [{ id: "Test ID", title: "Test name", body: "Test description" }],
-    } as unknown as QueryObserverSuccessResult<unknown, unknown>);
+    withQueryClientProvider(<MoviesPage />);
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MoviesPage />
-      </QueryClientProvider>
+    expect(screen.getByText(/View Details/)).toBeInTheDocument();
+    expect(screen.getByText(/IMDB/)).toBeInTheDocument();
+    expect(screen.getByRole("img")).toBeInTheDocument();
+  });
+
+  it("Should trigger getServerSideProps and called fetchMoviesByGenre method within moviesPageService", async () => {
+    const fetchMoviesByGenre = jest.spyOn(
+      moviesPageService,
+      "fetchMoviesByGenre"
     );
 
-    expect(screen.getByText(/Test ID/)).toBeInTheDocument();
-    expect(screen.getByText(/Test name/)).toBeInTheDocument();
-    expect(screen.getByText(/Test description/)).toBeInTheDocument();
+    getServerSideProps({
+      session: mockSessionWithUser,
+    } as unknown as GetServerSidePropsContext);
+
+    expect(fetchMoviesByGenre).toHaveBeenCalled();
   });
 });

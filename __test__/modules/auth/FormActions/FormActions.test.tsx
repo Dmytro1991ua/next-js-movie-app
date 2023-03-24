@@ -17,7 +17,7 @@ describe("FormActions", () => {
       component: (
         <FormActions
           isDisabled={true}
-          route={AppRoutes.Movies}
+          route={AppRoutes.Home}
           title="Test Button"
         />
       ),

@@ -26,19 +26,20 @@ global.fetch = jest.fn(() =>
 describe("MobileNavigation", () => {
   it("Should render component without crashing", () => {
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <MobileNavigation isVisible />,
     });
 
     expect(screen.getByTestId("mobile-navigation")).toBeInTheDocument();
     expect(screen.getByText(/Home/)).toBeInTheDocument();
+    expect(screen.getByText(/Movies/)).toBeInTheDocument();
     expect(screen.getByText(/Serials/)).toBeInTheDocument();
   });
 
   it("Should not render MobileNavigation component when isVisible props is false", () => {
     withSessionProviderAndReactContext({
-      path: AppRoutes.Movies,
+      path: AppRoutes.Home,
       session: mockSessionWithUser,
       component: <MobileNavigation isVisible={false} />,
     });

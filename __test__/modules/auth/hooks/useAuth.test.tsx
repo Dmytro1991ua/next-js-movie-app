@@ -53,7 +53,7 @@ describe("useAuth", () => {
     await act(() => result.current.onSignInViaGithub());
 
     await waitFor(() =>
-      expect(signIn).toHaveBeenCalledWith(AuthProvider.GitHub, AppRoutes.Movies)
+      expect(signIn).toHaveBeenCalledWith(AuthProvider.GitHub, AppRoutes.Home)
     );
   });
 
@@ -63,7 +63,7 @@ describe("useAuth", () => {
     await act(() => result.current.onSignInViaGoogle());
 
     await waitFor(() =>
-      expect(signIn).toHaveBeenCalledWith(AuthProvider.Google, AppRoutes.Movies)
+      expect(signIn).toHaveBeenCalledWith(AuthProvider.Google, AppRoutes.Home)
     );
   });
 
@@ -155,7 +155,7 @@ describe("useAuth", () => {
     await act(() => result.current.onSignInViaGoogle());
     await waitFor(() =>
       expect(signIn).toHaveBeenCalledWith("google", {
-        callbackUrl: AppRoutes.Movies,
+        callbackUrl: AppRoutes.Home,
       })
     );
   });
@@ -173,7 +173,7 @@ describe("useAuth", () => {
     await act(() => result.current.onSignInViaGithub());
     await waitFor(() =>
       expect(signIn).toHaveBeenCalledWith("github", {
-        callbackUrl: AppRoutes.Movies,
+        callbackUrl: AppRoutes.Home,
       })
     );
   });

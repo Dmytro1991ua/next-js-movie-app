@@ -22,7 +22,7 @@ const ProtectedRoutes: FC<ProtectedRoutesProps> = ({
 
   useEffect(() => {
     if (status !== "loading" && !session?.user && pathIsProtected) {
-      router.push(AppRoutes.Movies);
+      router.push(AppRoutes.Home);
     }
   }, [pathIsProtected, router, session?.user, status]);
 

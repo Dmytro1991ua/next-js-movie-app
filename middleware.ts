@@ -14,7 +14,7 @@ export function middleware(request: NextRequest) {
   if (reqUrl === AppRoutes.Default) {
     const clonedUrl = request.nextUrl.clone();
 
-    clonedUrl.pathname = AppRoutes.Movies;
+    clonedUrl.pathname = AppRoutes.Home;
 
     return NextResponse.redirect(clonedUrl);
   }
@@ -30,7 +30,7 @@ export function middleware(request: NextRequest) {
     (reqUrl.includes(AppRoutes.SignIn) || reqUrl.includes(AppRoutes.SignUp)) &&
     token
   ) {
-    return NextResponse.redirect(new URL(AppRoutes.Movies, request.url));
+    return NextResponse.redirect(new URL(AppRoutes.Home, request.url));
   }
 
   if (

@@ -1,27 +1,18 @@
-import { FC } from "react";
-import { useQuery } from "react-query";
+import React, { FC } from "react";
 
-import { fetchPosts } from "@/pages/movies";
+import Hero from "@/components/Hero";
+import { QueryString } from "@/types/enums";
+
+import { moviesPageService } from "./movies.service";
+import { useFetchMoviesOrSerials } from "../../hooks/useFetchMoviesForHomePage";
 
 const Movies: FC = () => {
-  //TODO Test posts data to check that react query works
-  const { data: posts } = useQuery(["post"], fetchPosts, {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
+  const { data } = useFetchMoviesOrSerials({
+    query: QueryString.moviesByGenre,
+    fetcher: moviesPageService.fetchMoviesByGenre,
   });
 
-  return (
-    <>
-      {posts &&
-        posts.map((post) => (
-          <div key={post.id}>
-            <div>{post?.id}</div>
-            <div>{post?.title}</div>
-            <div>{post?.body}</div>
-          </div>
-        ))}
-    </>
-  );
+  return <Hero data={data?.warMovies?.results ?? []} />;
 };
 
 export default Movies;

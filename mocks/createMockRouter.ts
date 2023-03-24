@@ -5,10 +5,10 @@ import { AppRoutes } from "@/types/enums";
 const createMockRouter = (router: Partial<NextRouter>): NextRouter => {
   return {
     basePath: "",
-    pathname: AppRoutes.Movies,
-    route: AppRoutes.Movies,
+    pathname: AppRoutes.Home,
+    route: AppRoutes.Home,
     query: {},
-    asPath: AppRoutes.Movies,
+    asPath: AppRoutes.Home,
     back: jest.fn(),
     beforePopState: jest.fn(),
     prefetch: jest.fn(),
