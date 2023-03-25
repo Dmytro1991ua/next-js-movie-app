@@ -4,7 +4,7 @@ import { User } from "next-auth";
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
 
-import { RequestMethod } from "./enums";
+import { RequestMethod, SliderTitle } from "./enums";
 
 export interface NextAuthUser extends User {
   uid: string;
@@ -81,7 +81,7 @@ export type MoviesPageData = {
   horrorMovies: MovieOrSerialResult | null;
   thrillerMovies: MovieOrSerialResult | null;
   historyMovies: MovieOrSerialResult | null;
-  documentaries: MovieOrSerialResult | null;
+  documentariesMovies: MovieOrSerialResult | null;
   warMovies: MovieOrSerialResult | null;
   westernMovies: MovieOrSerialResult | null;
 };
@@ -93,3 +93,22 @@ export type SerialsPageData = {
   popularSerials: MovieOrSerialResult | null;
   topRatedSerials: MovieOrSerialResult | null;
 };
+
+export type AppPageData = HomePageData & MoviesPageData & SerialsPageData;
+
+export interface SliderConfig {
+  id: string;
+  data: MovieOrSerialResults[];
+  title: SliderTitle;
+  className?: string;
+  isHomePage?: boolean;
+  isMoviesPage?: boolean;
+  isSerialsPage?: boolean;
+}
+
+export interface PageSlider<T> {
+  data: T;
+  isHomePage?: boolean;
+  isMoviesPage?: boolean;
+  isSerialsPage?: boolean;
+}

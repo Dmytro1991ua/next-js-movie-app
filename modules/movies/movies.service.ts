@@ -48,7 +48,7 @@ class MoviesPageService {
         horrorMovies: horrorMoviesResponse,
         thrillerMovies: thrillerMoviesResponse,
         historyMovies: historyMoviesResponse,
-        documentaries: documentaryMoviesResponse,
+        documentariesMovies: documentaryMoviesResponse,
         warMovies: warMoviesResponse,
         westernMovies: westernMoviesResponse,
       };

@@ -15,6 +15,12 @@ jest.mock("react-query", () => {
   };
 });
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 jest.mock("@/hooks/useGetRandomMovieOrSerial");
 
 describe("Movies", () => {
@@ -40,6 +46,9 @@ describe("Movies", () => {
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();
-    expect(screen.getByRole("img")).toBeInTheDocument();
+    expect(screen.getByText(/Action/)).toBeInTheDocument();
+    expect(screen.getByText(/Comedy/)).toBeInTheDocument();
+    expect(screen.getByText(/War/)).toBeInTheDocument();
+    expect(screen.getByTestId("hero-img")).toBeInTheDocument();
   });
 });

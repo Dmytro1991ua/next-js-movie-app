@@ -4,6 +4,12 @@ import {
   getResponseErrorMessage,
 } from "@/utils/utils";
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 describe("convertResponseErrorMessageToCorrectFormat", () => {
   it("Should return correct string based on request method", () => {
     expect(convertResponseErrorMessageToCorrectFormat(RequestMethod.GET)).toBe(

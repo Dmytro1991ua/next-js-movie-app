@@ -99,6 +99,7 @@ module.exports = {
           },
         ],
       },
+      display: ["group-hover"],
       colors: {
         black: "#000",
         white: "#fff",
@@ -131,5 +132,5 @@ module.exports = {
     },
   },
 
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms"), require("tailwind-scrollbar-hide")],
 };

@@ -21,6 +21,12 @@ jest.mock("react-query", () => {
   };
 });
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 jest.mock("@/hooks/useGetRandomMovieOrSerial");
 
 describe("SerialsPage", () => {
@@ -46,7 +52,9 @@ describe("SerialsPage", () => {
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();
-    expect(screen.getByRole("img")).toBeInTheDocument();
+    expect(screen.getByText(/On The Air/)).toBeInTheDocument();
+    expect(screen.getByText(/Airing Today/)).toBeInTheDocument();
+    expect(screen.getByTestId("hero-img")).toBeInTheDocument();
   });
 
   it("Should trigger getServerSideProps and called fetchMoviesByGenre method within moviesPageService", async () => {
