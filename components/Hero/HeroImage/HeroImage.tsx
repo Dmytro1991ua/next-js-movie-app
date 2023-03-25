@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import React, { FC, memo, useEffect, useState } from "react";
 
-import { BLURRED_HERO_IMAGE } from "@/types/constants";
+import { BLURRED_IMAGE } from "@/types/constants";
 
 import DefaultImage from "../../../public/assets/auth-layout/auth-layout-bg-big.jpg";
 
@@ -23,7 +23,8 @@ const HeroImage: FC<HeroImageProps> = ({ imgUrl }) => {
       <div className="hero-image-overlay" />
       <Image
         alt="Banner image"
-        blurDataURL={BLURRED_HERO_IMAGE}
+        blurDataURL={BLURRED_IMAGE}
+        data-testid="hero-img"
         layout="fill"
         objectFit="cover"
         placeholder="blur"

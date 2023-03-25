@@ -15,7 +15,6 @@
 
 html {
   font-size: 62.5%;
-  scroll-behavior: smooth;
 }
 
 html,
@@ -58,6 +57,10 @@ img {
 }
 
 @layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
     @apply font-roboto;
   }
@@ -161,5 +164,29 @@ img {
 
   .navigation-mobile-dropdown {
     @apply bg-mantisDarker w-[100%] absolute top-[4.5rem] left-0 py-5 px-2 flex-col border-2 border-mantis;
+  }
+
+  .left-arrow-slider-icon {
+    @apply absolute top-0 bottom-0 left-2 text-mantis z-40 m-auto h-9 w-9 cursor-pointer opacity-0 transition hover:scale-125 group-hover:opacity-100;
+  }
+
+  .right-arrow-slider-icon {
+    @apply absolute top-0 bottom-0 right-2 text-mantis z-40 m-auto h-9 w-9 cursor-pointer opacity-0 transition hover:scale-125 group-hover:opacity-100;
+  }
+
+  .slider-header-title {
+    @apply cursor-pointer text-sm font-semibold text-powderAsh transition duration-200 hover:text-mantisDarker md:text-2xl;
+  }
+
+  .slider-wrapper {
+    @apply flex items-center space-x-1 overflow-x-auto scrollbar-hide md:space-x-2.5 md:p-2;
+  }
+
+  .slide-image-wrapper {
+    @apply relative h-28 min-w-[180px] cursor-pointer transition duration-200 ease-out md:h-36 md:min-w-[260px] overflow-hidden;
+  }
+
+  .slide-image {
+    @apply rounded-sm object-cover md:rounded md:hover:scale-105 transition duration-200 ease-out hover:brightness-75;
   }
 }
