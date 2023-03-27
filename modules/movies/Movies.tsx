@@ -1,21 +1,25 @@
 import React, { FC, useMemo } from "react";
 
 import Hero from "@/components/Hero";
-import { QueryString } from "@/types/enums";
+import { AppRoutes, QueryString } from "@/types/enums";
 import { getPageSlider } from "@/utils/utils";
 
 import { moviesPageService } from "./movies.service";
-import { useFetchMoviesOrSerials } from "../../hooks/useFetchMoviesForHomePage";
+import { useFetchMoviesOrSerialsData } from "../../hooks/useFetchMoviesForHomePage";
 
 const Movies: FC = () => {
-  const { data } = useFetchMoviesOrSerials({
+  const { data } = useFetchMoviesOrSerialsData({
     query: QueryString.moviesByGenre,
     fetcher: moviesPageService.fetchMoviesByGenre,
   });
 
   const moviesPageSliders = useMemo(() => {
     if (data) {
-      return getPageSlider({ data, isMoviesPage: true });
+      return getPageSlider({
+        data,
+        isMoviesPage: true,
+        route: AppRoutes.Movies,
+      });
     }
   }, [data]);
 

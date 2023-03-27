@@ -1,8 +1,10 @@
 import { NextApiResponse } from "next";
 import { User } from "next-auth";
 
+import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
+import { AppRoutes } from "@/types/enums";
 
 import { RequestMethod, SliderTitle } from "./enums";
 
@@ -104,6 +106,7 @@ export interface SliderConfig {
   isHomePage?: boolean;
   isMoviesPage?: boolean;
   isSerialsPage?: boolean;
+  route?: AppRoutes;
 }
 
 export interface PageSlider<T> {
@@ -111,4 +114,10 @@ export interface PageSlider<T> {
   isHomePage?: boolean;
   isMoviesPage?: boolean;
   isSerialsPage?: boolean;
+  route?: AppRoutes;
 }
+
+export type MovieOrSerialDetailsData = {
+  movieOrSerialDetails: MovieOrSerialDetail;
+  movieOrSerialActors: Cast[];
+};

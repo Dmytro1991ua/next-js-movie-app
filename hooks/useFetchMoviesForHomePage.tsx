@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { QueryString } from "@/types/enums";
 import {
   HomePageData,
+  MovieOrSerialDetailsData,
   MoviesPageData,
   SerialsPageData,
 } from "@/types/interfaces";
@@ -18,8 +19,12 @@ export type ReturnedHookType<T> = {
   isLoading: boolean;
 };
 
-export const useFetchMoviesOrSerials = <
-  T extends HomePageData | MoviesPageData | SerialsPageData
+export const useFetchMoviesOrSerialsData = <
+  T extends
+    | HomePageData
+    | MoviesPageData
+    | SerialsPageData
+    | MovieOrSerialDetailsData
 >({
   query,
   fetcher,

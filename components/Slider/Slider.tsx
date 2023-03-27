@@ -13,12 +13,14 @@ export interface SliderProps<T> {
   data: T[];
   title: string;
   className?: string;
+  route?: string;
 }
 
 const Slider = <T extends Movie & Serial>({
   data,
   title,
   className,
+  route,
 }: SliderProps<T>) => {
   const { isActionButtonClicked, rowRef, onActionIconClick } =
     useSliderActions();
@@ -37,7 +39,7 @@ const Slider = <T extends Movie & Serial>({
 
         <div ref={rowRef} className="slider-wrapper">
           {data.map((item) => (
-            <SliderThumbnail key={uuidv4()} data={item} />
+            <SliderThumbnail key={uuidv4()} data={item} route={route} />
           ))}
         </div>
 

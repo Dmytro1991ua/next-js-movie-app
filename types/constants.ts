@@ -3,7 +3,10 @@ import { AppRoutes } from "./enums";
 export const protectedRoutes = [
   AppRoutes.Home,
   AppRoutes.Movies,
+  AppRoutes.MovieDetails,
+  AppRoutes.MovieByGenreDetails,
   AppRoutes.Serials,
+  AppRoutes.SerialDetails,
   AppRoutes.Profile,
   AppRoutes.Default,
 ];
