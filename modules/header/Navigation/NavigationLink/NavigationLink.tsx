@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import Link from "next/dist/client/link";
 import { useRouter } from "next/dist/client/router";
-import React, { FC } from "react";
+import React, { FC, memo, useMemo } from "react";
 
 import { AppRoutes } from "@/types/enums";
+import { isRouteActive } from "@/utils/utils";
 
 interface NavigationLinkProps {
   url: AppRoutes;
@@ -20,12 +21,18 @@ const NavigationLink: FC<NavigationLinkProps> = ({
 }) => {
   const router = useRouter();
 
+  const isNavigationRouteActive = useMemo(
+    () =>
+      isRouteActive({ asPath: router.asPath, pathname: router.pathname, url }),
+    [router.asPath, router.pathname, url]
+  );
+
   return (
     <Link passHref href={url}>
       <a
         className={clsx("relative flex items-center z-10 group", [
-          router.asPath === url ? "text-mantis" : "text-white",
-          router.asPath === url && isMobileNavigation
+          isNavigationRouteActive ? "text-mantis" : "text-white",
+          isNavigationRouteActive && isMobileNavigation
             ? "!text-darkBlue"
             : "text-white",
         ])}
@@ -38,4 +45,4 @@ const NavigationLink: FC<NavigationLinkProps> = ({
   );
 };
 
-export default NavigationLink;
+export default memo(NavigationLink);

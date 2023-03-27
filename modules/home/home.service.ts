@@ -1,7 +1,13 @@
 import { toastService } from "@/services/toast.service";
-import { HomePageData } from "@/types/interfaces";
-import { requestsConfigForHomePage } from "@/utils/requests";
-import { getResponseErrorMessage } from "@/utils/utils";
+import { HomePageData, MovieOrSerialDetailsData } from "@/types/interfaces";
+import {
+  requestsConfigForHomePage,
+  requestsConfigForMovieDetailsPage,
+} from "@/utils/requests";
+import {
+  getResponseErrorMessage,
+  getResponseErrorMessageForDetailsPage,
+} from "@/utils/utils";
 
 class HomePageService {
   async fetchMoviesForHomePage(): Promise<HomePageData> {
@@ -44,6 +50,34 @@ class HomePageService {
       };
     } catch (error) {
       const errorMessage = getResponseErrorMessage();
+      toastService.error(errorMessage);
+
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async fetchMoviesDetailsData(
+    movieId?: string | string[]
+  ): Promise<MovieOrSerialDetailsData> {
+    try {
+      const movieUrl =
+        requestsConfigForMovieDetailsPage(
+          movieId
+        ).fetchDataForHomeAndMovieDetailsPage;
+      const castUrl =
+        requestsConfigForMovieDetailsPage(movieId).fetchMovieActors;
+
+      const [movieDetailResponse, movieCastResponse] = await Promise.all([
+        fetch(movieUrl).then((res) => res.json()),
+        fetch(castUrl).then((res) => res.json()),
+      ]);
+
+      return {
+        movieOrSerialDetails: movieDetailResponse,
+        movieOrSerialActors: movieCastResponse,
+      };
+    } catch (error) {
+      const errorMessage = getResponseErrorMessageForDetailsPage();
       toastService.error(errorMessage);
 
       throw new Error((error as Error).message);

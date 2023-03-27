@@ -1,8 +1,11 @@
 export enum AppRoutes {
   Default = "/",
   Home = "/home",
+  MovieDetails = "/home/[movieId]",
   Movies = "/movies",
+  MovieByGenreDetails = "/movies/[movieByGenreId]",
   Serials = "/serials",
+  SerialDetails = "/serials/[serialId]",
   SignIn = "/auth/sign-in",
   SignUp = "/auth/sign-up",
   Profile = "/profile",
@@ -23,8 +26,11 @@ export enum AuthProvider {
 
 export enum QueryString {
   serials = "serials",
+  serialDetails = "serialDetails",
   moviesByGenre = "moviesByGenre",
+  moviesByGenreDetails = "movieByGenreDetails",
   moviesForHomePage = "moviesForHomePage",
+  moviesForHomePageDetails = "moviesForHomePageDetails",
 }
 
 export enum SliderTitle {

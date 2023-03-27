@@ -32,3 +32,20 @@ export const requestsConfigForSerialsPage: ApiRequestConfigForSerialsPage = {
   fetchPopularSerials: `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US`,
   fetchTopRatedSerials: `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=en-US`,
 };
+
+export const requestsConfigForMovieDetailsPage = (
+  movieId?: string | string[]
+): {
+  fetchDataForHomeAndMovieDetailsPage: string;
+  fetchMovieActors: string;
+} => ({
+  fetchDataForHomeAndMovieDetailsPage: `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`,
+  fetchMovieActors: `${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`,
+});
+
+export const requestsConfigForSerialDetailsPage = (
+  serialId?: string | string[]
+): { fetchDataForSerialDetailsPage: string; fetchSerialActors: string } => ({
+  fetchDataForSerialDetailsPage: `${BASE_URL}/tv/${serialId}?api_key=${API_KEY}&language=en-US&append_to_response=videos`,
+  fetchSerialActors: `${BASE_URL}/tv/${serialId}/credits?api_key=${API_KEY}&language=en-US`,
+});

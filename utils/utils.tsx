@@ -2,7 +2,7 @@ import { shuffle } from "lodash";
 import { v4 as uuidv4 } from "uuid";
 
 import Slider from "@/components/Slider";
-import { RequestMethod, SliderTitle } from "@/types/enums";
+import { AppRoutes, RequestMethod, SliderTitle } from "@/types/enums";
 import { AppPageData, PageSlider, SliderConfig } from "@/types/interfaces";
 
 export const convertResponseErrorMessageToCorrectFormat = (
@@ -14,11 +14,18 @@ export const getResponseErrorMessage = (isSerials = false): string => {
   return `Failed to load ${isSerials ? "Serials" : "Movies"}`;
 };
 
+export const getResponseErrorMessageForDetailsPage = (
+  isSerial = false
+): string => {
+  return `Failed to load ${isSerial ? "Serial" : "Movie"} details`;
+};
+
 const sliderConfig = <T extends AppPageData>({
   data,
   isHomePage,
   isMoviesPage,
   isSerialsPage,
+  route,
 }: PageSlider<T>): SliderConfig[] => {
   const commonClassName = "mb-4";
 
@@ -29,6 +36,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.ActionMovies,
       className: commonClassName,
       isMoviesPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -36,6 +44,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.ComedyMovies,
       className: commonClassName,
       isMoviesPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -43,6 +52,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.Documentaries,
       className: commonClassName,
       isMoviesPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -50,6 +60,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.HistoryMovies,
       className: commonClassName,
       isMoviesPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -57,6 +68,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.HorrorMovies,
       className: commonClassName,
       isMoviesPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -64,6 +76,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.NowPlayingMovies,
       className: commonClassName,
       isHomePage,
+      route,
     },
     {
       id: uuidv4(),
@@ -71,6 +84,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.PopularMoviesOrSerials,
       className: commonClassName,
       isHomePage,
+      route,
     },
     {
       id: uuidv4(),
@@ -78,6 +92,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.PopularMoviesOrSerials,
       className: commonClassName,
       isSerialsPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -85,6 +100,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.SerialsAiringToday,
       className: commonClassName,
       isSerialsPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -92,6 +108,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.SerialsOnAir,
       className: commonClassName,
       isSerialsPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -99,6 +116,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.ThrillerMovies,
       className: commonClassName,
       isMoviesPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -106,6 +124,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TopRatedMoviesOrSerials,
       className: commonClassName,
       isHomePage,
+      route,
     },
     {
       id: uuidv4(),
@@ -113,6 +132,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TopRatedMoviesOrSerials,
       className: commonClassName,
       isSerialsPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -120,6 +140,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TrendingMovies,
       className: commonClassName,
       isHomePage,
+      route,
     },
     {
       id: uuidv4(),
@@ -127,6 +148,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.UpcomingMovies,
       className: commonClassName,
       isHomePage,
+      route,
     },
     {
       id: uuidv4(),
@@ -134,6 +156,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.WarMovies,
       className: commonClassName,
       isMoviesPage,
+      route,
     },
     {
       id: uuidv4(),
@@ -141,6 +164,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.WesternMovies,
       className: commonClassName,
       isMoviesPage,
+      route,
     },
   ];
 };
@@ -150,12 +174,14 @@ export const getPageSlider = <T,>({
   isHomePage,
   isMoviesPage,
   isSerialsPage,
+  route,
 }: PageSlider<T>): JSX.Element => {
   const availableSliders = sliderConfig({
     data: data as AppPageData,
     isHomePage,
     isMoviesPage,
     isSerialsPage,
+    route,
   });
 
   return (
@@ -166,14 +192,39 @@ export const getPageSlider = <T,>({
             slider.isMoviesPage ||
             slider.isSerialsPage) && (
             <Slider
-              key={slider.id}
+              key={uuidv4()}
               className={slider.className}
               data={shuffle(slider.data)}
+              route={slider.route}
               title={slider.title}
             />
           )}
         </>
       ))}
     </>
+  );
+};
+
+export const isRouteActive = ({
+  asPath,
+  pathname,
+  url,
+}: {
+  asPath: string;
+  pathname: string;
+  url: string;
+}): boolean => {
+  const homeDetailsPageRoute =
+    url === AppRoutes.Home && pathname === AppRoutes.MovieDetails;
+  const moviesDetailsPageRoute =
+    url === AppRoutes.Movies && pathname === AppRoutes.MovieByGenreDetails;
+  const serialsDetailsPageRoute =
+    url === AppRoutes.Serials && pathname === AppRoutes.SerialDetails;
+
+  return (
+    asPath === url ||
+    homeDetailsPageRoute ||
+    moviesDetailsPageRoute ||
+    serialsDetailsPageRoute
   );
 };

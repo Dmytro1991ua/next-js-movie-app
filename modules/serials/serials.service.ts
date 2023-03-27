@@ -1,7 +1,13 @@
 import { toastService } from "@/services/toast.service";
-import { SerialsPageData } from "@/types/interfaces";
-import { requestsConfigForSerialsPage } from "@/utils/requests";
-import { getResponseErrorMessage } from "@/utils/utils";
+import { MovieOrSerialDetailsData, SerialsPageData } from "@/types/interfaces";
+import {
+  requestsConfigForSerialDetailsPage,
+  requestsConfigForSerialsPage,
+} from "@/utils/requests";
+import {
+  getResponseErrorMessage,
+  getResponseErrorMessageForDetailsPage,
+} from "@/utils/utils";
 
 class SerialsPageService {
   async fetchSerialsData(): Promise<SerialsPageData> {
@@ -39,6 +45,34 @@ class SerialsPageService {
       };
     } catch (error) {
       const errorMessage = getResponseErrorMessage(true);
+      toastService.error(errorMessage);
+
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async fetchSerialDetailsData(
+    serialId?: string | string[]
+  ): Promise<MovieOrSerialDetailsData> {
+    try {
+      const serialUrl =
+        requestsConfigForSerialDetailsPage(
+          serialId
+        ).fetchDataForSerialDetailsPage;
+      const castUrl =
+        requestsConfigForSerialDetailsPage(serialId).fetchSerialActors;
+
+      const [serialDetailResponse, serialCastResponse] = await Promise.all([
+        fetch(serialUrl).then((res) => res.json()),
+        fetch(castUrl).then((res) => res.json()),
+      ]);
+
+      return {
+        movieOrSerialDetails: serialDetailResponse,
+        movieOrSerialActors: serialCastResponse,
+      };
+    } catch (error) {
+      const errorMessage = getResponseErrorMessageForDetailsPage(true);
       toastService.error(errorMessage);
 
       throw new Error((error as Error).message);

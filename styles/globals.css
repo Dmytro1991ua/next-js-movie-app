@@ -183,7 +183,7 @@ img {
   }
 
   .slide-image-wrapper {
-    @apply relative h-28 min-w-[180px] cursor-pointer transition duration-200 ease-out md:h-36 md:min-w-[260px] overflow-hidden;
+    @apply relative h-28 min-w-[180px] cursor-pointer transition duration-200 ease-out md:h-36 md:min-w-[260px] xl:h-[20rem] xl:min-w-[400px] overflow-hidden;
   }
 
   .slide-image {

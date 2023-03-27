@@ -1,7 +1,13 @@
 import { toastService } from "@/services/toast.service";
-import { MoviesPageData } from "@/types/interfaces";
-import { requestsConfigForMoviesPage } from "@/utils/requests";
-import { getResponseErrorMessage } from "@/utils/utils";
+import { MovieOrSerialDetailsData, MoviesPageData } from "@/types/interfaces";
+import {
+  requestsConfigForMovieDetailsPage,
+  requestsConfigForMoviesPage,
+} from "@/utils/requests";
+import {
+  getResponseErrorMessage,
+  getResponseErrorMessageForDetailsPage,
+} from "@/utils/utils";
 
 class MoviesPageService {
   async fetchMoviesByGenre(): Promise<MoviesPageData> {
@@ -9,10 +15,10 @@ class MoviesPageService {
       const [
         actionMoviesResponse,
         comedyMoviesResponse,
+        documentaryMoviesResponse,
+        historyMoviesResponse,
         horrorMoviesResponse,
         thrillerMoviesResponse,
-        historyMoviesResponse,
-        documentaryMoviesResponse,
         warMoviesResponse,
         westernMoviesResponse,
       ] = await Promise.all([
@@ -45,15 +51,45 @@ class MoviesPageService {
       return {
         actionMovies: actionMoviesResponse,
         comedyMovies: comedyMoviesResponse,
+        documentariesMovies: documentaryMoviesResponse,
+        historyMovies: historyMoviesResponse,
         horrorMovies: horrorMoviesResponse,
         thrillerMovies: thrillerMoviesResponse,
-        historyMovies: historyMoviesResponse,
-        documentariesMovies: documentaryMoviesResponse,
         warMovies: warMoviesResponse,
         westernMovies: westernMoviesResponse,
       };
     } catch (error) {
       const errorMessage = getResponseErrorMessage();
+      toastService.error(errorMessage);
+
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async fetchMoviesByGenreDetailsData(
+    movieId?: string | string[]
+  ): Promise<MovieOrSerialDetailsData> {
+    try {
+      const movieByGenreUrl =
+        requestsConfigForMovieDetailsPage(
+          movieId
+        ).fetchDataForHomeAndMovieDetailsPage;
+      const castUrl =
+        requestsConfigForMovieDetailsPage(movieId).fetchMovieActors;
+
+      const [movieByGenreDetailResponse, movieCastResponse] = await Promise.all(
+        [
+          fetch(movieByGenreUrl).then((res) => res.json()),
+          fetch(castUrl).then((res) => res.json()),
+        ]
+      );
+
+      return {
+        movieOrSerialDetails: movieByGenreDetailResponse,
+        movieOrSerialActors: movieCastResponse,
+      };
+    } catch (error) {
+      const errorMessage = getResponseErrorMessageForDetailsPage();
       toastService.error(errorMessage);
 
       throw new Error((error as Error).message);
