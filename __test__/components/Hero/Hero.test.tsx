@@ -9,6 +9,12 @@ import { mockMovie } from "@/mocks/testMocks";
 
 jest.mock("@/hooks/useGetRandomMovieOrSerial");
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 describe("Hero", () => {
   beforeEach(() => {
     (useGetRandomMovieOrSerial as jest.Mock).mockImplementation(() => ({
