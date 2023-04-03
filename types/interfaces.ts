@@ -1,10 +1,21 @@
 import { NextApiResponse } from "next";
 import { User } from "next-auth";
 
-import { Cast, MovieOrSerialDetail } from "@/model/common";
+import {
+  Actor,
+  Cast,
+  Genre,
+  MovieOrSerialDetail,
+  ProductionCountryOrCompany,
+  SpokenLanguage,
+} from "@/model/common";
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
-import { AppRoutes } from "@/types/enums";
+import {
+  AppRoutes,
+  DetailsBlockTitle,
+  DetailsPageActionButtons,
+} from "@/types/enums";
 
 import { RequestMethod, SliderTitle } from "./enums";
 
@@ -119,5 +130,42 @@ export interface PageSlider<T> {
 
 export type MovieOrSerialDetailsData = {
   movieOrSerialDetails: MovieOrSerialDetail;
-  movieOrSerialActors: Cast[];
+  movieOrSerialActors: Cast;
 };
+
+export type DetailsBlockPosition = "column" | "row";
+
+export type DetailsSubtitleWithPills = (
+  | Genre
+  | Actor
+  | SpokenLanguage
+  | ProductionCountryOrCompany
+)[];
+
+export interface DetailsBlockCommonConfig {
+  id: string;
+  className?: string;
+  position: DetailsBlockPosition;
+  title: DetailsBlockTitle;
+}
+
+export interface DetailsBlockWithPillsConfig extends DetailsBlockCommonConfig {
+  hasSubtitlePill?: boolean;
+  list?: DetailsSubtitleWithPills;
+}
+
+export interface MovieOrSerialWithRegularSubtitle
+  extends DetailsBlockCommonConfig {
+  subtitle?: string | number;
+}
+
+export interface DetailsPageActionButton {
+  id: string;
+  url: string;
+  icon: JSX.Element;
+  rel?: string;
+  target?: string;
+  label: DetailsPageActionButtons;
+  className?: string;
+  disabledClassName?: string;
+}

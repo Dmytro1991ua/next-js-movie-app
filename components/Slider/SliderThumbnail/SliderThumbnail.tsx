@@ -6,6 +6,7 @@ import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
 import { BLURRED_IMAGE, SMALL_IMAGE_URL } from "@/types/constants";
 import { AppRoutes } from "@/types/enums";
+import { handleRedirectToDetailsPage } from "@/utils/utils";
 
 interface SliderThumbnailProps<T> {
   data: T;
@@ -18,14 +19,12 @@ const SliderThumbnail = <T extends Movie & Serial>({
 }: SliderThumbnailProps<T>) => {
   const router = useRouter();
 
-  function handleRedirectToDetailsPage(): void {
-    router.push(`${route}/${data.id}`);
-  }
-
   return (
     <div
-      className=" relative slide-image-wrapper rounded-lg"
-      onClick={handleRedirectToDetailsPage}
+      className="relative slide-image-wrapper rounded-lg"
+      onClick={() =>
+        handleRedirectToDetailsPage({ router, route, id: data.id })
+      }
     >
       <Image
         alt={data.title}

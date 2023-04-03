@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@testing-library/react": "^12.1.2",
+    "@types/mongoose": "^5.10.5",
     "autoprefixer": "^10.4.13",
     "babel-jest": "^29.4.1",
     "bcryptjs": "^2.4.3",
@@ -63,7 +64,7 @@
     "identity-obj-proxy": "^3.0.0",
     "lint-staged": "^13.0.3",
     "mongodb": "^4.13.0",
-    "mongoose": "^6.9.0",
+    "mongoose": "^5.10.19",
     "postcss": "^8.4.21",
     "postcss-nesting": "^11.0.0",
     "prettier": "^2.8.3",

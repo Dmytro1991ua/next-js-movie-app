@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
+import { AppRoutes } from "@/types/enums";
 
 import { useSliderActions } from "./hooks/useSliderActions";
 import SliderThumbnail from "./SliderThumbnail";
@@ -13,7 +14,7 @@ export interface SliderProps<T> {
   data: T[];
   title: string;
   className?: string;
-  route?: string;
+  route?: AppRoutes;
 }
 
 const Slider = <T extends Movie & Serial>({

@@ -101,7 +101,7 @@ img {
   }
 
   .hero-image-overlay {
-    @apply absolute h-screen w-screen z-10 bg-gradient-to-b from-fadedDarkBlue to-darkBlue;
+    @apply absolute h-screen w-full z-10 bg-gradient-to-b from-fadedDarkBlue to-darkBlue;
   }
 
   .auth-layout-img-wrapper {
@@ -166,6 +166,10 @@ img {
     @apply bg-mantisDarker w-[100%] absolute top-[4.5rem] left-0 py-5 px-2 flex-col border-2 border-mantis;
   }
 
+  .hero-image-wrapper {
+    @apply relative z-0 h-screen w-full drop-shadow-xl;
+  }
+
   .left-arrow-slider-icon {
     @apply absolute top-0 bottom-0 left-2 text-mantis z-40 m-auto h-9 w-9 cursor-pointer opacity-0 transition hover:scale-125 group-hover:opacity-100;
   }
@@ -188,5 +192,13 @@ img {
 
   .slide-image {
     @apply rounded-sm object-cover md:rounded md:hover:scale-105 transition duration-200 ease-out hover:brightness-75;
+  }
+
+  .details-page-content-wrapper {
+    @apply absolute overflow-x-auto h-[80vh] top-[15%] left-[5%] flex flex-col gap-4 w-11/12 text-white lg:top-[25%] lg:left-[11.5%] lg:h-[70vh] lg:flex-row lg:w-10/12;
+  }
+
+  .details-page-link {
+    @apply flex items-center justify-center w-fit	 focus:outline-none  focus:ring-2 focus:ring-opacity-50 transition ease-in-out duration-300 p-2 rounded-lg;
   }
 }

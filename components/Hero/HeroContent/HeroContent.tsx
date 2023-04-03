@@ -8,6 +8,7 @@ interface HeroContentProps {
   releaseDate?: string;
   rating?: number;
   overview?: string;
+  onClick: () => void;
 }
 
 const HeroContent: FC<HeroContentProps> = ({
@@ -15,9 +16,10 @@ const HeroContent: FC<HeroContentProps> = ({
   releaseDate = "",
   rating = 0,
   overview = "",
+  onClick,
 }) => {
   return (
-    <div className="absolute top-[45%] left-[5%] max-w-6xl text-white xl:max-w-[85rem] 2xl:max-w-[108rem]">
+    <div className="absolute top-[45%] left-[5%] xl:max-w-[85rem] 2xl:max-w-[108rem]">
       <h1 className="text-4xl lg:text-6xl lg:leading-tight mb-4">{title}</h1>
       <div className="flex items-cenetr mb-2">
         <p>{releaseDate},&nbsp;</p>
@@ -27,7 +29,9 @@ const HeroContent: FC<HeroContentProps> = ({
         </p>
       </div>
       <p className="mb-4">{overview}</p>
-      <Button>{<BsFillInfoCircleFill />}&nbsp;View Details</Button>
+      <Button onClick={onClick}>
+        {<BsFillInfoCircleFill />}&nbsp;View Details
+      </Button>
     </div>
   );
 };
