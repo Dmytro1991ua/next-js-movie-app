@@ -67,15 +67,15 @@ class MoviesPageService {
   }
 
   async fetchMoviesByGenreDetailsData(
-    movieId?: string | string[]
+    movieByGenreId?: string | string[]
   ): Promise<MovieOrSerialDetailsData> {
     try {
       const movieByGenreUrl =
         requestsConfigForMovieDetailsPage(
-          movieId
+          movieByGenreId
         ).fetchDataForHomeAndMovieDetailsPage;
       const castUrl =
-        requestsConfigForMovieDetailsPage(movieId).fetchMovieActors;
+        requestsConfigForMovieDetailsPage(movieByGenreId).fetchMovieActors;
 
       const [movieByGenreDetailResponse, movieCastResponse] = await Promise.all(
         [

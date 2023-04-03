@@ -5,7 +5,7 @@ import { getPageSlider } from "@/utils/utils";
 
 import Hero from "./../../components/Hero";
 import { homePageService } from "./home.service";
-import { useFetchMoviesOrSerialsData } from "../../hooks/useFetchMoviesForHomePage";
+import { useFetchMoviesOrSerialsData } from "../../hooks/useFetchMoviesOrSerialsData";
 
 const Home: FC = () => {
   const { data } = useFetchMoviesOrSerialsData({
@@ -21,7 +21,7 @@ const Home: FC = () => {
 
   return (
     <>
-      <Hero data={data?.popularMovies?.results ?? []} />
+      <Hero data={data?.popularMovies?.results ?? []} route={AppRoutes.Home} />
       {homePageSliders}
     </>
   );

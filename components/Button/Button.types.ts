@@ -12,4 +12,5 @@ export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   rounded?: RoundedButton;
   disabled?: boolean;
   fullWidth?: boolean;
+  formTarget?: string;
 }

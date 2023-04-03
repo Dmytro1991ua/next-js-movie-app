@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from "react";
 
 import Hero from "@/components/Hero";
-import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesForHomePage";
+import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesOrSerialsData";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { getPageSlider } from "@/utils/utils";
 
@@ -25,7 +25,11 @@ const Serials: FC = () => {
 
   return (
     <>
-      <Hero isSerialsPage data={data?.topRatedSerials?.results ?? []} />
+      <Hero
+        isSerialsPage
+        data={data?.topRatedSerials?.results ?? []}
+        route={AppRoutes.Serials}
+      />
       {serialsPageSliders}
     </>
   );

@@ -1,7 +1,8 @@
 import { GetServerSideProps, NextPage } from "next";
 import { QueryClient, dehydrate } from "react-query";
 
-import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesForHomePage";
+import DetailsPage from "@/components/DetailsPage";
+import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesOrSerialsData";
 import { serialsPageService } from "@/modules/serials/serials.service";
 import { QueryString } from "@/types/enums";
 
@@ -27,9 +28,12 @@ const SerialDetailsPage: NextPage = () => {
     fetcher: () => serialsPageService.fetchSerialDetailsData(),
   });
 
-  console.log(data);
-
-  return <div>SerialDetailsPage</div>;
+  return (
+    <DetailsPage
+      movieOrSerialCast={data?.movieOrSerialActors}
+      movieOrSerialDetails={data?.movieOrSerialDetails}
+    />
+  );
 };
 
 export default SerialDetailsPage;

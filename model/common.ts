@@ -18,23 +18,31 @@ export interface CommonMovieOrSerialTypes {
 
 export interface Actor {
   name: string;
+  id: number;
 }
 export interface Cast {
   cast: Actor[];
 }
 
-export interface SpokenLanguages {
+export interface SpokenLanguage {
   english_name: string;
   iso_639_1: string;
+  name: string;
+  id?: string;
+}
+
+export interface ProductionCountryOrCompany {
+  id?: number;
   name: string;
 }
 
 export interface MovieOrSerialDetail {
   id: number;
-  genre: Genre[];
+  genres: Genre[];
   backdrop_path: string;
-  episode_run_time: number[];
-  name: string;
+  episode_run_time?: number[];
+  name?: string;
+  title?: string;
   first_air_date: string;
   homepage: string;
   languages: string[];
@@ -47,5 +55,11 @@ export interface MovieOrSerialDetail {
   poster_path: string;
   status: string;
   vote_count: number;
-  spoken_languages: SpokenLanguages[];
+  tagline: string;
+  release_date?: string;
+  revenue: number;
+  runtime?: number;
+  spoken_languages?: SpokenLanguage[];
+  production_countries?: ProductionCountryOrCompany[];
+  production_companies?: ProductionCountryOrCompany[];
 }

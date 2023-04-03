@@ -12,6 +12,7 @@ const Button: FC<ButtonProps> = ({
   rounded = "lg",
   disabled = false,
   fullWidth = false,
+  formTarget = "",
   ...rest
 }) => {
   const stylesConfig = {
@@ -52,6 +53,7 @@ const Button: FC<ButtonProps> = ({
         className,
       ])}
       disabled={disabled}
+      formTarget={formTarget}
       type={type}
       {...rest}
     >

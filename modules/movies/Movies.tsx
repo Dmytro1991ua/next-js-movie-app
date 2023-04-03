@@ -5,7 +5,7 @@ import { AppRoutes, QueryString } from "@/types/enums";
 import { getPageSlider } from "@/utils/utils";
 
 import { moviesPageService } from "./movies.service";
-import { useFetchMoviesOrSerialsData } from "../../hooks/useFetchMoviesForHomePage";
+import { useFetchMoviesOrSerialsData } from "../../hooks/useFetchMoviesOrSerialsData";
 
 const Movies: FC = () => {
   const { data } = useFetchMoviesOrSerialsData({
@@ -25,7 +25,7 @@ const Movies: FC = () => {
 
   return (
     <>
-      <Hero data={data?.warMovies?.results ?? []} />
+      <Hero data={data?.warMovies?.results ?? []} route={AppRoutes.Movies} />
       {moviesPageSliders}
     </>
   );
