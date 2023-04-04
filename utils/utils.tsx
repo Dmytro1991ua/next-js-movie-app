@@ -477,8 +477,7 @@ export const detailsPageActionButtonsConfig = ({
       rel: "noreferrer",
       target: "_blank",
       label: DetailsPageActionButtons.HomePage,
-      className:
-        "details-page-link bg-lighterBlue hover:bg-blue focus:ring-lighterBlue",
+      className: "bg-lighterBlue hover:bg-blue focus:ring-lighterBlue",
       disabledClassName: !movieOrSerialDetails?.homepage
         ? "pointer-events-none opacity-50"
         : "pointer-events-auto",
@@ -488,8 +487,7 @@ export const detailsPageActionButtonsConfig = ({
       url: previousPath,
       icon: <BsFillArrowLeftCircleFill className={commonIconClassName} />,
       label: DetailsPageActionButtons.GoBack,
-      className:
-        "details-page-link bg-mantis hover:bg-mantisDarker focus:ring-mantis",
+      className: "bg-mantis hover:bg-mantisDarker focus:ring-mantis",
     },
   ];
 };
@@ -521,8 +519,12 @@ export const getDetailsPageActionButtons = ({
         }) => (
           <Link key={id} passHref href={url}>
             <a
-              className={clsx(className, [!url && disabledClassName])}
+              className={clsx(
+                `flex items-center justify-center w-fit	focus:outline-none  focus:ring-2 focus:ring-opacity-50 transition ease-in-out duration-300 rounded-lg ${className}`,
+                [!url && disabledClassName]
+              )}
               rel={rel}
+              style={{ padding: "0.8rem 1.2rem" }}
               target={target}
             >
               {label} {icon}
