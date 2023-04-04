@@ -82,14 +82,16 @@ const DetailsPage = ({
           <h2 className="opacity-75 mb-4">
             <i>{movieOrSerialDetails?.tagline}</i>
           </h2>
-          <div className="flex items-center mb-2">
+          <div className="flex items-center gap-8 mb-2">
             {detailsBlockWithMovieOrSerialRelease}
           </div>
           <p className="mb-4">{movieOrSerialDetails?.overview}</p>
-          <div className="flex items-center mb-2">
+          <div className="flex items-center gap-8 mb-2">
             {detailsBlockWithRevenueOrSeasonsDetails}
           </div>
-          <div className="flex flex-row gap-5">{detailsPageActionButtons}</div>
+          <div className="flex items-center gap-5">
+            {detailsPageActionButtons}
+          </div>
         </div>
         <div className="w-full">{detailsBlockWithPillsSubtitle}</div>
       </div>

@@ -197,8 +197,4 @@ img {
   .details-page-content-wrapper {
     @apply absolute overflow-x-auto h-[80vh] top-[15%] left-[5%] flex flex-col gap-4 w-11/12 text-white lg:top-[25%] lg:left-[11.5%] lg:h-[70vh] lg:flex-row lg:w-10/12;
   }
-
-  .details-page-link {
-    @apply flex items-center justify-center w-fit	 focus:outline-none  focus:ring-2 focus:ring-opacity-50 transition ease-in-out duration-300 p-2 rounded-lg;
-  }
 }
