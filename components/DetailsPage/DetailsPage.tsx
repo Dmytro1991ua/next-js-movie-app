@@ -3,7 +3,12 @@ import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 
 import { Cast, MovieOrSerialDetail } from "@/model/common";
-import { IMAGE_URL } from "@/types/constants";
+import {
+  DEFAULT_NUMBER_OF_START_ICONS,
+  IMAGE_URL,
+  STAR_ICON_COLOR_FILLED,
+  STAR_ICON_COLOR_UNFILLED,
+} from "@/types/constants";
 import {
   detailsSubtitleWithPillsConfig,
   getDetailsBlockByConfig,
@@ -13,6 +18,7 @@ import {
 } from "@/utils/utils";
 
 import HeroImage from "../Hero/HeroImage";
+import StarRating from "../StarRating";
 
 interface DetailsPageProps {
   movieOrSerialDetails?: MovieOrSerialDetail;
@@ -72,13 +78,22 @@ const DetailsPage = ({
       </div>
       <div className="details-page-content-wrapper">
         <div className="w-full">
-          <h1
-            className={clsx("text-2xl lg:text-3xl lg:leading-tight", [
-              movieOrSerialDetails?.tagline ? "mb-2" : "mb-4",
+          <div
+            className={clsx("flex flex-col items-start gap-2 mb-6", [
+              movieOrSerialDetails?.tagline ? "mb-4" : "mb-6",
             ])}
           >
-            {movieOrSerialDetails?.title ?? movieOrSerialDetails?.name}
-          </h1>
+            <h1 className="text-2xl leading-none xl:text-3xl 2xl:leading-none">
+              {movieOrSerialDetails?.title ?? movieOrSerialDetails?.name}
+            </h1>
+            <StarRating
+              colorFilled={STAR_ICON_COLOR_FILLED}
+              colorUnfilled={STAR_ICON_COLOR_UNFILLED}
+              numberOfStars={DEFAULT_NUMBER_OF_START_ICONS}
+              rating={movieOrSerialDetails?.vote_average ?? 0}
+              size={18}
+            />
+          </div>
           <h2 className="opacity-75 mb-4">
             <i>{movieOrSerialDetails?.tagline}</i>
           </h2>
