@@ -6,11 +6,18 @@ import { mockMovie } from "@/mocks/testMocks";
 
 jest.mock("@/hooks/useGetRandomMovieOrSerial");
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 const defaultProps = {
   title: "Test tile",
   releaseDate: "2023/03/12",
   rating: 6.4,
   overview: "Test movie description",
+  onClick: () => jest.fn(),
 };
 
 describe("Hero", () => {
