@@ -18,6 +18,7 @@ import {
 } from "@/utils/utils";
 
 import HeroImage from "../Hero/HeroImage";
+import ReadMore from "../ReadMore";
 import StarRating from "../StarRating";
 
 interface DetailsPageProps {
@@ -100,7 +101,9 @@ const DetailsPage = ({
           <div className="flex items-center gap-8 mb-2">
             {detailsBlockWithMovieOrSerialRelease}
           </div>
-          <p className="mb-4">{movieOrSerialDetails?.overview}</p>
+          <p className="mb-4">
+            <ReadMore text={movieOrSerialDetails?.overview ?? ""} />
+          </p>
           <div className="flex items-center gap-8 mb-2">
             {detailsBlockWithRevenueOrSeasonsDetails}
           </div>

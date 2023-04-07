@@ -22,3 +22,6 @@ export const BLURRED_IMAGE =
 export const STAR_ICON_COLOR_FILLED = "#7ac142";
 export const STAR_ICON_COLOR_UNFILLED = "#fff";
 export const DEFAULT_NUMBER_OF_START_ICONS = 5;
+export const DEFAULT_READ_MORE_TEXT_LIMIT = 250;
+export const DEFAULT_READ_MORE_TEXT = "...Read More";
+export const DEFAULT_READ_LESS_TEXT = " Show Less";

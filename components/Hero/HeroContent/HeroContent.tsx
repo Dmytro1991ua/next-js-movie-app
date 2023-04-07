@@ -2,6 +2,7 @@ import React, { FC, memo } from "react";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 
 import Button from "@/components/Button";
+import ReadMore from "@/components/ReadMore";
 import StarRating from "@/components/StarRating";
 import {
   DEFAULT_NUMBER_OF_START_ICONS,
@@ -25,7 +26,7 @@ const HeroContent: FC<HeroContentProps> = ({
   onClick,
 }) => {
   return (
-    <div className="absolute top-[45%] left-[5%] xl:max-w-[85rem] 2xl:max-w-[108rem]">
+    <div className="absolute top-[30%] left-[5%] lg:top-[45%] xl:max-w-[85rem] 2xl:max-w-[108rem]">
       <div className="flex flex-col items-start gap-4 mb-8">
         <h1 className="text-4xl leading-none 2xl:text-5xl 2xl:leading-none">
           {title}
@@ -45,7 +46,7 @@ const HeroContent: FC<HeroContentProps> = ({
           <span className="text-mantis font-bold">{rating}</span>
         </p>
       </div>
-      <p className="mb-4">{overview}</p>
+      <ReadMore className="mb-8" text={overview} />
       <Button onClick={onClick}>
         {<BsFillInfoCircleFill />}&nbsp;View Details
       </Button>
