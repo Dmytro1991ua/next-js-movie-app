@@ -39,7 +39,7 @@ export const requestsConfigForMovieDetailsPage = (
   fetchDataForHomeAndMovieDetailsPage: string;
   fetchMovieActors: string;
 } => ({
-  fetchDataForHomeAndMovieDetailsPage: `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US`,
+  fetchDataForHomeAndMovieDetailsPage: `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US&append_to_response=videos`,
   fetchMovieActors: `${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`,
 });
 

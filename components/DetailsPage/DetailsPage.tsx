@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import React, { useMemo } from "react";
 
+import { useTrailerState } from "@/hooks/useTrailerState";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import {
   DEFAULT_NUMBER_OF_START_ICONS,
@@ -20,6 +21,7 @@ import {
 import HeroImage from "../Hero/HeroImage";
 import ReadMore from "../ReadMore";
 import StarRating from "../StarRating";
+import VideoPlayer from "../VideoPlayer";
 
 interface DetailsPageProps {
   movieOrSerialDetails?: MovieOrSerialDetail;
@@ -31,6 +33,12 @@ const DetailsPage = ({
   movieOrSerialCast,
 }: DetailsPageProps) => {
   const router = useRouter();
+
+  const { isTrailerShown, trailerUrl, onTrailerOpening, onTrailerClosing } =
+    useTrailerState({
+      id: movieOrSerialDetails?.id,
+      name: movieOrSerialDetails?.name ?? movieOrSerialDetails?.title,
+    });
 
   const detailsBlockWithPillsSubtitle = useMemo(
     () =>
@@ -63,8 +71,13 @@ const DetailsPage = ({
   );
 
   const detailsPageActionButtons = useMemo(
-    () => getDetailsPageActionButtons({ movieOrSerialDetails, router }),
-    [movieOrSerialDetails, router]
+    () =>
+      getDetailsPageActionButtons({
+        movieOrSerialDetails,
+        router,
+        onPlayBtnClick: onTrailerOpening,
+      }),
+    [movieOrSerialDetails, router, onTrailerOpening]
   );
 
   return (
@@ -113,6 +126,9 @@ const DetailsPage = ({
         </div>
         <div className="w-full">{detailsBlockWithPillsSubtitle}</div>
       </div>
+      {isTrailerShown && trailerUrl && (
+        <VideoPlayer trailerUrl={trailerUrl} onClose={onTrailerClosing} />
+      )}
     </section>
   );
 };

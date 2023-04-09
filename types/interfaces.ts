@@ -1,6 +1,7 @@
 import { NextApiResponse } from "next";
 import { User } from "next-auth";
 
+import { ButtonVariant } from "@/components/Button/Button.types";
 import {
   Actor,
   Cast,
@@ -15,6 +16,7 @@ import {
   AppRoutes,
   DetailsBlockTitle,
   DetailsPageActionButtons,
+  HeroContentActionButtons,
 } from "@/types/enums";
 
 import { RequestMethod, SliderTitle } from "./enums";
@@ -168,4 +170,18 @@ export interface DetailsPageActionButton {
   label: DetailsPageActionButtons;
   className?: string;
   disabledClassName?: string;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+}
+
+export interface HeroContentActionButtonConfig {
+  onDetailsBtnClick: () => void;
+  onPlayBtnClick: () => void;
+}
+
+export interface HeroContentActionButton {
+  id: string;
+  label: HeroContentActionButtons;
+  icon: JSX.Element;
+  variant: ButtonVariant;
+  onClick: () => void;
 }

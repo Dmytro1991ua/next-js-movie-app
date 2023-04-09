@@ -1,18 +1,25 @@
 import clsx from "clsx";
 import { shuffle } from "lodash";
+import movieTrailer from "movie-trailer";
 import Link from "next/link";
 import { NextRouter } from "next/router";
-import { AiTwotoneHome } from "react-icons/ai";
-import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { AiFillPlayCircle, AiTwotoneHome } from "react-icons/ai";
+import {
+  BsFillArrowLeftCircleFill,
+  BsFillInfoCircleFill,
+} from "react-icons/bs";
 import { v4 as uuidv4 } from "uuid";
 
+import Button from "@/components/Button";
 import DetailsBlock from "@/components/DetailsPage/DetailsBlock";
 import Slider from "@/components/Slider";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
+import { toastService } from "@/services/toast.service";
 import {
   AppRoutes,
   DetailsBlockTitle,
   DetailsPageActionButtons,
+  HeroContentActionButtons,
   RequestMethod,
   SliderTitle,
 } from "@/types/enums";
@@ -20,6 +27,8 @@ import {
   AppPageData,
   DetailsBlockWithPillsConfig,
   DetailsPageActionButton,
+  HeroContentActionButton,
+  HeroContentActionButtonConfig,
   MovieOrSerialWithRegularSubtitle,
   PageSlider,
   SliderConfig,
@@ -460,9 +469,11 @@ export const getDetailsBlockByConfig = ({
 export const detailsPageActionButtonsConfig = ({
   movieOrSerialDetails,
   router,
+  onPlayBtnClick,
 }: {
   movieOrSerialDetails?: MovieOrSerialDetail;
   router: NextRouter;
+  onPlayBtnClick: () => void;
 }): DetailsPageActionButton[] => {
   const commonIconClassName = "ml-2";
 
@@ -484,6 +495,17 @@ export const detailsPageActionButtonsConfig = ({
     },
     {
       id: uuidv4(),
+      url: "#",
+      icon: <AiFillPlayCircle className={commonIconClassName} />,
+      label: DetailsPageActionButtons.Play,
+      className: "bg-lighterBlue hover:bg-blue focus:ring-lighterBlue",
+      onClick: (e) => {
+        e.preventDefault();
+        onPlayBtnClick();
+      },
+    },
+    {
+      id: uuidv4(),
       url: previousPath,
       icon: <BsFillArrowLeftCircleFill className={commonIconClassName} />,
       label: DetailsPageActionButtons.GoBack,
@@ -495,13 +517,16 @@ export const detailsPageActionButtonsConfig = ({
 export const getDetailsPageActionButtons = ({
   movieOrSerialDetails,
   router,
+  onPlayBtnClick,
 }: {
   movieOrSerialDetails?: MovieOrSerialDetail;
   router: NextRouter;
+  onPlayBtnClick: () => void;
 }) => {
   const detailsPageActionButtons = detailsPageActionButtonsConfig({
     movieOrSerialDetails,
     router,
+    onPlayBtnClick,
   });
 
   return (
@@ -516,6 +541,7 @@ export const getDetailsPageActionButtons = ({
           disabledClassName,
           rel,
           target,
+          onClick,
         }) => (
           <Link key={id} passHref href={url}>
             <a
@@ -526,6 +552,7 @@ export const getDetailsPageActionButtons = ({
               rel={rel}
               style={{ padding: "0.8rem 1.2rem" }}
               target={target}
+              onClick={(e) => onClick && onClick(e)}
             >
               {label} {icon}
             </a>
@@ -538,4 +565,81 @@ export const getDetailsPageActionButtons = ({
 
 export const getTruncatedLongText = (text: string, limit: number): string => {
   return text.slice(0, limit);
+};
+
+export const heroContentActionButtonsConfig = ({
+  onDetailsBtnClick,
+  onPlayBtnClick,
+}: HeroContentActionButtonConfig): HeroContentActionButton[] => {
+  return [
+    {
+      id: uuidv4(),
+      label: HeroContentActionButtons.ViewDetails,
+      icon: <BsFillInfoCircleFill />,
+      variant: "primary",
+      onClick: onDetailsBtnClick,
+    },
+    {
+      id: uuidv4(),
+      label: HeroContentActionButtons.Play,
+      icon: <AiFillPlayCircle />,
+      variant: "secondary",
+      onClick: onPlayBtnClick,
+    },
+  ];
+};
+
+export const getHeroContentActionButtons = ({
+  onDetailsBtnClick,
+  onPlayBtnClick,
+}: HeroContentActionButtonConfig) => {
+  const heroContentActionButtons = heroContentActionButtonsConfig({
+    onDetailsBtnClick,
+    onPlayBtnClick,
+  });
+
+  return (
+    <div className="flex gap-2">
+      {heroContentActionButtons.map(({ icon, id, label, variant, onClick }) => (
+        <Button key={id} variant={variant} onClick={onClick}>
+          {icon}&nbsp;{label}
+        </Button>
+      ))}
+    </div>
+  );
+};
+
+export const getWarningMessageWhenTrailerNotFound = (name?: string): string => {
+  return `No trailers found for ${name}`;
+};
+
+export const getYoutubeMoveOrSerialId = (
+  url: string,
+  onSetTrailerUrl: (value: string | null) => void
+): void => {
+  const urlParams = new URLSearchParams(new URL(url).search);
+
+  onSetTrailerUrl(urlParams.get("v"));
+};
+
+export const getTrailerUrl = async ({
+  message,
+  onSetTrailer,
+  id,
+}: {
+  message: string;
+  onSetTrailer: (value: string | null) => void;
+  id?: string | number;
+}) => {
+  try {
+    const url = await movieTrailer(null, { tmdbId: id });
+
+    if (!url) {
+      toastService.warn(message);
+    }
+
+    getYoutubeMoveOrSerialId(url, onSetTrailer);
+  } catch {
+    onSetTrailer(null);
+  }
 };

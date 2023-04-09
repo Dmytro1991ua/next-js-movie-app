@@ -25,3 +25,11 @@ export const DEFAULT_NUMBER_OF_START_ICONS = 5;
 export const DEFAULT_READ_MORE_TEXT_LIMIT = 250;
 export const DEFAULT_READ_MORE_TEXT = "...Read More";
 export const DEFAULT_READ_LESS_TEXT = " Show Less";
+
+export const PLAYER_CONFIG = {
+  height: "80%",
+  width: "80%",
+  playerVars: {
+    autoplay: 1,
+  },
+};
