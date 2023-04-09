@@ -72,4 +72,10 @@ export enum DetailsBlockTitle {
 export enum DetailsPageActionButtons {
   HomePage = "Home Page",
   GoBack = "Go Back",
+  Play = "Play Trailer",
+}
+
+export enum HeroContentActionButtons {
+  ViewDetails = "View Details",
+  Play = "Play Trailer",
 }

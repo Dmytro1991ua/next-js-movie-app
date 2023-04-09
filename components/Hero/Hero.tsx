@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { memo, useCallback } from "react";
 
 import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
+import { useTrailerState } from "@/hooks/useTrailerState";
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
 import { IMAGE_URL } from "@/types/constants";
@@ -10,6 +11,7 @@ import { handleRedirectToDetailsPage } from "@/utils/utils";
 
 import HeroContent from "./HeroContent";
 import HeroImage from "./HeroImage";
+import VideoPlayer from "../VideoPlayer/VideoPlayer";
 
 interface HeroProps<T> {
   data: T[];
@@ -23,6 +25,11 @@ const Hero = <T extends Movie & Serial>({
   route,
 }: HeroProps<T>) => {
   const { randomMovieOrSerial } = useGetRandomMovieOrSerial({ data });
+  const { isTrailerShown, trailerUrl, onTrailerOpening, onTrailerClosing } =
+    useTrailerState({
+      id: randomMovieOrSerial?.id,
+      name: randomMovieOrSerial?.name ?? randomMovieOrSerial?.title,
+    });
 
   const router = useRouter();
 
@@ -54,8 +61,12 @@ const Hero = <T extends Movie & Serial>({
         title={
           isSerialsPage ? randomMovieOrSerial?.name : randomMovieOrSerial?.title
         }
-        onClick={onHandleRedirectToDetailsPage}
+        onDetailsBtnClick={onHandleRedirectToDetailsPage}
+        onPlayBtnClick={onTrailerOpening}
       />
+      {isTrailerShown && trailerUrl && (
+        <VideoPlayer trailerUrl={trailerUrl} onClose={onTrailerClosing} />
+      )}
     </section>
   );
 };

@@ -1,7 +1,5 @@
-import React, { FC, memo } from "react";
-import { BsFillInfoCircleFill } from "react-icons/bs";
+import React, { FC, memo, useMemo } from "react";
 
-import Button from "@/components/Button";
 import ReadMore from "@/components/ReadMore";
 import StarRating from "@/components/StarRating";
 import {
@@ -9,13 +7,15 @@ import {
   STAR_ICON_COLOR_FILLED,
   STAR_ICON_COLOR_UNFILLED,
 } from "@/types/constants";
+import { getHeroContentActionButtons } from "@/utils/utils";
 
 interface HeroContentProps {
   title?: string;
   releaseDate?: string;
   rating?: number;
   overview?: string;
-  onClick: () => void;
+  onDetailsBtnClick: () => void;
+  onPlayBtnClick: () => void;
 }
 
 const HeroContent: FC<HeroContentProps> = ({
@@ -23,8 +23,14 @@ const HeroContent: FC<HeroContentProps> = ({
   releaseDate = "",
   rating = 0,
   overview = "",
-  onClick,
+  onDetailsBtnClick,
+  onPlayBtnClick,
 }) => {
+  const actionButtons = useMemo(
+    () => getHeroContentActionButtons({ onDetailsBtnClick, onPlayBtnClick }),
+    [onDetailsBtnClick, onPlayBtnClick]
+  );
+
   return (
     <div className="absolute top-[30%] left-[5%] lg:top-[45%] xl:max-w-[85rem] 2xl:max-w-[108rem]">
       <div className="flex flex-col items-start gap-4 mb-8">
@@ -47,9 +53,7 @@ const HeroContent: FC<HeroContentProps> = ({
         </p>
       </div>
       <ReadMore className="mb-8" text={overview} />
-      <Button onClick={onClick}>
-        {<BsFillInfoCircleFill />}&nbsp;View Details
-      </Button>
+      {actionButtons}
     </div>
   );
 };
