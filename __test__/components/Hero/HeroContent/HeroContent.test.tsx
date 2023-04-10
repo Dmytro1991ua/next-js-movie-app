@@ -17,7 +17,8 @@ const defaultProps = {
   releaseDate: "2023/03/12",
   rating: 6.4,
   overview: "Test movie description",
-  onClick: () => jest.fn(),
+  onDetailsBtnClick: () => jest.fn(),
+  onPlayBtnClick: () => jest.fn(),
 };
 
 describe("Hero", () => {

@@ -7,6 +7,7 @@ import {
   mockSessionWithUser,
   withSessionProviderAndReactContext,
 } from "@/mocks/testMocks";
+import { MovieOrSerialDetail } from "@/model/common";
 import { AppRoutes } from "@/types/enums";
 
 jest.mock("uuid", () => {
@@ -23,7 +24,9 @@ describe("DetailsPage", () => {
       component: (
         <DetailsPage
           movieOrSerialCast={mockSerialCast}
-          movieOrSerialDetails={mockSerialDetails}
+          movieOrSerialDetails={
+            mockSerialDetails as unknown as MovieOrSerialDetail
+          }
         />
       ),
     });
