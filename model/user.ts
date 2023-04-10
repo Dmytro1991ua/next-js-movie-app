@@ -17,4 +17,4 @@ const userSchema = new Schema<NextAuthUser>(
   }
 );
 
-export const User = models.User || model<NextAuthUser>("User", userSchema);
+export const User = models.User || model("User", userSchema);
