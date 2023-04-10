@@ -338,6 +338,7 @@ export const mockSerialDetails = {
   tagline: "Remember my name",
   type: "Scripted",
   vote_average: 8.876,
+  revenue: 123,
   vote_count: 11386,
   videos: {
     results: [

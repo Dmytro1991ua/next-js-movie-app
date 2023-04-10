@@ -14,7 +14,8 @@
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "prepare": "husky install",
     "pre-commit": "lint-staged",
-    "pre-push": "npm run test:ci"
+    "pre-push": "npm run test:ci",
+    "ts": "tsc --noEmit --incremental"
   },
   "dependencies": {
     "@testing-library/react": "^12.1.2",
@@ -25,6 +26,7 @@
     "clsx": "^1.2.1",
     "formik": "^2.2.9",
     "jest": "^29.4.1",
+    "jest-cli": "^29.5.0",
     "jest-environment-jsdom": "^29.4.1",
     "lodash": "^4.17.21",
     "movie-trailer": "^3.0.0",
