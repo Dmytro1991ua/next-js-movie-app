@@ -5,7 +5,7 @@ import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { Cast, MovieOrSerialDetail } from "@/model/common";
+import { Cast } from "@/model/common";
 import { IMAGE_URL } from "@/types/constants";
 import { AppRoutes } from "@/types/enums";
 
@@ -178,7 +178,7 @@ export const withQueryClientAndRouterProvider = (
   );
 };
 
-export const mockSerialDetails: MovieOrSerialDetail = {
+export const mockSerialDetails = {
   adult: false,
   backdrop_path: "/84XPpjGvxNyExjSuLQe0SzioErt.jpg",
   created_by: [
