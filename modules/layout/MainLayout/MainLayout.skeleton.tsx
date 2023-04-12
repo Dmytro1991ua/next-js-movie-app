@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 
 import BackgroundImageBlock from "@/components/BackgroundImageBlock";
-import HeaderSkeleton from "@/modules/header/header.skeleton";
+import HeaderSkeleton from "@/modules/header/Header.skeleton";
 
 import LayoutBgImage from "../../../public/assets/auth-layout/auth-layout-bg-big.jpg";
 
