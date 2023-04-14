@@ -9,8 +9,7 @@ import {
   withQueryClientProvider,
 } from "@/mocks/testMocks";
 import { homePageService } from "@/modules/home/home.service";
-import { getServerSideProps } from "@/pages/home/index";
-import TrendingMoviesPage from "@/pages/home/trending";
+import TrendingMoviesPage, { getServerSideProps } from "@/pages/home/trending";
 import * as utils from "@/utils/utils";
 
 jest.mock("react-query", () => {
@@ -37,8 +36,6 @@ global.fetch = jest.fn(() =>
       }),
   })
 );
-
-jest.mock("@/hooks/useGetRandomMovieOrSerial");
 
 describe("TrendingMoviesPage", () => {
   beforeEach(() => {
