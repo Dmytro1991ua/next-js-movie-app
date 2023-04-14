@@ -80,12 +80,20 @@ export enum HeroContentActionButtons {
   Play = "Play Trailer",
 }
 
-export enum SeeMoreRoutes {
+export enum SeeMorePageRoutes {
   NowPlaying = "/home/now-playing",
   Popular = "/home/popular",
   TopRated = "/home/top-rated",
   Trending = "/home/trending",
   Upcoming = "/home/upcoming",
+  ActionMovies = "/movies/action",
+  ComedyMovies = "/movies/comedy",
+  HorrorMovies = "/movies/horror",
+  ThrillerMovies = "/movies/thriller",
+  HistoryMovies = "/movies/history",
+  Documentaries = "/movies/documentaries",
+  WarMovies = "/movies/war",
+  WesternMovies = "/movies/western",
 }
 
 export enum SeeMorePageQueryString {

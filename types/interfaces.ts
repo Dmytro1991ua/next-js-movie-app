@@ -17,7 +17,7 @@ import {
   DetailsBlockTitle,
   DetailsPageActionButtons,
   HeroContentActionButtons,
-  SeeMoreRoutes,
+  SeeMorePageRoutes,
 } from "@/types/enums";
 
 import { RequestMethod, SliderTitle } from "./enums";
@@ -120,7 +120,7 @@ export interface SliderConfig {
   isHomePage?: boolean;
   isMoviesPage?: boolean;
   isSerialsPage?: boolean;
-  seeMoreRoute?: SeeMoreRoutes;
+  seeMoreRoute?: SeeMorePageRoutes;
   route?: AppRoutes;
 }
 

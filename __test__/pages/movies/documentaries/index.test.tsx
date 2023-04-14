@@ -8,8 +8,10 @@ import {
   mockSessionWithUser,
   withQueryClientProvider,
 } from "@/mocks/testMocks";
-import { homePageService } from "@/modules/home/home.service";
-import TopRatedMoviesPage, { getServerSideProps } from "@/pages/home/top-rated";
+import { moviesPageService } from "@/modules/movies/movies.service";
+import DocumentariesMoviesPage, {
+  getServerSideProps,
+} from "@/pages/movies/documentaries";
 import * as utils from "@/utils/utils";
 
 jest.mock("react-query", () => {
@@ -37,11 +39,11 @@ global.fetch = jest.fn(() =>
   })
 );
 
-describe("TopRatedMoviesPage", () => {
+describe("DocumentariesMoviesPage", () => {
   beforeEach(() => {
     jest.spyOn(hooks, "useQuery").mockReturnValue({
       data: {
-        popularMovies: {
+        documentariesMovies: {
           results: [mockMovie],
         },
       },
@@ -53,15 +55,15 @@ describe("TopRatedMoviesPage", () => {
   });
 
   it("Should render component without crashing", () => {
-    withQueryClientProvider(<TopRatedMoviesPage />);
+    withQueryClientProvider(<DocumentariesMoviesPage />);
 
-    expect(screen.getByText(/TopRatedMoviesPage/)).toBeInTheDocument();
+    expect(screen.getByText(/DocumentariesMoviesPage/)).toBeInTheDocument();
   });
 
-  it("Should trigger getServerSideProps and called fetchMoviesForHomePage method within homePageService", async () => {
-    const fetchMoviesForHomePageMock = jest.spyOn(
-      homePageService,
-      "fetchMoviesForHomePage"
+  it("Should trigger getServerSideProps and called fetchMoviesByGenre method within moviesPageService", async () => {
+    const fetchMoviesForMoviesByGenrePageMock = jest.spyOn(
+      moviesPageService,
+      "fetchMoviesByGenre"
     );
     const prefetchMovieOrSerialDataMock = jest.spyOn(
       utils,
@@ -73,6 +75,6 @@ describe("TopRatedMoviesPage", () => {
     } as unknown as GetServerSidePropsContext);
 
     expect(prefetchMovieOrSerialDataMock).toHaveBeenCalled();
-    expect(fetchMoviesForHomePageMock).toHaveBeenCalled();
+    expect(fetchMoviesForMoviesByGenrePageMock).toHaveBeenCalled();
   });
 });

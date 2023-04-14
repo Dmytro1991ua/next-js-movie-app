@@ -9,8 +9,9 @@ import {
   withQueryClientProvider,
 } from "@/mocks/testMocks";
 import { homePageService } from "@/modules/home/home.service";
-import { getServerSideProps } from "@/pages/home/index";
-import NowPlayingMoviesPage from "@/pages/home/now-playing";
+import NowPlayingMoviesPage, {
+  getServerSideProps,
+} from "@/pages/home/now-playing";
 import * as utils from "@/utils/utils";
 
 jest.mock("react-query", () => {
@@ -38,8 +39,6 @@ global.fetch = jest.fn(() =>
   })
 );
 
-jest.mock("@/hooks/useGetRandomMovieOrSerial");
-
 describe("NowPlayingMoviesPage", () => {
   beforeEach(() => {
     jest.spyOn(hooks, "useQuery").mockReturnValue({
@@ -58,7 +57,7 @@ describe("NowPlayingMoviesPage", () => {
   it("Should render component without crashing", () => {
     withQueryClientProvider(<NowPlayingMoviesPage />);
 
-    expect(screen.getByText(/NowPlayingPage/)).toBeInTheDocument();
+    expect(screen.getByText(/NowPlayingMoviesPage/)).toBeInTheDocument();
   });
 
   it("Should trigger getServerSideProps and called fetchMoviesForHomePage method within homePageService", async () => {

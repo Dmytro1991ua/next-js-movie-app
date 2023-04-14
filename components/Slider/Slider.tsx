@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
-import { AppRoutes, SeeMoreRoutes } from "@/types/enums";
+import { AppRoutes, SeeMorePageRoutes } from "@/types/enums";
 
 import { useSliderActions } from "./hooks/useSliderActions";
 import SliderThumbnail from "./SliderThumbnail";
@@ -15,7 +15,7 @@ export interface SliderProps<T> {
   data: T[];
   title: string;
   className?: string;
-  seeMoreRoute?: SeeMoreRoutes;
+  seeMoreRoute?: SeeMorePageRoutes;
   route?: AppRoutes;
 }
 

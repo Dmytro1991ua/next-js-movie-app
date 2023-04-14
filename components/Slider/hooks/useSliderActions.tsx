@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { MutableRefObject, useRef, useState } from "react";
 
-import { SeeMoreRoutes } from "@/types/enums";
+import { SeeMorePageRoutes } from "@/types/enums";
 
 type HookProps = {
-  seeMoreRoute?: SeeMoreRoutes;
+  seeMoreRoute?: SeeMorePageRoutes;
 };
 
 type ReturnedHookType = {
