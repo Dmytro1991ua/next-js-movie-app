@@ -1,30 +1,30 @@
 import { GetServerSideProps, NextPage } from "next";
 
 import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
-import { homePageService } from "@/modules/home/home.service";
+import { moviesPageService } from "@/modules/movies/movies.service";
 import { QueryString, SeeMorePageQueryString } from "@/types/enums";
 import { requestsConfigForSeeMorePage } from "@/utils/requests";
 import { prefetchMovieOrSerialData } from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return prefetchMovieOrSerialData(
-    QueryString.moviesForHomePage,
-    homePageService.fetchMoviesForHomePage
+    QueryString.moviesByGenre,
+    moviesPageService.fetchMoviesByGenre
   );
 };
 
-const NowPlayingMoviesPage: NextPage = () => {
+const ComedyMoviesPage: NextPage = () => {
   const { data } = useFetchSeeMorePageData({
-    query: SeeMorePageQueryString.NowPlayingMovies,
+    query: SeeMorePageQueryString.ComedyMovies,
     fetcher: () =>
-      homePageService.fetchSeeMorePageDataForHomePage(
-        requestsConfigForSeeMorePage().fetchNowPlayingMovies
+      moviesPageService.fetchSeeMorePageDataForMoviesPage(
+        requestsConfigForSeeMorePage().fetchComedyMovies
       ),
   });
 
-  console.log("Now Playing", { data });
+  console.log("Comedy Movies", { data });
 
-  return <div>NowPlayingMoviesPage</div>;
+  return <div>ComedyMoviesPage</div>;
 };
 
-export default NowPlayingMoviesPage;
+export default ComedyMoviesPage;

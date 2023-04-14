@@ -1,4 +1,4 @@
-import { AppRoutes, SeeMoreRoutes } from "./enums";
+import { AppRoutes, SeeMorePageRoutes } from "./enums";
 
 export const protectedRoutes = [
   AppRoutes.Home,
@@ -9,11 +9,19 @@ export const protectedRoutes = [
   AppRoutes.SerialDetails,
   AppRoutes.Profile,
   AppRoutes.Default,
-  SeeMoreRoutes.NowPlaying,
-  SeeMoreRoutes.Popular,
-  SeeMoreRoutes.TopRated,
-  SeeMoreRoutes.Trending,
-  SeeMoreRoutes.Upcoming,
+  SeeMorePageRoutes.NowPlaying,
+  SeeMorePageRoutes.Popular,
+  SeeMorePageRoutes.TopRated,
+  SeeMorePageRoutes.Trending,
+  SeeMorePageRoutes.Upcoming,
+  SeeMorePageRoutes.ActionMovies,
+  SeeMorePageRoutes.ComedyMovies,
+  SeeMorePageRoutes.Documentaries,
+  SeeMorePageRoutes.HistoryMovies,
+  SeeMorePageRoutes.HorrorMovies,
+  SeeMorePageRoutes.ThrillerMovies,
+  SeeMorePageRoutes.WarMovies,
+  SeeMorePageRoutes.WesternMovies,
 ];
 
 export const DEFAULT_SCROLL_POSITION_THRESHOLD = 80;

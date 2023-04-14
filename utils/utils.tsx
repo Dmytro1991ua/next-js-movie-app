@@ -23,7 +23,7 @@ import {
   HeroContentActionButtons,
   QueryString,
   RequestMethod,
-  SeeMoreRoutes,
+  SeeMorePageRoutes,
   SliderTitle,
 } from "@/types/enums";
 import {
@@ -72,6 +72,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.ActionMovies,
       className: commonClassName,
       isMoviesPage,
+      seeMoreRoute: SeeMorePageRoutes.ActionMovies,
       route,
     },
     {
@@ -80,6 +81,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.ComedyMovies,
       className: commonClassName,
       isMoviesPage,
+      seeMoreRoute: SeeMorePageRoutes.ComedyMovies,
       route,
     },
     {
@@ -88,6 +90,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.Documentaries,
       className: commonClassName,
       isMoviesPage,
+      seeMoreRoute: SeeMorePageRoutes.Documentaries,
       route,
     },
     {
@@ -96,6 +99,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.HistoryMovies,
       className: commonClassName,
       isMoviesPage,
+      seeMoreRoute: SeeMorePageRoutes.HistoryMovies,
       route,
     },
     {
@@ -104,6 +108,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.HorrorMovies,
       className: commonClassName,
       isMoviesPage,
+      seeMoreRoute: SeeMorePageRoutes.HorrorMovies,
       route,
     },
     {
@@ -112,7 +117,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.NowPlayingMovies,
       className: commonClassName,
       isHomePage,
-      seeMoreRoute: SeeMoreRoutes.NowPlaying,
+      seeMoreRoute: SeeMorePageRoutes.NowPlaying,
       route,
     },
     {
@@ -121,7 +126,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.PopularMoviesOrSerials,
       className: commonClassName,
       isHomePage,
-      seeMoreRoute: SeeMoreRoutes.Popular,
+      seeMoreRoute: SeeMorePageRoutes.Popular,
       route,
     },
     {
@@ -130,7 +135,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.PopularMoviesOrSerials,
       className: commonClassName,
       isSerialsPage,
-      seeMoreRoute: SeeMoreRoutes.Popular,
+      seeMoreRoute: SeeMorePageRoutes.Popular,
       route,
     },
     {
@@ -155,6 +160,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.ThrillerMovies,
       className: commonClassName,
       isMoviesPage,
+      seeMoreRoute: SeeMorePageRoutes.ThrillerMovies,
       route,
     },
     {
@@ -163,7 +169,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TopRatedMoviesOrSerials,
       className: commonClassName,
       isHomePage,
-      seeMoreRoute: SeeMoreRoutes.TopRated,
+      seeMoreRoute: SeeMorePageRoutes.TopRated,
       route,
     },
     {
@@ -172,7 +178,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TopRatedMoviesOrSerials,
       className: commonClassName,
       isSerialsPage,
-      seeMoreRoute: SeeMoreRoutes.TopRated,
+      seeMoreRoute: SeeMorePageRoutes.TopRated,
       route,
     },
     {
@@ -181,7 +187,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TrendingMovies,
       className: commonClassName,
       isHomePage,
-      seeMoreRoute: SeeMoreRoutes.Trending,
+      seeMoreRoute: SeeMorePageRoutes.Trending,
       route,
     },
     {
@@ -190,7 +196,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.UpcomingMovies,
       className: commonClassName,
       isHomePage,
-      seeMoreRoute: SeeMoreRoutes.Upcoming,
+      seeMoreRoute: SeeMorePageRoutes.Upcoming,
       route,
     },
     {
@@ -199,6 +205,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.WarMovies,
       className: commonClassName,
       isMoviesPage,
+      seeMoreRoute: SeeMorePageRoutes.WarMovies,
       route,
     },
     {
@@ -207,6 +214,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.WesternMovies,
       className: commonClassName,
       isMoviesPage,
+      seeMoreRoute: SeeMorePageRoutes.WesternMovies,
       route,
     },
   ];
