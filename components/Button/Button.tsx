@@ -18,7 +18,7 @@ const Button: FC<ButtonProps> = ({
   const stylesConfig = {
     base: "flex items-center justify-center focus:outline-none transition ease-in-out duration-300",
     size: {
-      small: "px-2 py-1 text-sm",
+      small: "px-2.5 py-1.5 text-sm",
       normal: "px-4 py-2",
       large: "px-8 py-3 text-lg",
     },

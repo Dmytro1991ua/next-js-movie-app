@@ -1,5 +1,9 @@
 import { toastService } from "@/services/toast.service";
-import { HomePageData, MovieOrSerialDetailsData } from "@/types/interfaces";
+import {
+  HomePageData,
+  MovieOrSerialDetailsData,
+  MovieOrSerialResult,
+} from "@/types/interfaces";
 import {
   requestsConfigForHomePage,
   requestsConfigForMovieDetailsPage,
@@ -52,6 +56,22 @@ class HomePageService {
       const errorMessage = getResponseErrorMessage();
       toastService.error(errorMessage);
 
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async fetchSeeMorePageDataForHomePage(
+    url: string
+  ): Promise<MovieOrSerialResult | null> {
+    try {
+      const response = await fetch(url);
+
+      if (!response) {
+        return null;
+      }
+
+      return await response.json();
+    } catch (error) {
       throw new Error((error as Error).message);
     }
   }

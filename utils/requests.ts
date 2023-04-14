@@ -49,3 +49,31 @@ export const requestsConfigForSerialDetailsPage = (
   fetchDataForSerialDetailsPage: `${BASE_URL}/tv/${serialId}?api_key=${API_KEY}&language=en-US&append_to_response=videos`,
   fetchSerialActors: `${BASE_URL}/tv/${serialId}/credits?api_key=${API_KEY}&language=en-US`,
 });
+
+export const requestsConfigForSeeMorePage = (
+  pageCount = 1
+): ApiRequestConfigForHomePage &
+  ApiRequestConfigForMoviesPage &
+  ApiRequestConfigForSerialsPage => {
+  return {
+    fetchTrendingMovies: `${BASE_URL}/trending/all/week?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchTopRatedMovies: `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchUpcomingMovies: `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchPopularMovies: `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchLatestMovies: `${BASE_URL}/movie/latest?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchNowPlayingMovies: `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchActionMovies: `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=28&page=${pageCount}`,
+    fetchComedyMovies: `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=35&page=${pageCount}`,
+    fetchHorrorMovies: `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=27&page=${pageCount}`,
+    fetchThrillerMovies: `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=53&page=${pageCount}`,
+    fetchHistoryMovies: `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=36&page=${pageCount}`,
+    fetchDocumentariesMovies: `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=99&page=${pageCount}`,
+    fetchWarMovies: `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=10752&page=${pageCount}`,
+    fetchWesternMovies: `${BASE_URL}/discover/movie?api_key=${API_KEY}&language=en-US&with_genres=37&page=${pageCount}`,
+    fetchLatestSerials: `${BASE_URL}/tv/latest?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchSerialsAiringToday: `${BASE_URL}/tv/airing_today?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchSerialsOnAir: `${BASE_URL}/tv/on_the_air?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchPopularSerials: `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+    fetchTopRatedSerials: `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=en-US&page=${pageCount}`,
+  };
+};

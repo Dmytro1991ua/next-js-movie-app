@@ -8,6 +8,7 @@ import {
   BsFillArrowLeftCircleFill,
   BsFillInfoCircleFill,
 } from "react-icons/bs";
+import { QueryClient, dehydrate } from "react-query";
 import { v4 as uuidv4 } from "uuid";
 
 import Button from "@/components/Button";
@@ -20,7 +21,9 @@ import {
   DetailsBlockTitle,
   DetailsPageActionButtons,
   HeroContentActionButtons,
+  QueryString,
   RequestMethod,
+  SeeMoreRoutes,
   SliderTitle,
 } from "@/types/enums";
 import {
@@ -29,8 +32,12 @@ import {
   DetailsPageActionButton,
   HeroContentActionButton,
   HeroContentActionButtonConfig,
+  HomePageData,
+  MovieOrSerialDetailsData,
   MovieOrSerialWithRegularSubtitle,
+  MoviesPageData,
   PageSlider,
+  SerialsPageData,
   SliderConfig,
 } from "@/types/interfaces";
 
@@ -105,6 +112,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.NowPlayingMovies,
       className: commonClassName,
       isHomePage,
+      seeMoreRoute: SeeMoreRoutes.NowPlaying,
       route,
     },
     {
@@ -113,6 +121,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.PopularMoviesOrSerials,
       className: commonClassName,
       isHomePage,
+      seeMoreRoute: SeeMoreRoutes.Popular,
       route,
     },
     {
@@ -121,6 +130,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.PopularMoviesOrSerials,
       className: commonClassName,
       isSerialsPage,
+      seeMoreRoute: SeeMoreRoutes.Popular,
       route,
     },
     {
@@ -153,6 +163,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TopRatedMoviesOrSerials,
       className: commonClassName,
       isHomePage,
+      seeMoreRoute: SeeMoreRoutes.TopRated,
       route,
     },
     {
@@ -161,6 +172,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TopRatedMoviesOrSerials,
       className: commonClassName,
       isSerialsPage,
+      seeMoreRoute: SeeMoreRoutes.TopRated,
       route,
     },
     {
@@ -169,6 +181,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TrendingMovies,
       className: commonClassName,
       isHomePage,
+      seeMoreRoute: SeeMoreRoutes.Trending,
       route,
     },
     {
@@ -177,6 +190,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.UpcomingMovies,
       className: commonClassName,
       isHomePage,
+      seeMoreRoute: SeeMoreRoutes.Upcoming,
       route,
     },
     {
@@ -224,6 +238,7 @@ export const getPageSlider = <T,>({
           isMoviesPage,
           isSerialsPage,
           route,
+          seeMoreRoute,
         }) => (
           <>
             {(isHomePage || isMoviesPage || isSerialsPage) && (
@@ -232,6 +247,7 @@ export const getPageSlider = <T,>({
                 className={className}
                 data={shuffle(data)}
                 route={route}
+                seeMoreRoute={seeMoreRoute}
                 title={title}
               />
             )}
@@ -642,4 +658,41 @@ export const getTrailerUrl = async ({
   } catch {
     onSetTrailer(null);
   }
+};
+
+export const prefetchMovieOrSerialData = async <
+  T extends HomePageData | MoviesPageData | SerialsPageData
+>(
+  queryString: QueryString,
+  fetcher: () => Promise<T>
+) => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(queryString, fetcher);
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+};
+
+export const prefetchMovieOrSerialDetailsData = async ({
+  id,
+  queryString,
+  fetcher,
+}: {
+  id: string;
+  queryString: QueryString;
+  fetcher: (id: string) => Promise<MovieOrSerialDetailsData>;
+}) => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(queryString, () => fetcher(id));
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
 };

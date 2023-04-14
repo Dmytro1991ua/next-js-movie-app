@@ -79,3 +79,31 @@ export enum HeroContentActionButtons {
   ViewDetails = "View Details",
   Play = "Play Trailer",
 }
+
+export enum SeeMoreRoutes {
+  NowPlaying = "/home/now-playing",
+  Popular = "/home/popular",
+  TopRated = "/home/top-rated",
+  Trending = "/home/trending",
+  Upcoming = "/home/upcoming",
+}
+
+export enum SeeMorePageQueryString {
+  PopularMovies = "Popular Movies",
+  TopRatedMovies = "Top Rated Movies",
+  NowPlayingMovies = "Now Playing",
+  TrendingMovies = "Trending",
+  UpcomingMovies = "Upcoming",
+  ActionMovies = "Action",
+  ComedyMovies = "Comedy",
+  HorrorMovies = "Horror",
+  ThrillerMovies = "Thriller",
+  HistoryMovies = "History",
+  Documentaries = "Documentaries",
+  WarMovies = "War",
+  WesternMovies = "Western",
+  SerialsAiringToday = "Airing Today",
+  SerialsOnAir = "On The Air",
+  PopularSerials = "Popular Serials",
+  TopRatedSerials = "Top Rated Serials",
+}
