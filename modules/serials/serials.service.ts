@@ -1,5 +1,9 @@
 import { toastService } from "@/services/toast.service";
-import { MovieOrSerialDetailsData, SerialsPageData } from "@/types/interfaces";
+import {
+  MovieOrSerialDetailsData,
+  MovieOrSerialResult,
+  SerialsPageData,
+} from "@/types/interfaces";
 import {
   requestsConfigForSerialDetailsPage,
   requestsConfigForSerialsPage,
@@ -75,6 +79,22 @@ class SerialsPageService {
       const errorMessage = getResponseErrorMessageForDetailsPage(true);
       toastService.error(errorMessage);
 
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async fetchSeeMorePageDataForSerialsPage(
+    url: string
+  ): Promise<MovieOrSerialResult | null> {
+    try {
+      const response = await fetch(url);
+
+      if (!response) {
+        return null;
+      }
+
+      return await response.json();
+    } catch (error) {
       throw new Error((error as Error).message);
     }
   }

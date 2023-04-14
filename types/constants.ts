@@ -1,4 +1,4 @@
-import { AppRoutes } from "./enums";
+import { AppRoutes, SeeMoreRoutes } from "./enums";
 
 export const protectedRoutes = [
   AppRoutes.Home,
@@ -9,6 +9,11 @@ export const protectedRoutes = [
   AppRoutes.SerialDetails,
   AppRoutes.Profile,
   AppRoutes.Default,
+  SeeMoreRoutes.NowPlaying,
+  SeeMoreRoutes.Popular,
+  SeeMoreRoutes.TopRated,
+  SeeMoreRoutes.Trending,
+  SeeMoreRoutes.Upcoming,
 ];
 
 export const DEFAULT_SCROLL_POSITION_THRESHOLD = 80;

@@ -1,25 +1,19 @@
 import { GetServerSideProps, NextPage } from "next";
-import { QueryClient, dehydrate } from "react-query";
 
 import DetailsPage from "@/components/DetailsPage";
 import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesOrSerialsData";
 import { serialsPageService } from "@/modules/serials/serials.service";
 import { QueryString } from "@/types/enums";
+import { prefetchMovieOrSerialDetailsData } from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { serialId } = context.query;
 
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery(QueryString.serialDetails, () =>
-    serialsPageService.fetchSerialDetailsData(serialId)
-  );
-
-  return {
-    props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-    },
-  };
+  return prefetchMovieOrSerialDetailsData({
+    id: serialId as string,
+    queryString: QueryString.serialDetails,
+    fetcher: () => serialsPageService.fetchSerialDetailsData(serialId),
+  });
 };
 
 const SerialDetailsPage: NextPage = () => {
