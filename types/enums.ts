@@ -94,6 +94,10 @@ export enum SeeMorePageRoutes {
   Documentaries = "/movies/documentaries",
   WarMovies = "/movies/war",
   WesternMovies = "/movies/western",
+  PopularSerials = "/serials/popular",
+  TopRatedSerials = "/serials/top-rated",
+  SerialsAiringToday = "/serials/airing-today",
+  SerialsOnAir = "/serials/on-air",
 }
 
 export enum SeeMorePageQueryString {

@@ -22,6 +22,10 @@ export const protectedRoutes = [
   SeeMorePageRoutes.ThrillerMovies,
   SeeMorePageRoutes.WarMovies,
   SeeMorePageRoutes.WesternMovies,
+  SeeMorePageRoutes.PopularSerials,
+  SeeMorePageRoutes.TopRatedSerials,
+  SeeMorePageRoutes.SerialsAiringToday,
+  SeeMorePageRoutes.SerialsOnAir,
 ];
 
 export const DEFAULT_SCROLL_POSITION_THRESHOLD = 80;
