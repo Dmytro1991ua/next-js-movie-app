@@ -135,7 +135,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.PopularMoviesOrSerials,
       className: commonClassName,
       isSerialsPage,
-      seeMoreRoute: SeeMorePageRoutes.Popular,
+      seeMoreRoute: SeeMorePageRoutes.PopularSerials,
       route,
     },
     {
@@ -144,6 +144,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.SerialsAiringToday,
       className: commonClassName,
       isSerialsPage,
+      seeMoreRoute: SeeMorePageRoutes.SerialsAiringToday,
       route,
     },
     {
@@ -152,6 +153,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.SerialsOnAir,
       className: commonClassName,
       isSerialsPage,
+      seeMoreRoute: SeeMorePageRoutes.SerialsOnAir,
       route,
     },
     {
@@ -178,7 +180,7 @@ const sliderConfig = <T extends AppPageData>({
       title: SliderTitle.TopRatedMoviesOrSerials,
       className: commonClassName,
       isSerialsPage,
-      seeMoreRoute: SeeMorePageRoutes.TopRated,
+      seeMoreRoute: SeeMorePageRoutes.TopRatedSerials,
       route,
     },
     {
