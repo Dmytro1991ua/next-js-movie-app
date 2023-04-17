@@ -1,10 +1,21 @@
 import { GetServerSideProps, NextPage } from "next";
+import { useMemo } from "react";
 
+import Cards from "@/components/Cards";
 import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
 import { moviesPageService } from "@/modules/movies/movies.service";
-import { QueryString, SeeMorePageQueryString } from "@/types/enums";
+import {
+  AppRoutes,
+  QueryString,
+  SeeMorePageQueryString,
+  SliderTitle,
+} from "@/types/enums";
 import { requestsConfigForSeeMorePage } from "@/utils/requests";
-import { prefetchMovieOrSerialData } from "@/utils/utils";
+import {
+  getMoviesOrSerialsPageData,
+  getSeeMorePageTitle,
+  prefetchMovieOrSerialData,
+} from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return prefetchMovieOrSerialData(
@@ -22,9 +33,15 @@ const WesternMoviesPage: NextPage = () => {
       ),
   });
 
-  console.log("Western Movies", { data });
+  const westernMovies = useMemo(() => getMoviesOrSerialsPageData(data), [data]);
+  const pageTitle = useMemo(
+    () => getSeeMorePageTitle({ title: SliderTitle.WesternMovies }),
+    []
+  );
 
-  return <div>WesternMoviesPage</div>;
+  return (
+    <Cards cards={westernMovies} route={AppRoutes.Movies} title={pageTitle} />
+  );
 };
 
 export default WesternMoviesPage;

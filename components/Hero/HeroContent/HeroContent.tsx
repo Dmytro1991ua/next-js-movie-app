@@ -45,7 +45,7 @@ const HeroContent: FC<HeroContentProps> = ({
           size={28}
         />
       </div>
-      <div className="flex items-cenetr mb-2">
+      <div className="flex items-center mb-2">
         <p>{releaseDate},&nbsp;</p>
         <p>
           IMDB:&nbsp;

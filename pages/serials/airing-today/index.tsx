@@ -1,10 +1,21 @@
 import { GetServerSideProps, NextPage } from "next";
+import { useMemo } from "react";
 
+import Cards from "@/components/Cards";
 import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
 import { serialsPageService } from "@/modules/serials/serials.service";
-import { QueryString, SeeMorePageQueryString } from "@/types/enums";
+import {
+  AppRoutes,
+  QueryString,
+  SeeMorePageQueryString,
+  SliderTitle,
+} from "@/types/enums";
 import { requestsConfigForSeeMorePage } from "@/utils/requests";
-import { prefetchMovieOrSerialData } from "@/utils/utils";
+import {
+  getMoviesOrSerialsPageData,
+  getSeeMorePageTitle,
+  prefetchMovieOrSerialData,
+} from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return prefetchMovieOrSerialData(
@@ -22,9 +33,27 @@ const AiringTodaySerialsPage: NextPage = () => {
       ),
   });
 
-  console.log("Airing today Serials", { data });
+  const airingTodaySerials = useMemo(
+    () => getMoviesOrSerialsPageData(data),
+    [data]
+  );
+  const pageTitle = useMemo(
+    () =>
+      getSeeMorePageTitle({
+        title: SliderTitle.SerialsAiringToday,
+        isMovie: false,
+      }),
+    []
+  );
 
-  return <div>AiringTodaySerialsPage</div>;
+  console.log(data);
+  return (
+    <Cards
+      cards={airingTodaySerials}
+      route={AppRoutes.Serials}
+      title={pageTitle}
+    />
+  );
 };
 
 export default AiringTodaySerialsPage;

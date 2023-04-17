@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 const baseFontSize = 10;
 
@@ -129,6 +131,15 @@ module.exports = {
         righteous: ["Righteous", "sans-serif"],
         roboto: ["Roboto", "sans-serif"],
       },
+      screens: {
+        "3xl": "1700px",
+        "4xl": "2000px",
+      },
+    },
+    screens: {
+      xxs: "320px",
+      xs: "400px",
+      ...defaultTheme.screens,
     },
   },
 

@@ -106,12 +106,11 @@ class MoviesPageService {
     try {
       const response = await fetch(url);
 
-      if (!response) {
-        return null;
-      }
-
       return await response.json();
     } catch (error) {
+      const errorMessage = getResponseErrorMessage();
+      toastService.error(errorMessage);
+
       throw new Error((error as Error).message);
     }
   }
