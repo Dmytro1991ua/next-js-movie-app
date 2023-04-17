@@ -57,7 +57,8 @@ describe("PopularSerialsPage", () => {
   it("Should render component without crashing", () => {
     withQueryClientProvider(<PopularSerialsPage />);
 
-    expect(screen.getByText(/PopularSerialsPage/)).toBeInTheDocument();
+    expect(screen.getByText(/Popular Serials/)).toBeInTheDocument();
+    expect(screen.getByTestId("cards")).toBeInTheDocument();
   });
 
   it("Should trigger getServerSideProps and called fetchSerialsData method within serialsPageService", async () => {

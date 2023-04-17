@@ -55,7 +55,8 @@ describe("TopRatedMoviesPage", () => {
   it("Should render component without crashing", () => {
     withQueryClientProvider(<TopRatedMoviesPage />);
 
-    expect(screen.getByText(/TopRatedMoviesPage/)).toBeInTheDocument();
+    expect(screen.getByText(/Top Rated Movies/)).toBeInTheDocument();
+    expect(screen.getByTestId("cards")).toBeInTheDocument();
   });
 
   it("Should trigger getServerSideProps and called fetchMoviesForHomePage method within homePageService", async () => {

@@ -57,7 +57,8 @@ describe("AiringTodaySerialsPage", () => {
   it("Should render component without crashing", () => {
     withQueryClientProvider(<AiringTodaySerialsPage />);
 
-    expect(screen.getByText(/AiringTodaySerialsPage/)).toBeInTheDocument();
+    expect(screen.getByText(/Airing Today Serials/)).toBeInTheDocument();
+    expect(screen.getByTestId("cards")).toBeInTheDocument();
   });
 
   it("Should trigger getServerSideProps and called fetchSerialsData method within serialsPageService", async () => {

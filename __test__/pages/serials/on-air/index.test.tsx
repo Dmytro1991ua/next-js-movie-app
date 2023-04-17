@@ -55,7 +55,8 @@ describe("OnAirSerialsPage", () => {
   it("Should render component without crashing", () => {
     withQueryClientProvider(<OnAirSerialsPage />);
 
-    expect(screen.getByText(/OnAirSerialsPage/)).toBeInTheDocument();
+    expect(screen.getByText(/On The Air Serials/)).toBeInTheDocument();
+    expect(screen.getByTestId("cards")).toBeInTheDocument();
   });
 
   it("Should trigger getServerSideProps and called fetchSerialsData method within serialsPageService", async () => {
