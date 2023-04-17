@@ -4,11 +4,8 @@ import movieTrailer from "movie-trailer";
 import Link from "next/link";
 import { NextRouter } from "next/router";
 import { AiFillPlayCircle, AiTwotoneHome } from "react-icons/ai";
-import {
-  BsFillArrowLeftCircleFill,
-  BsFillInfoCircleFill,
-} from "react-icons/bs";
-import { QueryClient, dehydrate } from "react-query";
+import { BsFillInfoCircleFill } from "react-icons/bs";
+import { InfiniteData, QueryClient, dehydrate } from "react-query";
 import { v4 as uuidv4 } from "uuid";
 
 import Button from "@/components/Button";
@@ -34,6 +31,7 @@ import {
   HeroContentActionButtonConfig,
   HomePageData,
   MovieOrSerialDetailsData,
+  MovieOrSerialResult,
   MovieOrSerialWithRegularSubtitle,
   MoviesPageData,
   PageSlider,
@@ -395,7 +393,7 @@ export const movieOrSerialReleaseConfig = (
     },
     {
       id: uuidv4(),
-      subtitle: movieOrSerialDetails?.vote_average,
+      subtitle: movieOrSerialDetails?.vote_average ?? 0,
       position: "column",
       title: DetailsBlockTitle.IMDB,
     },
@@ -494,7 +492,6 @@ export const getDetailsBlockByConfig = ({
 
 export const detailsPageActionButtonsConfig = ({
   movieOrSerialDetails,
-  router,
   onPlayBtnClick,
 }: {
   movieOrSerialDetails?: MovieOrSerialDetail;
@@ -502,9 +499,6 @@ export const detailsPageActionButtonsConfig = ({
   onPlayBtnClick: () => void;
 }): DetailsPageActionButton[] => {
   const commonIconClassName = "ml-2";
-
-  const lastSlashIndex = router.asPath.lastIndexOf("/");
-  const previousPath = router.asPath.slice(0, lastSlashIndex);
 
   return [
     {
@@ -529,13 +523,6 @@ export const detailsPageActionButtonsConfig = ({
         e.preventDefault();
         onPlayBtnClick();
       },
-    },
-    {
-      id: uuidv4(),
-      url: previousPath,
-      icon: <BsFillArrowLeftCircleFill className={commonIconClassName} />,
-      label: DetailsPageActionButtons.GoBack,
-      className: "bg-mantis hover:bg-mantisDarker focus:ring-mantis",
     },
   ];
 };
@@ -705,4 +692,20 @@ export const prefetchMovieOrSerialDetailsData = async ({
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     },
   };
+};
+
+export const getMoviesOrSerialsPageData = (
+  data: InfiniteData<MovieOrSerialResult | null> | undefined
+) => {
+  return data?.pages.flatMap((page) => page?.results) ?? [];
+};
+
+export const getSeeMorePageTitle = ({
+  title,
+  isMovie = true,
+}: {
+  title: SliderTitle;
+  isMovie?: boolean;
+}) => {
+  return isMovie ? `${title} Movies` : `${title} Serials`;
 };

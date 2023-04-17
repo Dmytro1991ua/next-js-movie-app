@@ -1,10 +1,21 @@
 import { GetServerSideProps, NextPage } from "next";
+import { useMemo } from "react";
 
+import Cards from "@/components/Cards";
 import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
 import { moviesPageService } from "@/modules/movies/movies.service";
-import { QueryString, SeeMorePageQueryString } from "@/types/enums";
+import {
+  AppRoutes,
+  QueryString,
+  SeeMorePageQueryString,
+  SliderTitle,
+} from "@/types/enums";
 import { requestsConfigForSeeMorePage } from "@/utils/requests";
-import { prefetchMovieOrSerialData } from "@/utils/utils";
+import {
+  getMoviesOrSerialsPageData,
+  getSeeMorePageTitle,
+  prefetchMovieOrSerialData,
+} from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return prefetchMovieOrSerialData(
@@ -22,9 +33,22 @@ const DocumentariesMoviesPage: NextPage = () => {
       ),
   });
 
-  console.log("Documentaries Movies", { data });
+  const documentariesMovies = useMemo(
+    () => getMoviesOrSerialsPageData(data),
+    [data]
+  );
+  const pageTitle = useMemo(
+    () => getSeeMorePageTitle({ title: SliderTitle.Documentaries }),
+    []
+  );
 
-  return <div>DocumentariesMoviesPage</div>;
+  return (
+    <Cards
+      cards={documentariesMovies}
+      route={AppRoutes.Movies}
+      title={pageTitle}
+    />
+  );
 };
 
 export default DocumentariesMoviesPage;

@@ -197,4 +197,20 @@ img {
   .details-page-content-wrapper {
     @apply absolute overflow-x-auto h-[80vh] top-[15%] left-[5%] flex flex-col gap-4 w-11/12 text-white lg:top-[25%] lg:left-[11.5%] lg:h-[70vh] lg:flex-row lg:w-10/12;
   }
+
+  .card-wrapper {
+    @apply flex flex-col items-stretch sm:items-center justify-center min-h-screen container mx-auto p-3 mt-37.5;
+  }
+
+  .card-layout {
+    @apply grid grid-cols-1 xs:grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8;
+  }
+
+  .card-content-wrapper {
+    @apply absolute inset-0 flex flex-col items-center justify-center w-full h-full rounded-xl bg-darkBlue/70 p-2 text-center [transform:rotateY(180deg)] [backface-visibility:hidden];
+  }
+
+  .card-image-wrapper {
+    @apply relative [transform:rotateY(180deg)] lg:[transform:rotateY(0deg)] h-full w-full rounded-xl shadow-xl border border-mantis transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)];
+  }
 }

@@ -48,6 +48,27 @@ describe("SerialsPageService", () => {
         );
       }
     });
+    it("Should return data for See More pages", async () => {
+      const response =
+        await serialsPageService.fetchSeeMorePageDataForSerialsPage("Test");
+
+      expect(response).toEqual(mockMovie);
+    });
+
+    it("Should fail to load data for See More Page", async () => {
+      try {
+        (window.fetch as jest.Mock).mockResolvedValueOnce({
+          ok: false,
+        });
+        await expect(
+          serialsPageService.fetchSeeMorePageDataForSerialsPage("Test")
+        ).rejects.toEqual("Test Error Message");
+      } catch {
+        await waitFor(() =>
+          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
+        );
+      }
+    });
   });
 
   describe("fetchSerialDetailsData", () => {

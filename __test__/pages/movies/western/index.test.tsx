@@ -55,7 +55,8 @@ describe("WesternMoviesPage", () => {
   it("Should render component without crashing", () => {
     withQueryClientProvider(<WesternMoviesPage />);
 
-    expect(screen.getByText(/WesternMoviesPage/)).toBeInTheDocument();
+    expect(screen.getByText(/Western Movies/)).toBeInTheDocument();
+    expect(screen.getByTestId("cards")).toBeInTheDocument();
   });
 
   it("Should trigger getServerSideProps and called fetchMoviesByGenre method within moviesPageService", async () => {

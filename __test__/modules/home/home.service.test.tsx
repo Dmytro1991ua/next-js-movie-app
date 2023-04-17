@@ -34,7 +34,7 @@ describe("HomePageService", () => {
       expect(response.nowPlayingMovies).toEqual(mockMovie);
     });
 
-    it("Should failed to load movies and call toast with error message", async () => {
+    it("Should fail to load movies and call toast with error message", async () => {
       try {
         (window.fetch as jest.Mock).mockResolvedValueOnce({
           ok: false,
@@ -42,6 +42,29 @@ describe("HomePageService", () => {
         await expect(homePageService.fetchMoviesForHomePage()).rejects.toEqual(
           "Test Error Message"
         );
+      } catch {
+        await waitFor(() =>
+          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
+        );
+      }
+    });
+
+    it("Should return data for See More pages", async () => {
+      const response = await homePageService.fetchSeeMorePageDataForHomePage(
+        "Test"
+      );
+
+      expect(response).toEqual(mockMovie);
+    });
+
+    it("Should fail to load data for See More Page", async () => {
+      try {
+        (window.fetch as jest.Mock).mockResolvedValueOnce({
+          ok: false,
+        });
+        await expect(
+          homePageService.fetchSeeMorePageDataForHomePage("Test")
+        ).rejects.toEqual("Test Error Message");
       } catch {
         await waitFor(() =>
           expect(toast.error).toHaveBeenCalledWith("Test Error Message")

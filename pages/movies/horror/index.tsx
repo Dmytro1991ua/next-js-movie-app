@@ -1,10 +1,21 @@
 import { GetServerSideProps, NextPage } from "next";
+import { useMemo } from "react";
 
+import Cards from "@/components/Cards";
 import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
 import { moviesPageService } from "@/modules/movies/movies.service";
-import { QueryString, SeeMorePageQueryString } from "@/types/enums";
+import {
+  AppRoutes,
+  QueryString,
+  SeeMorePageQueryString,
+  SliderTitle,
+} from "@/types/enums";
 import { requestsConfigForSeeMorePage } from "@/utils/requests";
-import { prefetchMovieOrSerialData } from "@/utils/utils";
+import {
+  getMoviesOrSerialsPageData,
+  getSeeMorePageTitle,
+  prefetchMovieOrSerialData,
+} from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return prefetchMovieOrSerialData(
@@ -22,9 +33,15 @@ const HorrorMoviesPage: NextPage = () => {
       ),
   });
 
-  console.log("Horror Movies", { data });
+  const horrorMovies = useMemo(() => getMoviesOrSerialsPageData(data), [data]);
+  const pageTitle = useMemo(
+    () => getSeeMorePageTitle({ title: SliderTitle.HorrorMovies }),
+    []
+  );
 
-  return <div>HorrorMoviesPage</div>;
+  return (
+    <Cards cards={horrorMovies} route={AppRoutes.Movies} title={pageTitle} />
+  );
 };
 
 export default HorrorMoviesPage;

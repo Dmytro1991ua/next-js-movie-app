@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
 import { useTrailerState } from "@/hooks/useTrailerState";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
@@ -10,6 +11,7 @@ import {
   STAR_ICON_COLOR_FILLED,
   STAR_ICON_COLOR_UNFILLED,
 } from "@/types/constants";
+import { DetailsPageActionButtons } from "@/types/enums";
 import {
   detailsSubtitleWithPillsConfig,
   getDetailsBlockByConfig,
@@ -18,6 +20,7 @@ import {
   movieOrSerialRevenueOrSeasonsDetailsConfig,
 } from "@/utils/utils";
 
+import Button from "../Button";
 import HeroImage from "../Hero/HeroImage";
 import ReadMore from "../ReadMore";
 import StarRating from "../StarRating";
@@ -80,6 +83,8 @@ const DetailsPage = ({
     [movieOrSerialDetails, router, onTrailerOpening]
   );
 
+  const handleGoBackRedirect = useCallback(() => router.back(), [router]);
+
   return (
     <section className="relative min-h-screen">
       <div className="hero-image-wrapper">
@@ -122,6 +127,10 @@ const DetailsPage = ({
           </div>
           <div className="flex items-center gap-5">
             {detailsPageActionButtons}
+            <Button variant="primary" onClick={handleGoBackRedirect}>
+              {DetailsPageActionButtons.GoBack}
+              <BsFillArrowLeftCircleFill className="ml-2" />
+            </Button>
           </div>
         </div>
         <div className="w-full">{detailsBlockWithPillsSubtitle}</div>

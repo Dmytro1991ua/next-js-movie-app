@@ -1,10 +1,21 @@
 import { GetServerSideProps, NextPage } from "next";
+import { useMemo } from "react";
 
+import Cards from "@/components/Cards";
 import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
 import { homePageService } from "@/modules/home/home.service";
-import { QueryString, SeeMorePageQueryString } from "@/types/enums";
+import {
+  AppRoutes,
+  QueryString,
+  SeeMorePageQueryString,
+  SliderTitle,
+} from "@/types/enums";
 import { requestsConfigForSeeMorePage } from "@/utils/requests";
-import { prefetchMovieOrSerialData } from "@/utils/utils";
+import {
+  getMoviesOrSerialsPageData,
+  getSeeMorePageTitle,
+  prefetchMovieOrSerialData,
+} from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return prefetchMovieOrSerialData(
@@ -22,9 +33,15 @@ const PopularMoviesPage: NextPage = () => {
       ),
   });
 
-  console.log("Popular", { data });
+  const popularMovies = useMemo(() => getMoviesOrSerialsPageData(data), [data]);
+  const pageTitle = useMemo(
+    () => getSeeMorePageTitle({ title: SliderTitle.PopularMoviesOrSerials }),
+    []
+  );
 
-  return <div>PopularMoviesPage</div>;
+  return (
+    <Cards cards={popularMovies} route={AppRoutes.Home} title={pageTitle} />
+  );
 };
 
 export default PopularMoviesPage;
