@@ -13,6 +13,7 @@ import DetailsBlock from "@/components/DetailsPage/DetailsBlock";
 import Slider from "@/components/Slider";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { toastService } from "@/services/toast.service";
+import { SMALL_IMAGE_URL } from "@/types/constants";
 import {
   AppRoutes,
   DetailsBlockTitle,
@@ -38,6 +39,8 @@ import {
   SerialsPageData,
   SliderConfig,
 } from "@/types/interfaces";
+
+import DefaultImage from "../public/assets/auth-layout/auth-layout-bg-big.jpg";
 
 export const convertResponseErrorMessageToCorrectFormat = (
   method: RequestMethod
@@ -266,6 +269,40 @@ export const getPageSlider = <T,>({
   );
 };
 
+export const getSeeMorePageRoutesForHomePage = (pathname: string): boolean => {
+  return (
+    pathname === SeeMorePageRoutes.NowPlaying ||
+    pathname === SeeMorePageRoutes.Popular ||
+    pathname === SeeMorePageRoutes.TopRated ||
+    pathname === SeeMorePageRoutes.Trending ||
+    pathname === SeeMorePageRoutes.Upcoming
+  );
+};
+
+export const getSeeMorePageRoutesForMoviesPage = (
+  pathname: string
+): boolean => {
+  return (
+    pathname === SeeMorePageRoutes.ActionMovies ||
+    pathname === SeeMorePageRoutes.ComedyMovies ||
+    pathname === SeeMorePageRoutes.Documentaries ||
+    pathname === SeeMorePageRoutes.HistoryMovies ||
+    pathname === SeeMorePageRoutes.HorrorMovies ||
+    pathname === SeeMorePageRoutes.ThrillerMovies ||
+    pathname === SeeMorePageRoutes.WarMovies ||
+    pathname === SeeMorePageRoutes.WesternMovies
+  );
+};
+
+export const getSeeMorePageRoutesForSerialsPage = (pathname: string) => {
+  return (
+    pathname === SeeMorePageRoutes.PopularSerials ||
+    pathname === SeeMorePageRoutes.SerialsAiringToday ||
+    pathname === SeeMorePageRoutes.SerialsOnAir ||
+    pathname === SeeMorePageRoutes.TopRatedSerials
+  );
+};
+
 export const isRouteActive = ({
   asPath,
   pathname,
@@ -275,18 +312,33 @@ export const isRouteActive = ({
   pathname: string;
   url: string;
 }): boolean => {
-  const homeDetailsPageRoute =
-    url === AppRoutes.Home && pathname === AppRoutes.MovieDetails;
-  const moviesDetailsPageRoute =
-    url === AppRoutes.Movies && pathname === AppRoutes.MovieByGenreDetails;
-  const serialsDetailsPageRoute =
-    url === AppRoutes.Serials && pathname === AppRoutes.SerialDetails;
+  const seeMorePageRoutesForHomePage =
+    getSeeMorePageRoutesForHomePage(pathname);
+
+  const seeMorePageRoutesForMoviesPage =
+    getSeeMorePageRoutesForMoviesPage(pathname);
+
+  const seeMorePageRoutesForSerialsPage =
+    getSeeMorePageRoutesForSerialsPage(pathname);
+
+  const homePageNestedRoutes =
+    url === AppRoutes.Home &&
+    (pathname === AppRoutes.MovieDetails || seeMorePageRoutesForHomePage);
+
+  const moviesPageNestedRoutes =
+    url === AppRoutes.Movies &&
+    (pathname === AppRoutes.MovieByGenreDetails ||
+      seeMorePageRoutesForMoviesPage);
+
+  const serialsPageNestedRoutes =
+    url === AppRoutes.Serials &&
+    (pathname === AppRoutes.SerialDetails || seeMorePageRoutesForSerialsPage);
 
   return (
     asPath === url ||
-    homeDetailsPageRoute ||
-    moviesDetailsPageRoute ||
-    serialsDetailsPageRoute
+    homePageNestedRoutes ||
+    moviesPageNestedRoutes ||
+    serialsPageNestedRoutes
   );
 };
 
@@ -708,4 +760,28 @@ export const getSeeMorePageTitle = ({
   isMovie?: boolean;
 }) => {
   return isMovie ? `${title} Movies` : `${title} Serials`;
+};
+
+export const getMovieOrSerialDataLength = (
+  data: InfiniteData<MovieOrSerialResult | null> | undefined
+) => {
+  return data?.pages.reduce((counter, page) => {
+    return counter + (page?.results?.length ?? 0);
+  }, 0);
+};
+
+export const getImageUrl = ({
+  posterPath,
+  backdropPath,
+  isCard = false,
+}: {
+  posterPath: string;
+  backdropPath: string;
+  isCard?: boolean;
+}) => {
+  const imagePath = isCard
+    ? posterPath || backdropPath
+    : backdropPath || posterPath;
+
+  return imagePath ? `${SMALL_IMAGE_URL}${imagePath}` : DefaultImage;
 };

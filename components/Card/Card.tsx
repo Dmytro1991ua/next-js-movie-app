@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { FC, useCallback } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 
-import { BLURRED_IMAGE, SMALL_IMAGE_URL } from "@/types/constants";
+import { BLURRED_IMAGE } from "@/types/constants";
 import { AppRoutes } from "@/types/enums";
 import { MovieOrSerialResults } from "@/types/interfaces";
-import { handleRedirectToDetailsPage } from "@/utils/utils";
+import { getImageUrl, handleRedirectToDetailsPage } from "@/utils/utils";
 
 import CardContent from "./CardContent/CardContent";
 
@@ -27,6 +27,16 @@ const Card: FC<CardProps> = ({ movieOrSerialData, route }) => {
     [movieOrSerialData?.id, route, router]
   );
 
+  const imageUrl = useMemo(
+    () =>
+      getImageUrl({
+        posterPath: movieOrSerialData?.poster_path ?? "",
+        backdropPath: movieOrSerialData?.backdrop_path ?? "",
+        isCard: true,
+      }),
+    [movieOrSerialData?.poster_path, movieOrSerialData?.backdrop_path]
+  );
+
   return (
     <div className="group [perspective:1000px] h-[35rem] xs:w-72 sm:w-96 cursor-pointer">
       <div className="card-image-wrapper">
@@ -38,9 +48,7 @@ const Card: FC<CardProps> = ({ movieOrSerialData, route }) => {
             layout="fill"
             objectFit="cover"
             placeholder="blur"
-            src={`${SMALL_IMAGE_URL}${
-              movieOrSerialData?.poster_path ?? movieOrSerialData?.backdrop_path
-            }`}
+            src={imageUrl}
           />
         </div>
         <CardContent

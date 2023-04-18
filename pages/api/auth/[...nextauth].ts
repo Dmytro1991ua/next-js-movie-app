@@ -52,9 +52,10 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  secret: process.env.JWT_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
   },
   adapter: MongoDBAdapter(clientPromise, {
     databaseName: "nextauthDb",
