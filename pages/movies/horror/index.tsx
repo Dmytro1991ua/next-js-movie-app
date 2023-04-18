@@ -1,5 +1,4 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useMemo } from "react";
 
 import Cards from "@/components/Cards";
 import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
@@ -11,11 +10,7 @@ import {
   SliderTitle,
 } from "@/types/enums";
 import { requestsConfigForSeeMorePage } from "@/utils/requests";
-import {
-  getMoviesOrSerialsPageData,
-  getSeeMorePageTitle,
-  prefetchMovieOrSerialData,
-} from "@/utils/utils";
+import { prefetchMovieOrSerialData } from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return prefetchMovieOrSerialData(
@@ -25,22 +20,32 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const HorrorMoviesPage: NextPage = () => {
-  const { data } = useFetchSeeMorePageData({
+  const {
+    fetchNextPage,
+    hasNextPage,
+    fetchedResults,
+    pageTitle,
+    dataLength,
+    isLoading,
+  } = useFetchSeeMorePageData({
     query: SeeMorePageQueryString.HorrorMovies,
-    fetcher: () =>
+    fetcher: (pageParam) =>
       moviesPageService.fetchSeeMorePageDataForMoviesPage(
-        requestsConfigForSeeMorePage().fetchHorrorMovies
+        requestsConfigForSeeMorePage(pageParam).fetchHorrorMovies
       ),
+    title: SliderTitle.HorrorMovies,
   });
 
-  const horrorMovies = useMemo(() => getMoviesOrSerialsPageData(data), [data]);
-  const pageTitle = useMemo(
-    () => getSeeMorePageTitle({ title: SliderTitle.HorrorMovies }),
-    []
-  );
-
   return (
-    <Cards cards={horrorMovies} route={AppRoutes.Movies} title={pageTitle} />
+    <Cards
+      cards={fetchedResults}
+      dataLength={dataLength}
+      fetchNextPage={fetchNextPage}
+      hasNextPage={hasNextPage as boolean}
+      isLoading={isLoading}
+      route={AppRoutes.Movies}
+      title={pageTitle}
+    />
   );
 };
 

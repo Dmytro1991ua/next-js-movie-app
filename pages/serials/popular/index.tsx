@@ -1,5 +1,4 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useMemo } from "react";
 
 import Cards from "@/components/Cards";
 import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
@@ -11,11 +10,7 @@ import {
   SliderTitle,
 } from "@/types/enums";
 import { requestsConfigForSeeMorePage } from "@/utils/requests";
-import {
-  getMoviesOrSerialsPageData,
-  getSeeMorePageTitle,
-  prefetchMovieOrSerialData,
-} from "@/utils/utils";
+import { prefetchMovieOrSerialData } from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   return prefetchMovieOrSerialData(
@@ -25,29 +20,33 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const PopularSerialsPage: NextPage = () => {
-  const { data } = useFetchSeeMorePageData({
+  const {
+    fetchNextPage,
+    hasNextPage,
+    fetchedResults,
+    pageTitle,
+    dataLength,
+    isLoading,
+  } = useFetchSeeMorePageData({
     query: SeeMorePageQueryString.PopularSerials,
-    fetcher: () =>
+    fetcher: (pageParam) =>
       serialsPageService.fetchSeeMorePageDataForSerialsPage(
-        requestsConfigForSeeMorePage().fetchPopularSerials
+        requestsConfigForSeeMorePage(pageParam).fetchPopularSerials
       ),
+    title: SliderTitle.PopularMoviesOrSerials,
+    isMovie: false,
   });
 
-  const popularSerials = useMemo(
-    () => getMoviesOrSerialsPageData(data),
-    [data]
-  );
-  const pageTitle = useMemo(
-    () =>
-      getSeeMorePageTitle({
-        title: SliderTitle.PopularMoviesOrSerials,
-        isMovie: false,
-      }),
-    []
-  );
-
   return (
-    <Cards cards={popularSerials} route={AppRoutes.Serials} title={pageTitle} />
+    <Cards
+      cards={fetchedResults}
+      dataLength={dataLength}
+      fetchNextPage={fetchNextPage}
+      hasNextPage={hasNextPage as boolean}
+      isLoading={isLoading}
+      route={AppRoutes.Serials}
+      title={pageTitle}
+    />
   );
 };
 

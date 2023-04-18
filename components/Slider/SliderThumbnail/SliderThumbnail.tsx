@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useMemo } from "react";
 
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
-import { BLURRED_IMAGE, SMALL_IMAGE_URL } from "@/types/constants";
+import { BLURRED_IMAGE } from "@/types/constants";
 import { AppRoutes } from "@/types/enums";
-import { handleRedirectToDetailsPage } from "@/utils/utils";
+import { getImageUrl, handleRedirectToDetailsPage } from "@/utils/utils";
 
 interface SliderThumbnailProps<T> {
   data: T;
@@ -18,6 +18,15 @@ const SliderThumbnail = <T extends Movie & Serial>({
   route,
 }: SliderThumbnailProps<T>) => {
   const router = useRouter();
+
+  const imageUrl = useMemo(
+    () =>
+      getImageUrl({
+        posterPath: data.poster_path,
+        backdropPath: data.backdrop_path,
+      }),
+    [data.backdrop_path, data.poster_path]
+  );
 
   return (
     <div
@@ -33,7 +42,7 @@ const SliderThumbnail = <T extends Movie & Serial>({
         layout="fill"
         objectFit="cover"
         placeholder="blur"
-        src={`${SMALL_IMAGE_URL}${data.backdrop_path || data.poster_path}`}
+        src={imageUrl}
       />
     </div>
   );
