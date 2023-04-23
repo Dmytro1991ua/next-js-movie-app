@@ -9,6 +9,8 @@ export const protectedRoutes = [
   AppRoutes.SerialDetails,
   AppRoutes.Profile,
   AppRoutes.Default,
+  AppRoutes.SearchMovies,
+  AppRoutes.SearchSerials,
   SeeMorePageRoutes.NowPlaying,
   SeeMorePageRoutes.Popular,
   SeeMorePageRoutes.TopRated,
@@ -50,3 +52,8 @@ export const PLAYER_CONFIG = {
     autoplay: 1,
   },
 };
+
+export const DEFAULT_SEARCH_INPUT_PLACEHOLDER =
+  "Search for movies or TV series";
+export const MOVIE_SEARCH_INPUT_PLACEHOLDER = "Search for movies...";
+export const TV_SEARCH_INPUT_PLACEHOLDER = "Search for TV serials...";

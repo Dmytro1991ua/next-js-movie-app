@@ -11,7 +11,7 @@ import {
   STAR_ICON_COLOR_FILLED,
   STAR_ICON_COLOR_UNFILLED,
 } from "@/types/constants";
-import { DetailsPageActionButtons } from "@/types/enums";
+import { AppRoutes, DetailsPageActionButtons } from "@/types/enums";
 import {
   detailsSubtitleWithPillsConfig,
   getDetailsBlockByConfig,
@@ -23,17 +23,22 @@ import {
 import Button from "../Button";
 import HeroImage from "../Hero/HeroImage";
 import ReadMore from "../ReadMore";
+import Search from "../Search";
 import StarRating from "../StarRating";
 import VideoPlayer from "../VideoPlayer";
 
 interface DetailsPageProps {
   movieOrSerialDetails?: MovieOrSerialDetail;
   movieOrSerialCast?: Cast;
+  searchPath?: AppRoutes;
+  placeholder?: string;
 }
 
 const DetailsPage = ({
   movieOrSerialDetails,
   movieOrSerialCast,
+  searchPath,
+  placeholder,
 }: DetailsPageProps) => {
   const router = useRouter();
 
@@ -95,7 +100,13 @@ const DetailsPage = ({
           }`}
         />
       </div>
-      <div className="details-page-content-wrapper">
+      <div className="details-page-content-wrapper flex-col">
+        <Search
+          isDetailsPage
+          className="mb-14"
+          placeholder={placeholder}
+          searchPath={searchPath ?? AppRoutes.Default}
+        />
         <div className="w-full">
           <div
             className={clsx("flex flex-col items-start gap-2 mb-6", [

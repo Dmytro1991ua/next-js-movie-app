@@ -9,6 +9,8 @@ export enum AppRoutes {
   SignIn = "/auth/sign-in",
   SignUp = "/auth/sign-up",
   Profile = "/profile",
+  SearchMovies = "/search/movie",
+  SearchSerials = "/search/tv",
 }
 
 export enum RequestMethod {

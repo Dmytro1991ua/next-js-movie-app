@@ -1,4 +1,4 @@
-type RoundedInput = "sm" | "md" | "lg";
+type RoundedInput = "none" | "sm" | "md" | "lg";
 
 export interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
   name?: string;
@@ -14,4 +14,6 @@ export interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
   className?: string;
   isBaseInput?: boolean;
   fullWidth?: boolean;
+  hasIcon?: boolean;
+  icon?: JSX.Element;
 }

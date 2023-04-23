@@ -3,7 +3,8 @@ import { GetServerSideProps, NextPage } from "next";
 import DetailsPage from "@/components/DetailsPage";
 import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesOrSerialsData";
 import { moviesPageService } from "@/modules/movies/movies.service";
-import { QueryString } from "@/types/enums";
+import { MOVIE_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
+import { AppRoutes, QueryString } from "@/types/enums";
 import { prefetchMovieOrSerialDetailsData } from "@/utils/utils";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -27,6 +28,8 @@ const MovieByGenreDetailsPage: NextPage = () => {
     <DetailsPage
       movieOrSerialCast={data?.movieOrSerialActors}
       movieOrSerialDetails={data?.movieOrSerialDetails}
+      placeholder={MOVIE_SEARCH_INPUT_PLACEHOLDER}
+      searchPath={AppRoutes.SearchMovies}
     />
   );
 };

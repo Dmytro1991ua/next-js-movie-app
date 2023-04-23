@@ -1,5 +1,7 @@
 import { FC, useMemo } from "react";
 
+import Search from "@/components/Search/Search";
+import { MOVIE_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { getPageSlider } from "@/utils/utils";
 
@@ -22,6 +24,11 @@ const Home: FC = () => {
   return (
     <>
       <Hero data={data?.popularMovies?.results ?? []} route={AppRoutes.Home} />
+      <Search
+        className="mb-14"
+        placeholder={MOVIE_SEARCH_INPUT_PLACEHOLDER}
+        searchPath={AppRoutes.SearchMovies}
+      />
       {homePageSliders}
     </>
   );

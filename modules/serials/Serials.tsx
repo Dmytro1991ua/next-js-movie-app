@@ -1,7 +1,9 @@
 import React, { FC, useMemo } from "react";
 
 import Hero from "@/components/Hero";
+import Search from "@/components/Search";
 import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesOrSerialsData";
+import { TV_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { getPageSlider } from "@/utils/utils";
 
@@ -29,6 +31,11 @@ const Serials: FC = () => {
         isSerialsPage
         data={data?.topRatedSerials?.results ?? []}
         route={AppRoutes.Serials}
+      />
+      <Search
+        className="mb-14"
+        placeholder={TV_SEARCH_INPUT_PLACEHOLDER}
+        searchPath={AppRoutes.SearchSerials}
       />
       {serialsPageSliders}
     </>
