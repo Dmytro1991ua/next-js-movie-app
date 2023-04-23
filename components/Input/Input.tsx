@@ -18,6 +18,8 @@ const Input: FC<InputProps> = ({
   className = "",
   isBaseInput = false,
   fullWidth = false,
+  hasIcon = false,
+  icon,
   ...rest
 }) => {
   const commonInputStyles =
@@ -29,6 +31,8 @@ const Input: FC<InputProps> = ({
       normal: `${commonInputStyles} bg-mantis placeholder-white text-white border-2 border-mantisDarker focus:border-mantisDarker border-2 border-solid`,
       error: `${commonInputStyles} bg-errorBg border-2 border-tomato !placeholder-errorText focus:border-errorBg border-2 border-solid`,
       disabled: `${commonInputStyles} pointer-events-none shadow-inner opacity-50`,
+      search:
+        "bg-transparent border-y-0 border-r-0 border-l-0 border-b-2 placeholder:opacity-50 pl-10",
     },
     rounded: {
       none: null,
@@ -39,7 +43,7 @@ const Input: FC<InputProps> = ({
   };
 
   return (
-    <>
+    <label className={clsx("relative", [fullWidth ? "w-full" : "w-fit"])}>
       {label && (
         <Label id={id}>
           {label} {required && "*"}
@@ -51,6 +55,7 @@ const Input: FC<InputProps> = ({
           error ? stylesConfig.state.error : stylesConfig.state.normal,
           disabled && stylesConfig.state.disabled,
           isBaseInput && stylesConfig.state.general,
+          hasIcon && stylesConfig.state.search,
           fullWidth ? "w-full" : "w-fit",
           className,
         ])}
@@ -62,7 +67,8 @@ const Input: FC<InputProps> = ({
         type={type}
         {...rest}
       />
-    </>
+      {hasIcon && icon}
+    </label>
   );
 };
 

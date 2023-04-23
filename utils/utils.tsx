@@ -785,3 +785,10 @@ export const getImageUrl = ({
 
   return imagePath ? `${SMALL_IMAGE_URL}${imagePath}` : DefaultImage;
 };
+
+export const getSearchRedirectUrl = (
+  searchPath: AppRoutes,
+  searchParam: string | null
+): string => {
+  return `${searchPath}/${searchParam?.trim()}`;
+};
