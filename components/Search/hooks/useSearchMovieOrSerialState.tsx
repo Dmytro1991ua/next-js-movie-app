@@ -36,7 +36,7 @@ export const useSearchMovieOrSerialState = ({
     [debounceTime]
   );
 
-  const isButtonDisabled = !searchTerm;
+  const isButtonDisabled = !debouncedValue;
 
   const onHandleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

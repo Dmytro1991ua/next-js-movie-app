@@ -17,6 +17,7 @@ import {
   DetailsBlockTitle,
   DetailsPageActionButtons,
   HeroContentActionButtons,
+  QueryString,
   SeeMorePageRoutes,
 } from "@/types/enums";
 
@@ -189,3 +190,21 @@ export interface HeroContentActionButton {
 }
 
 export type Status = "idle" | "error" | "loading" | "success";
+
+export interface DataFetcherProps {
+  searchPath?: AppRoutes;
+  searchParam?: string;
+  pageParam?: number;
+}
+
+export interface PrefetchDataForSearchPageProps {
+  searchParam: string;
+  searchPath: AppRoutes;
+  queryString: QueryString;
+  fetcher: ({
+    searchPath,
+    searchParam,
+    pageParam = 1,
+  }: DataFetcherProps) => Promise<MovieOrSerialResult | null>;
+  pageParam?: number;
+}

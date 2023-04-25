@@ -36,6 +36,7 @@ import {
   MovieOrSerialWithRegularSubtitle,
   MoviesPageData,
   PageSlider,
+  PrefetchDataForSearchPageProps,
   SerialsPageData,
   SliderConfig,
 } from "@/types/interfaces";
@@ -746,26 +747,78 @@ export const prefetchMovieOrSerialDetailsData = async ({
   };
 };
 
+export const prefetchMoviesOrSerialsForSearchPage = async ({
+  searchParam,
+  searchPath,
+  queryString,
+  fetcher,
+  pageParam,
+}: PrefetchDataForSearchPageProps) => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(queryString, () =>
+    fetcher({ searchPath, searchParam, pageParam }).then((data) => {
+      return {
+        pages: [data],
+      };
+    })
+  );
+
+  return {
+    props: {
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    },
+  };
+};
+
 export const getMoviesOrSerialsPageData = (
   data: InfiniteData<MovieOrSerialResult | null> | undefined
 ) => {
-  return data?.pages.flatMap((page) => page?.results) ?? [];
+  return data?.pages?.flatMap((page) => page?.results) ?? [];
 };
 
 export const getSeeMorePageTitle = ({
   title,
   isMovie = true,
 }: {
-  title: SliderTitle;
+  title?: SliderTitle;
   isMovie?: boolean;
 }) => {
   return isMovie ? `${title} Movies` : `${title} Serials`;
 };
 
+export const getSearchPageTitle = ({
+  totalSearchResults,
+  searchParam,
+}: {
+  totalSearchResults: number;
+  searchParam: string;
+}) => {
+  return `Found ${totalSearchResults} results for '${searchParam}'`;
+};
+
+export const getTitleForSeeMoreOrSearchPage = ({
+  title,
+  isMovie = true,
+  totalSearchResults,
+  searchParam,
+  isSearchResultsPage = false,
+}: {
+  title?: SliderTitle;
+  isMovie?: boolean;
+  totalSearchResults: number;
+  searchParam: string;
+  isSearchResultsPage?: boolean;
+}) => {
+  return isSearchResultsPage
+    ? getSearchPageTitle({ totalSearchResults, searchParam })
+    : getSeeMorePageTitle({ title, isMovie });
+};
+
 export const getMovieOrSerialDataLength = (
   data: InfiniteData<MovieOrSerialResult | null> | undefined
 ) => {
-  return data?.pages.reduce((counter, page) => {
+  return data?.pages?.reduce((counter, page) => {
     return counter + (page?.results?.length ?? 0);
   }, 0);
 };

@@ -1,6 +1,6 @@
 import { FC, useMemo } from "react";
 
-import Search from "@/components/Search/Search";
+import Search from "@/components/Search";
 import { MOVIE_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { getPageSlider } from "@/utils/utils";
