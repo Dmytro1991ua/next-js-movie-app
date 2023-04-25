@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 
 import Cards from "@/components/Cards";
-import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
+import { useFetchSeeMoreOrSearchPageData } from "@/hooks/useFetchSeeMoreOrSearchPageData";
 import { homePageService } from "@/modules/home/home.service";
 import {
   AppRoutes,
@@ -27,7 +27,7 @@ const PopularMoviesPage: NextPage = () => {
     pageTitle,
     dataLength,
     isLoading,
-  } = useFetchSeeMorePageData({
+  } = useFetchSeeMoreOrSearchPageData({
     query: SeeMorePageQueryString.PopularMovies,
     fetcher: (pageParam) =>
       homePageService.fetchSeeMorePageDataForHomePage(

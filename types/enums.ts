@@ -10,7 +10,9 @@ export enum AppRoutes {
   SignUp = "/auth/sign-up",
   Profile = "/profile",
   SearchMovies = "/search/movie",
+  SearchMoviesDetails = "/search/movie/[movieSearchParam]",
   SearchSerials = "/search/tv",
+  SearchSerialsDetails = "/search/tv/[tvSerialSearchParam]",
 }
 
 export enum RequestMethod {
@@ -33,6 +35,8 @@ export enum QueryString {
   moviesByGenreDetails = "movieByGenreDetails",
   moviesForHomePage = "moviesForHomePage",
   moviesForHomePageDetails = "moviesForHomePageDetails",
+  moviesForSearchPage = "moviesForSearchPage",
+  tvSerialsForSearchPage = "tvSerialsForSearchPage",
 }
 
 export enum SliderTitle {

@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 
 import Cards from "@/components/Cards";
-import { useFetchSeeMorePageData } from "@/hooks/useFetchSeeMorePageData";
+import { useFetchSeeMoreOrSearchPageData } from "@/hooks/useFetchSeeMoreOrSearchPageData";
 import { serialsPageService } from "@/modules/serials/serials.service";
 import {
   AppRoutes,
@@ -27,7 +27,7 @@ const OnAirSerialsPage: NextPage = () => {
     pageTitle,
     dataLength,
     isLoading,
-  } = useFetchSeeMorePageData({
+  } = useFetchSeeMoreOrSearchPageData({
     query: SeeMorePageQueryString.SerialsOnAir,
     fetcher: (pageParam) =>
       serialsPageService.fetchSeeMorePageDataForSerialsPage(

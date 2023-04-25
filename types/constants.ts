@@ -11,6 +11,8 @@ export const protectedRoutes = [
   AppRoutes.Default,
   AppRoutes.SearchMovies,
   AppRoutes.SearchSerials,
+  AppRoutes.SearchMoviesDetails,
+  AppRoutes.SearchSerialsDetails,
   SeeMorePageRoutes.NowPlaying,
   SeeMorePageRoutes.Popular,
   SeeMorePageRoutes.TopRated,

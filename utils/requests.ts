@@ -3,6 +3,7 @@ import {
   ApiRequestConfigForHomePage,
   ApiRequestConfigForMoviesPage,
   ApiRequestConfigForSerialsPage,
+  DataFetcherProps,
 } from "@/types/interfaces";
 
 export const requestsConfigForHomePage: ApiRequestConfigForHomePage = {
@@ -75,5 +76,15 @@ export const requestsConfigForSeeMorePage = (
     fetchSerialsOnAir: `${BASE_URL}/tv/on_the_air?api_key=${API_KEY}&language=en-US&page=${pageParam}`,
     fetchPopularSerials: `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=${pageParam}`,
     fetchTopRatedSerials: `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=en-US&page=${pageParam}`,
+  };
+};
+
+export const requestConfigForSearchPage = ({
+  searchPath,
+  searchParam,
+  pageParam = 1,
+}: DataFetcherProps): { fetchDataForSearchPage: string } => {
+  return {
+    fetchDataForSearchPage: `${BASE_URL}${searchPath}?api_key=${API_KEY}&query=${searchParam}&language=en-US&page=${pageParam}&include_adult=false`,
   };
 };

@@ -5,7 +5,11 @@ import {
   useInfiniteQuery,
 } from "react-query";
 
-import { SeeMorePageQueryString, SliderTitle } from "@/types/enums";
+import {
+  QueryString,
+  SeeMorePageQueryString,
+  SliderTitle,
+} from "@/types/enums";
 import {
   MovieOrSerialResult,
   MovieOrSerialResults,
@@ -14,14 +18,16 @@ import {
 import {
   getMovieOrSerialDataLength,
   getMoviesOrSerialsPageData,
-  getSeeMorePageTitle,
+  getTitleForSeeMoreOrSearchPage,
 } from "@/utils/utils";
 
 export type HookProps = {
-  query: SeeMorePageQueryString;
+  query: SeeMorePageQueryString | QueryString;
   fetcher: (pageParam?: number) => Promise<MovieOrSerialResult | null>;
-  title: SliderTitle;
+  title?: SliderTitle;
   isMovie?: boolean;
+  searchParam?: string;
+  isSearchResultsPage?: boolean;
 };
 
 export type ReturnedHookType = {
@@ -36,11 +42,13 @@ export type ReturnedHookType = {
   isLoading: boolean;
 };
 
-export const useFetchSeeMorePageData = ({
+export const useFetchSeeMoreOrSearchPageData = ({
   query,
   fetcher,
   title,
   isMovie,
+  searchParam,
+  isSearchResultsPage,
 }: HookProps): ReturnedHookType => {
   const { data, status, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery<MovieOrSerialResult | null, Error>(
@@ -63,8 +71,15 @@ export const useFetchSeeMorePageData = ({
   );
 
   const pageTitle = useMemo(
-    () => getSeeMorePageTitle({ title, isMovie }),
-    [title, isMovie]
+    () =>
+      getTitleForSeeMoreOrSearchPage({
+        searchParam: searchParam ?? "",
+        title,
+        isMovie,
+        isSearchResultsPage,
+        totalSearchResults: data?.pages[0]?.total_results ?? 0,
+      }),
+    [data?.pages, isMovie, isSearchResultsPage, searchParam, title]
   );
 
   const dataLength =

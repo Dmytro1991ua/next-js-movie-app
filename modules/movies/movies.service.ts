@@ -1,10 +1,12 @@
 import { toastService } from "@/services/toast.service";
 import {
+  DataFetcherProps,
   MovieOrSerialDetailsData,
   MovieOrSerialResult,
   MoviesPageData,
 } from "@/types/interfaces";
 import {
+  requestConfigForSearchPage,
   requestsConfigForMovieDetailsPage,
   requestsConfigForMoviesPage,
 } from "@/utils/requests";
@@ -104,6 +106,29 @@ class MoviesPageService {
     url: string
   ): Promise<MovieOrSerialResult | null> {
     try {
+      const response = await fetch(url);
+
+      return await response.json();
+    } catch (error) {
+      const errorMessage = getResponseErrorMessage();
+      toastService.error(errorMessage);
+
+      throw new Error((error as Error).message);
+    }
+  }
+
+  async fetchDataForSearchPage({
+    searchPath,
+    searchParam,
+    pageParam = 1,
+  }: DataFetcherProps): Promise<MovieOrSerialResult | null> {
+    try {
+      const url = requestConfigForSearchPage({
+        searchPath,
+        searchParam,
+        pageParam,
+      }).fetchDataForSearchPage;
+
       const response = await fetch(url);
 
       return await response.json();
