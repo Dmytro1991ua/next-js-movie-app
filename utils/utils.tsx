@@ -722,7 +722,7 @@ export const prefetchMovieOrSerialData = async <
 
   return {
     props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
@@ -742,7 +742,7 @@ export const prefetchMovieOrSerialDetailsData = async ({
 
   return {
     props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
@@ -766,7 +766,7 @@ export const prefetchMoviesOrSerialsForSearchPage = async ({
 
   return {
     props: {
-      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };
