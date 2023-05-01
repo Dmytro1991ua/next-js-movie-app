@@ -11,7 +11,7 @@ export function middleware(request: NextRequest) {
 
   if (reqUrl.startsWith("/_next")) return NextResponse.next();
 
-  if (reqUrl === AppRoutes.Default) {
+  if (token && reqUrl === AppRoutes.Default) {
     const clonedUrl = request.nextUrl.clone();
 
     clonedUrl.pathname = AppRoutes.Home;

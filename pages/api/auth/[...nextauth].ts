@@ -53,6 +53,9 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXT_PUBLIC_SECRET,
+  jwt: {
+    secret: process.env.NEXT_PUBLIC_JWT_SECRET,
+  },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
