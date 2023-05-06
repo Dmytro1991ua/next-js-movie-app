@@ -52,17 +52,18 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  secret: process.env.NEXT_PUBLIC_SECRET,
+  adapter: MongoDBAdapter(clientPromise, {
+    databaseName: "nextauthDb",
+  }),
+  debug: process.env.NODE_ENV === "development",
+  secret: process.env.NEXTAUTH_SECRET,
   jwt: {
-    secret: process.env.NEXT_PUBLIC_JWT_SECRET,
+    secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
   },
-  adapter: MongoDBAdapter(clientPromise, {
-    databaseName: "nextauthDb",
-  }),
   pages: {
     signIn: AppRoutes.SignIn,
   },
@@ -85,18 +86,39 @@ const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
+      await connectMongoDb();
+
+      const existingUser = await User.findOne({
+        email: token.email,
+      });
+
+      if (!existingUser) {
+        token.id = user!.id;
+
+        return token;
       }
 
-      return token;
+      return {
+        id: existingUser.id,
+        name: existingUser.name,
+        email: existingUser.email,
+        image: existingUser.image,
+      };
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.id = token.id;
+        session.user.image = token.image;
       }
 
       return session;
+    },
+    redirect({ url, baseUrl }) {
+      if (url.startsWith("/") || url.startsWith(AppRoutes.Home))
+        return `${baseUrl}${url}`;
+      else if (new URL(url).origin === baseUrl) return url;
+
+      return baseUrl;
     },
   },
 };
