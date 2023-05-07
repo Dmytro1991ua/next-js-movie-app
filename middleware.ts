@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { AppRoutes } from "@/types/enums";
 
+const PUBLIC_FILE = /\.(.*)$/;
+
 export function middleware(request: NextRequest) {
   const reqUrl = request.nextUrl.pathname;
 
@@ -9,7 +11,14 @@ export function middleware(request: NextRequest) {
     ? request.cookies?.get("next-auth.session-token")
     : null;
 
-  if (reqUrl.startsWith("/_next")) return NextResponse.next();
+  if (
+    reqUrl.startsWith("/_next") ||
+    reqUrl.startsWith("/api") ||
+    reqUrl.startsWith("/static") ||
+    PUBLIC_FILE.test(reqUrl)
+  ) {
+    return NextResponse.next();
+  }
 
   if (token && reqUrl === AppRoutes.Default) {
     const clonedUrl = request.nextUrl.clone();
@@ -42,5 +51,14 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/((?!_next/static|favicon.icon|api/auth).*)(.+)"],
+  matcher: [
+    "/",
+    "/home/:path*",
+    "/movies/:path*",
+    "/serials/:path*",
+    "/profile",
+    "/search/:path*",
+    "/auth/sign-in",
+    "/auth/sign-up",
+  ],
 };
