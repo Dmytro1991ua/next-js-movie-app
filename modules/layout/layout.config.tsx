@@ -21,7 +21,9 @@ export const mainLayoutContentBasedOnRoute: Record<AppRoutes, JSX.Element> = {
       </AuthLayoutSkeleton>
     </>
   ),
-  [AppRoutes.Profile]: <Skeleton />,
+  [AppRoutes.Profile]: (
+    <Skeleton baseColor="#5a803d" height={500} width={500} />
+  ),
   [AppRoutes.Home]: <Skeleton baseColor="#5a803d" height={500} width={500} />,
   [AppRoutes.Movies]: <Skeleton baseColor="#5a803d" height={500} width={500} />,
   [AppRoutes.MovieDetails]: (
