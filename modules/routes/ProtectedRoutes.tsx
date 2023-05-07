@@ -20,12 +20,6 @@ const ProtectedRoutes: FC<ProtectedRoutesProps> = ({
 
   const pathIsProtected = protectedRoutes.indexOf(router.pathname) !== -1;
 
-  useEffect(() => {
-    if (status !== "loading" && !session?.user && pathIsProtected) {
-      router.push(AppRoutes.Home);
-    }
-  }, [pathIsProtected, router, session?.user, status]);
-
   if ((status === "loading" || !session?.user?.id) && pathIsProtected) {
     return <GenerateMainLayoutSkeleton asPath={router.asPath as AppRoutes} />;
   }
