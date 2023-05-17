@@ -7,7 +7,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 import connectMongoDb from "@/lib/connectMongoDb";
 import clientPromise from "@/lib/mongoDb";
-import { User } from "@/model/user";
+import { User } from "@/model/userSchema";
 import { AppRoutes } from "@/types/enums";
 
 const authOptions: NextAuthOptions = {

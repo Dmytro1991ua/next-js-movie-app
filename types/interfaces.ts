@@ -1,5 +1,5 @@
-import { NextApiResponse } from "next";
-import { User } from "next-auth";
+import { NextApiRequest, NextApiResponse } from "next";
+import { DefaultUser, User } from "next-auth";
 
 import { ButtonVariant } from "@/components/Button/Button.types";
 import {
@@ -46,6 +46,31 @@ export type UpdateExistingUser = Pick<NextAuthUser, "email"> & {
   res: NextApiResponse;
 };
 
+export interface AddToFavorite {
+  res?: NextApiResponse;
+  req?: NextApiRequest;
+  method?: RequestMethod;
+}
+
+export interface GetAvailableMoviesOrSerialsPayload {
+  payload: {
+    user: DefaultUser;
+  };
+}
+export interface AddToFavoritePayload {
+  payload: {
+    favorites: Movie & Serial;
+    user: DefaultUser;
+  };
+}
+
+export interface RemoveFromFavoritePayload {
+  payload: {
+    id: number | string;
+    user: DefaultUser;
+  };
+}
+
 export type ApiRequestConfigForHomePage = {
   fetchTrendingMovies: string;
   fetchTopRatedMovies: string;
@@ -75,6 +100,10 @@ export type ApiRequestConfigForSerialsPage = {
 };
 
 export type MovieOrSerialResults = Movie & Serial;
+export interface FavoritesMoviesOrSerialsResult {
+  success: boolean;
+  data: MovieOrSerialResults[];
+}
 
 export type MovieOrSerialResult = {
   page: number;
@@ -90,6 +119,7 @@ export type HomePageData = {
   topRatedMovies: MovieOrSerialResult | null;
   trendingMovies: MovieOrSerialResult | null;
   upcomingMovies: MovieOrSerialResult | null;
+  favorites?: MovieOrSerialResults[] | null;
 };
 
 export type MoviesPageData = {
@@ -101,6 +131,7 @@ export type MoviesPageData = {
   documentariesMovies: MovieOrSerialResult | null;
   warMovies: MovieOrSerialResult | null;
   westernMovies: MovieOrSerialResult | null;
+  favorites?: MovieOrSerialResults | null;
 };
 
 export type SerialsPageData = {
@@ -109,6 +140,7 @@ export type SerialsPageData = {
   serialsOnAir: MovieOrSerialResult | null;
   popularSerials: MovieOrSerialResult | null;
   topRatedSerials: MovieOrSerialResult | null;
+  favorites?: MovieOrSerialResults | null;
 };
 
 export type AppPageData = HomePageData & MoviesPageData & SerialsPageData;
@@ -123,6 +155,7 @@ export interface SliderConfig {
   isSerialsPage?: boolean;
   seeMoreRoute?: SeeMorePageRoutes;
   route?: AppRoutes;
+  hasFavorites?: boolean;
 }
 
 export interface PageSlider<T> {
@@ -131,6 +164,7 @@ export interface PageSlider<T> {
   isMoviesPage?: boolean;
   isSerialsPage?: boolean;
   route?: AppRoutes;
+  hasFavorites?: boolean;
 }
 
 export type MovieOrSerialDetailsData = {

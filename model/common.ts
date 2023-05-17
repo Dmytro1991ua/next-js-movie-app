@@ -4,6 +4,7 @@ export interface Genre {
 }
 
 export interface CommonMovieOrSerialTypes {
+  _id?: string;
   backdrop_path: string;
   media_type?: string;
   genre_ids: number[];
@@ -14,6 +15,7 @@ export interface CommonMovieOrSerialTypes {
   poster_path: string;
   vote_average: number;
   vote_count: number;
+  isFavorite?: boolean;
 }
 
 export interface Actor {
