@@ -7,7 +7,7 @@ import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
 import {
   mockMovie,
   mockSessionWithUser,
-  withQueryClientProvider,
+  withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import { homePageService } from "@/modules/home/home.service";
 import HomePage, { getServerSideProps } from "@/pages/home/index";
@@ -58,7 +58,7 @@ describe("HomePage", () => {
   });
 
   it("Should render component without crashing", () => {
-    withQueryClientProvider(<HomePage />);
+    withQueryClientAndSessionProvider(<HomePage />, mockSessionWithUser);
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();

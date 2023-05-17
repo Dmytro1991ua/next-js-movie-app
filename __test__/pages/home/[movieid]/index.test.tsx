@@ -3,7 +3,7 @@ import { GetServerSidePropsContext } from "next";
 import { QueryObserverSuccessResult } from "react-query";
 import * as hooks from "react-query";
 
-import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesOrSerialsData";
+import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import {
   mockSerialCast,
   mockSerialDetails,
@@ -29,7 +29,7 @@ jest.mock("uuid", () => {
   };
 });
 
-jest.mock("@/hooks/useFetchMoviesOrSerialsData");
+jest.mock("@/hooks/queries/useFetchMoviesOrSerialsData");
 
 global.fetch = jest.fn(() =>
   Promise.resolve({

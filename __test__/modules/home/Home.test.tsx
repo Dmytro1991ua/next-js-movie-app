@@ -3,7 +3,11 @@ import { QueryObserverSuccessResult } from "react-query";
 import * as hooks from "react-query";
 
 import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
-import { mockMovie, withQueryClientProvider } from "@/mocks/testMocks";
+import {
+  mockMovie,
+  mockSessionWithUser,
+  withQueryClientAndSessionProvider,
+} from "@/mocks/testMocks";
 import Home from "@/modules/home";
 
 jest.mock("react-query", () => {
@@ -42,7 +46,7 @@ describe("Home", () => {
   });
 
   it("Should render component without crashing", () => {
-    withQueryClientProvider(<Home />);
+    withQueryClientAndSessionProvider(<Home />, mockSessionWithUser);
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();
