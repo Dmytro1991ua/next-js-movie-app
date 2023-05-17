@@ -2,7 +2,7 @@ import { hash } from "bcryptjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import connectMongoDb from "@/lib/connectMongoDb";
-import { User } from "@/model/user";
+import { User } from "@/model/userSchema";
 import {
   NO_DATA_IN_REQUEST_BODY_MESSAGE,
   SUCCESSFULLY_CREATED_USER_MESSAGE,
