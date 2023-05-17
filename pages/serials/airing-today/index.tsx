@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 
 import Cards from "@/components/Cards";
-import { useFetchSeeMoreOrSearchPageData } from "@/hooks/useFetchSeeMoreOrSearchPageData";
+import { useFetchSeeMoreOrSearchPageData } from "@/hooks/queries/useFetchSeeMoreOrSearchPageData";
 import { serialsPageService } from "@/modules/serials/serials.service";
 import {
   AppRoutes,

@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 
 import Cards from "@/components/Cards";
-import { useFetchSeeMoreOrSearchPageData } from "@/hooks/useFetchSeeMoreOrSearchPageData";
+import { useFetchSeeMoreOrSearchPageData } from "@/hooks/queries/useFetchSeeMoreOrSearchPageData";
 import { moviesPageService } from "@/modules/movies/movies.service";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { prefetchMoviesOrSerialsForSearchPage } from "@/utils/utils";
