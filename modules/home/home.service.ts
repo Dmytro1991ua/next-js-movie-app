@@ -1,5 +1,8 @@
+import { DefaultUserWithId } from "@/pages/api/auth/auth";
 import { toastService } from "@/services/toast.service";
+import { RequestMethod } from "@/types/enums";
 import {
+  FavoritesMoviesOrSerialsResult,
   HomePageData,
   MovieOrSerialDetailsData,
   MovieOrSerialResult,
@@ -12,6 +15,8 @@ import {
   getResponseErrorMessage,
   getResponseErrorMessageForDetailsPage,
 } from "@/utils/utils";
+
+import { getRequestOptions } from "./../../utils/utils";
 
 class HomePageService {
   async fetchMoviesForHomePage(): Promise<HomePageData> {
@@ -60,6 +65,8 @@ class HomePageService {
     }
   }
 
+  //TODO Move this method to shared service and make it reusable for all pages
+
   async fetchSeeMorePageDataForHomePage(
     url: string
   ): Promise<MovieOrSerialResult | null> {
@@ -99,6 +106,32 @@ class HomePageService {
       const errorMessage = getResponseErrorMessageForDetailsPage();
       toastService.error(errorMessage);
 
+      throw new Error((error as Error).message);
+    }
+  }
+
+  //TODO Move this method to shared service
+  async fetchFavoritesMoviesOrSerials(
+    user?: DefaultUserWithId
+  ): Promise<FavoritesMoviesOrSerialsResult | null> {
+    try {
+      const favoritesDataPayload = getRequestOptions({
+        method: RequestMethod.POST,
+        body: JSON.stringify({
+          payload: {
+            user,
+          },
+        }),
+      });
+
+      const response = await fetch("/api/favorites", favoritesDataPayload);
+
+      if (!response) {
+        return null;
+      }
+
+      return await response.json();
+    } catch (error) {
       throw new Error((error as Error).message);
     }
   }

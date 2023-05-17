@@ -102,6 +102,7 @@ class MoviesPageService {
     }
   }
 
+  //TODO Move this method to shared service and make it reusable for all pages
   async fetchSeeMorePageDataForMoviesPage(
     url: string
   ): Promise<MovieOrSerialResult | null> {
@@ -117,6 +118,7 @@ class MoviesPageService {
     }
   }
 
+  //TODO Move this method to shared service
   async fetchDataForSearchPage({
     searchPath,
     searchParam,
