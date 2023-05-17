@@ -59,3 +59,12 @@ export const DEFAULT_SEARCH_INPUT_PLACEHOLDER =
   "Search for movies or TV series";
 export const MOVIE_SEARCH_INPUT_PLACEHOLDER = "Search for movies...";
 export const TV_SEARCH_INPUT_PLACEHOLDER = "Search for TV serials...";
+
+export const USER_IS_NOT_AUTHORIZED = "User is not authorized";
+export const USER_NOT_FOUND = "User is not found";
+export const FAVORITES_DATA_IS_NOT_FIND_BY_ID =
+  "No favorite movie or serial with that id";
+export const SUCCESSFULLY_ADD_TO_FAVORITE =
+  "Successfully added to favorites list";
+export const SUCCESSFULLY_REMOVE_FROM_FAVORITE =
+  "Successfully removeded from favorites list";

@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 
 import DetailsPage from "@/components/DetailsPage";
-import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesOrSerialsData";
+import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import { moviesPageService } from "@/modules/movies/movies.service";
 import { MOVIE_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
 import { AppRoutes, QueryString } from "@/types/enums";
