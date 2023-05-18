@@ -1,13 +1,13 @@
 import { FormikHelpers } from "formik";
 import { useRouter } from "next/router";
 
-import { AppRoutes, AuthProvider } from "@/types/enums";
+import { AppRoutes, AuthProvider, RequestMethod } from "@/types/enums";
+import { getRequestOptions } from "@/utils/utils";
 
 import { authService } from "./../auth.service";
 import {
   HookReturnedType,
   NewUser,
-  RequestOption,
   SignInFormInitialValues,
   SignUpFormInitialValues,
 } from "../auth.types";
@@ -31,11 +31,10 @@ const useAuth = (): HookReturnedType => {
     email,
     password,
   }: NewUser): Promise<void> {
-    const options: RequestOption = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const options = getRequestOptions({
+      method: RequestMethod.POST,
       body: JSON.stringify({ name, password, email }),
-    };
+    });
 
     await authService.register(options, router);
   }

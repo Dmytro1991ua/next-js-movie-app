@@ -22,6 +22,12 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 global.fetch = jest.fn(() =>
   Promise.resolve({
     json: () =>

@@ -158,7 +158,7 @@ export default async function handler(
 
   await connectMongoDb();
 
-  handleRequestBasedOnMethod({
+  await handleRequestBasedOnMethod({
     req,
     res,
     method: method as RequestMethod,

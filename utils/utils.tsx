@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { shuffle } from "lodash";
+import { filter, shuffle } from "lodash";
 import movieTrailer from "movie-trailer";
 import Link from "next/link";
 import { NextRouter } from "next/router";
@@ -12,6 +12,7 @@ import Button from "@/components/Button";
 import DetailsBlock from "@/components/DetailsPage/DetailsBlock";
 import Slider from "@/components/Slider";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
+import { RequestOption } from "@/modules/auth/auth.types";
 import { toastService } from "@/services/toast.service";
 import { SMALL_IMAGE_URL } from "@/types/constants";
 import {
@@ -33,6 +34,7 @@ import {
   HomePageData,
   MovieOrSerialDetailsData,
   MovieOrSerialResult,
+  MovieOrSerialResults,
   MovieOrSerialWithRegularSubtitle,
   MoviesPageData,
   PageSlider,
@@ -64,10 +66,19 @@ const sliderConfig = <T extends AppPageData>({
   isMoviesPage,
   isSerialsPage,
   route,
+  hasFavorites,
 }: PageSlider<T>): SliderConfig[] => {
   const commonClassName = "mb-4";
 
   return [
+    {
+      id: uuidv4(),
+      data: data?.favorites ?? [],
+      title: SliderTitle.MyList,
+      className: commonClassName,
+      route,
+      hasFavorites,
+    },
     {
       id: uuidv4(),
       data: data?.actionMovies?.results ?? [],
@@ -230,6 +241,7 @@ export const getPageSlider = <T,>({
   isMoviesPage,
   isSerialsPage,
   route,
+  hasFavorites,
 }: PageSlider<T>): JSX.Element => {
   const availableSliders = sliderConfig({
     data: data as AppPageData,
@@ -237,6 +249,7 @@ export const getPageSlider = <T,>({
     isMoviesPage,
     isSerialsPage,
     route,
+    hasFavorites,
   });
 
   return (
@@ -251,9 +264,10 @@ export const getPageSlider = <T,>({
           isSerialsPage,
           route,
           seeMoreRoute,
+          hasFavorites,
         }) => (
           <>
-            {(isHomePage || isMoviesPage || isSerialsPage) && (
+            {(isHomePage || isMoviesPage || isSerialsPage || hasFavorites) && (
               <Slider
                 key={uuidv4()}
                 className={className}
@@ -844,4 +858,24 @@ export const getSearchRedirectUrl = (
   searchParam: string | null
 ): string => {
   return `${searchPath}/${searchParam?.trim()}`;
+};
+
+export const getRequestOptions = ({
+  method,
+  body,
+}: Pick<RequestOption, "method" | "body">): RequestOption => {
+  return {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body,
+  };
+};
+
+export const getFavoritesDataBasedOnRoute = (
+  favorites: MovieOrSerialResults[] | null,
+  route: AppRoutes
+) => {
+  return route === AppRoutes.Serials
+    ? filter(favorites, "name")
+    : filter(favorites, "title");
 };

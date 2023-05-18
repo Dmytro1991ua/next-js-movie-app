@@ -1,6 +1,7 @@
 import { FormikHelpers } from "formik";
 
 import { ButtonVariant } from "@/components/Button/Button.types";
+import { RequestMethod } from "@/types/enums";
 
 export interface SignInFormInitialValues {
   email: string;
@@ -98,7 +99,7 @@ export type NewUser = {
 };
 
 export type RequestOption = {
-  method: string;
+  method: RequestMethod;
   headers: { [key: string]: string };
   body: string;
 };

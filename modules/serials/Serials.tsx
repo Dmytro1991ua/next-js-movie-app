@@ -1,29 +1,45 @@
+import { useSession } from "next-auth/react";
 import React, { FC, useMemo } from "react";
 
 import Hero from "@/components/Hero";
 import Search from "@/components/Search";
-import { useFetchMoviesOrSerialsData } from "@/hooks/useFetchMoviesOrSerialsData";
+import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import { TV_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
 import { AppRoutes, QueryString } from "@/types/enums";
-import { getPageSlider } from "@/utils/utils";
+import { getFavoritesDataBasedOnRoute, getPageSlider } from "@/utils/utils";
 
 import { serialsPageService } from "./serials.service";
+import { homePageService } from "../home/home.service";
 
 const Serials: FC = () => {
+  const { data: session } = useSession();
+
   const { data } = useFetchMoviesOrSerialsData({
     query: QueryString.serials,
     fetcher: serialsPageService.fetchSerialsData,
   });
 
+  const { data: favorites } = useFetchMoviesOrSerialsData({
+    query: QueryString.favoritesMoviesOrSerials,
+    fetcher: () => homePageService.fetchFavoritesMoviesOrSerials(session?.user),
+  });
+
+  const favoritesDataBasedOnRoute = useMemo(
+    () =>
+      getFavoritesDataBasedOnRoute(favorites?.data ?? [], AppRoutes.Serials),
+    [favorites?.data]
+  );
+
   const serialsPageSliders = useMemo(() => {
     if (data) {
       return getPageSlider({
-        data,
+        data: { ...data, favorites: favoritesDataBasedOnRoute },
         isSerialsPage: true,
         route: AppRoutes.Serials,
+        hasFavorites: !!favoritesDataBasedOnRoute.length,
       });
     }
-  }, [data]);
+  }, [data, favoritesDataBasedOnRoute]);
 
   return (
     <>

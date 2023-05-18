@@ -7,7 +7,7 @@ import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
 import {
   mockMovie,
   mockSessionWithUser,
-  withQueryClientProvider,
+  withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import { serialsPageService } from "@/modules/serials/serials.service";
 import SerialsPage, { getServerSideProps } from "@/pages/serials";
@@ -48,7 +48,7 @@ describe("SerialsPage", () => {
   });
 
   it("Should render component without crashing", () => {
-    withQueryClientProvider(<SerialsPage />);
+    withQueryClientAndSessionProvider(<SerialsPage />, mockSessionWithUser);
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();

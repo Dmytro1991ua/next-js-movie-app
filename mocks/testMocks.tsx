@@ -178,6 +178,25 @@ export const withQueryClientAndRouterProvider = (
   );
 };
 
+export const withQueryClientAndSessionProvider = (
+  component: JSX.Element,
+  session: Session | null
+) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
+  render(
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={session}>{component}</SessionProvider>
+    </QueryClientProvider>
+  );
+};
+
 export const mockSerialDetails = {
   adult: false,
   backdrop_path: "/84XPpjGvxNyExjSuLQe0SzioErt.jpg",
