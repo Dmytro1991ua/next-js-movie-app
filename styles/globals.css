@@ -199,11 +199,11 @@ img {
   }
 
   .card-wrapper {
-    @apply flex flex-col items-stretch sm:items-center justify-center min-h-screen container mx-auto p-3 xs:p-2 mt-37.5;
+    @apply flex flex-col items-stretch sm:items-center justify-start min-h-screen container mx-auto p-3 xs:p-2 mt-37.5;
   }
 
   .card-layout {
-    @apply grid grid-cols-1 xs:grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8;
+    @apply grid grid-cols-1 xs:grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8 py-2 px-1.5;
   }
 
   .card-content-wrapper {

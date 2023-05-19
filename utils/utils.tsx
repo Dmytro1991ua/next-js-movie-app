@@ -29,6 +29,7 @@ import {
   AppPageData,
   DetailsBlockWithPillsConfig,
   DetailsPageActionButton,
+  FavoritesMoviesOrSerialsResult,
   HeroContentActionButton,
   HeroContentActionButtonConfig,
   HomePageData,
@@ -67,6 +68,7 @@ const sliderConfig = <T extends AppPageData>({
   isSerialsPage,
   route,
   hasFavorites,
+  favoritesSeeMoreRoute,
 }: PageSlider<T>): SliderConfig[] => {
   const commonClassName = "mb-4";
 
@@ -78,6 +80,7 @@ const sliderConfig = <T extends AppPageData>({
       className: commonClassName,
       route,
       hasFavorites,
+      favoritesSeeMoreRoute,
     },
     {
       id: uuidv4(),
@@ -242,6 +245,7 @@ export const getPageSlider = <T,>({
   isSerialsPage,
   route,
   hasFavorites,
+  favoritesSeeMoreRoute,
 }: PageSlider<T>): JSX.Element => {
   const availableSliders = sliderConfig({
     data: data as AppPageData,
@@ -250,6 +254,7 @@ export const getPageSlider = <T,>({
     isSerialsPage,
     route,
     hasFavorites,
+    favoritesSeeMoreRoute,
   });
 
   return (
@@ -273,7 +278,7 @@ export const getPageSlider = <T,>({
                 className={className}
                 data={shuffle(data)}
                 route={route}
-                seeMoreRoute={seeMoreRoute}
+                seeMoreRoute={seeMoreRoute ?? favoritesSeeMoreRoute}
                 title={title}
               />
             )}
@@ -290,7 +295,8 @@ export const getSeeMorePageRoutesForHomePage = (pathname: string): boolean => {
     pathname === SeeMorePageRoutes.Popular ||
     pathname === SeeMorePageRoutes.TopRated ||
     pathname === SeeMorePageRoutes.Trending ||
-    pathname === SeeMorePageRoutes.Upcoming
+    pathname === SeeMorePageRoutes.Upcoming ||
+    pathname === SeeMorePageRoutes.FavoritesHomePage
   );
 };
 
@@ -305,7 +311,8 @@ export const getSeeMorePageRoutesForMoviesPage = (
     pathname === SeeMorePageRoutes.HorrorMovies ||
     pathname === SeeMorePageRoutes.ThrillerMovies ||
     pathname === SeeMorePageRoutes.WarMovies ||
-    pathname === SeeMorePageRoutes.WesternMovies
+    pathname === SeeMorePageRoutes.WesternMovies ||
+    pathname === SeeMorePageRoutes.FavoritesMoviesPage
   );
 };
 
@@ -314,7 +321,8 @@ export const getSeeMorePageRoutesForSerialsPage = (pathname: string) => {
     pathname === SeeMorePageRoutes.PopularSerials ||
     pathname === SeeMorePageRoutes.SerialsAiringToday ||
     pathname === SeeMorePageRoutes.SerialsOnAir ||
-    pathname === SeeMorePageRoutes.TopRatedSerials
+    pathname === SeeMorePageRoutes.TopRatedSerials ||
+    pathname === SeeMorePageRoutes.FavoritesSerialsPage
   );
 };
 
@@ -725,7 +733,11 @@ export const getTrailerUrl = async ({
 };
 
 export const prefetchMovieOrSerialData = async <
-  T extends HomePageData | MoviesPageData | SerialsPageData
+  T extends
+    | HomePageData
+    | MoviesPageData
+    | SerialsPageData
+    | (FavoritesMoviesOrSerialsResult | null)
 >(
   queryString: QueryString,
   fetcher: () => Promise<T>

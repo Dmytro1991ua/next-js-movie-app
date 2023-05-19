@@ -15,7 +15,9 @@ interface CardsProps {
   title: string;
   fetchNextPage: (
     options?: FetchNextPageOptions | undefined
-  ) => Promise<InfiniteQueryObserverResult<MovieOrSerialResult | null, Error>>;
+  ) => Promise<
+    InfiniteQueryObserverResult<MovieOrSerialResult | null, Error>
+  > | null;
   dataLength: number;
   hasNextPage: boolean;
   isLoading: boolean;

@@ -5,7 +5,7 @@ import Hero from "@/components/Hero";
 import Search from "@/components/Search";
 import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import { TV_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
-import { AppRoutes, QueryString } from "@/types/enums";
+import { AppRoutes, QueryString, SeeMorePageRoutes } from "@/types/enums";
 import { getFavoritesDataBasedOnRoute, getPageSlider } from "@/utils/utils";
 
 import { serialsPageService } from "./serials.service";
@@ -37,6 +37,7 @@ const Serials: FC = () => {
         isSerialsPage: true,
         route: AppRoutes.Serials,
         hasFavorites: !!favoritesDataBasedOnRoute.length,
+        favoritesSeeMoreRoute: SeeMorePageRoutes.FavoritesSerialsPage,
       });
     }
   }, [data, favoritesDataBasedOnRoute]);
