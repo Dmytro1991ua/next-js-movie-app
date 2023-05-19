@@ -106,6 +106,9 @@ export enum SeeMorePageRoutes {
   TopRatedSerials = "/serials/top-rated",
   SerialsAiringToday = "/serials/airing-today",
   SerialsOnAir = "/serials/on-air",
+  FavoritesHomePage = "/home/favorites",
+  FavoritesMoviesPage = "/movies/favorites",
+  FavoritesSerialsPage = "/serials/favorites",
 }
 
 export enum SeeMorePageQueryString {

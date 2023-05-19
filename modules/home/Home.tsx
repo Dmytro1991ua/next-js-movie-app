@@ -4,7 +4,7 @@ import { FC, useMemo } from "react";
 import Search from "@/components/Search";
 import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import { MOVIE_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
-import { AppRoutes, QueryString } from "@/types/enums";
+import { AppRoutes, QueryString, SeeMorePageRoutes } from "@/types/enums";
 import { getFavoritesDataBasedOnRoute, getPageSlider } from "@/utils/utils";
 
 import Hero from "./../../components/Hero";
@@ -35,6 +35,7 @@ const Home: FC = () => {
         isHomePage: true,
         route: AppRoutes.Home,
         hasFavorites: !!favoritesDataBasedOnRoute.length,
+        favoritesSeeMoreRoute: SeeMorePageRoutes.FavoritesHomePage,
       });
     }
   }, [data, favoritesDataBasedOnRoute]);

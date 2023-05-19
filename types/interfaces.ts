@@ -156,6 +156,7 @@ export interface SliderConfig {
   seeMoreRoute?: SeeMorePageRoutes;
   route?: AppRoutes;
   hasFavorites?: boolean;
+  favoritesSeeMoreRoute?: SeeMorePageRoutes;
 }
 
 export interface PageSlider<T> {
@@ -165,6 +166,7 @@ export interface PageSlider<T> {
   isSerialsPage?: boolean;
   route?: AppRoutes;
   hasFavorites?: boolean;
+  favoritesSeeMoreRoute?: SeeMorePageRoutes;
 }
 
 export type MovieOrSerialDetailsData = {

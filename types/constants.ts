@@ -30,6 +30,9 @@ export const protectedRoutes = [
   SeeMorePageRoutes.TopRatedSerials,
   SeeMorePageRoutes.SerialsAiringToday,
   SeeMorePageRoutes.SerialsOnAir,
+  SeeMorePageRoutes.FavoritesHomePage,
+  SeeMorePageRoutes.FavoritesMoviesPage,
+  SeeMorePageRoutes.FavoritesSerialsPage,
 ];
 
 export const DEFAULT_SCROLL_POSITION_THRESHOLD = 80;

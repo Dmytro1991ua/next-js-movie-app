@@ -5,7 +5,7 @@ import Hero from "@/components/Hero";
 import Search from "@/components/Search";
 import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import { MOVIE_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
-import { AppRoutes, QueryString } from "@/types/enums";
+import { AppRoutes, QueryString, SeeMorePageRoutes } from "@/types/enums";
 import { getFavoritesDataBasedOnRoute, getPageSlider } from "@/utils/utils";
 
 import { moviesPageService } from "./movies.service";
@@ -36,6 +36,7 @@ const Movies: FC = () => {
         isMoviesPage: true,
         route: AppRoutes.Movies,
         hasFavorites: !!favoritesDataBasedOnRoute.length,
+        favoritesSeeMoreRoute: SeeMorePageRoutes.FavoritesMoviesPage,
       });
     }
   }, [data, favoritesDataBasedOnRoute]);
