@@ -11,6 +11,7 @@ import {
 } from "@/mocks/testMocks";
 import { serialsPageService } from "@/modules/serials/serials.service";
 import SerialsPage, { getServerSideProps } from "@/pages/serials";
+import { AppRoutes } from "@/types/enums";
 
 jest.mock("react-query", () => {
   const originalModule = jest.requireActual("react-query");
@@ -48,7 +49,11 @@ describe("SerialsPage", () => {
   });
 
   it("Should render component without crashing", () => {
-    withQueryClientAndSessionProvider(<SerialsPage />, mockSessionWithUser);
+    withQueryClientAndSessionProvider(
+      <SerialsPage />,
+      mockSessionWithUser,
+      AppRoutes.Serials
+    );
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();

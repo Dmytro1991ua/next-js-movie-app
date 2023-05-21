@@ -11,6 +11,7 @@ import {
 } from "@/mocks/testMocks";
 import { homePageService } from "@/modules/home/home.service";
 import HomePage, { getServerSideProps } from "@/pages/home/index";
+import { AppRoutes } from "@/types/enums";
 
 jest.mock("react-query", () => {
   const originalModule = jest.requireActual("react-query");
@@ -58,7 +59,11 @@ describe("HomePage", () => {
   });
 
   it("Should render component without crashing", () => {
-    withQueryClientAndSessionProvider(<HomePage />, mockSessionWithUser);
+    withQueryClientAndSessionProvider(
+      <HomePage />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();

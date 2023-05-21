@@ -5,7 +5,7 @@ import {
   mockSerialCast,
   mockSerialDetails,
   mockSessionWithUser,
-  withSessionProviderAndReactContext,
+  withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import { MovieOrSerialDetail } from "@/model/common";
 import { AppRoutes } from "@/types/enums";
@@ -18,18 +18,16 @@ jest.mock("uuid", () => {
 
 describe("DetailsPage", () => {
   it("Should render component without crashing", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.SerialDetails,
-      session: mockSessionWithUser,
-      component: (
-        <DetailsPage
-          movieOrSerialCast={mockSerialCast}
-          movieOrSerialDetails={
-            mockSerialDetails as unknown as MovieOrSerialDetail
-          }
-        />
-      ),
-    });
+    withQueryClientAndSessionProvider(
+      <DetailsPage
+        movieOrSerialCast={mockSerialCast}
+        movieOrSerialDetails={
+          mockSerialDetails as unknown as MovieOrSerialDetail
+        }
+      />,
+      mockSessionWithUser,
+      AppRoutes.SerialDetails
+    );
 
     expect(screen.getByRole("img")).toBeInTheDocument();
     expect(screen.getByText(/Breaking Bad/)).toBeInTheDocument();
