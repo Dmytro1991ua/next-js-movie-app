@@ -2,10 +2,12 @@ import { DefaultUserWithId } from "@/pages/api/auth/auth";
 import { toastService } from "@/services/toast.service";
 import { RequestMethod } from "@/types/enums";
 import {
+  AddToFavoritePayload,
   FavoritesMoviesOrSerialsResult,
   HomePageData,
   MovieOrSerialDetailsData,
   MovieOrSerialResult,
+  RemoveFromFavoritePayload,
 } from "@/types/interfaces";
 import {
   requestsConfigForHomePage,
@@ -121,6 +123,33 @@ class HomePageService {
           payload: {
             user,
           },
+        }),
+      });
+
+      const response = await fetch("/api/favorites", favoritesDataPayload);
+
+      if (!response) {
+        return null;
+      }
+
+      return await response.json();
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  //TODO Move method to shared service
+  async updateFavoriteMovieOrSerial(
+    payload:
+      | AddToFavoritePayload["payload"]
+      | RemoveFromFavoritePayload["payload"],
+    method: RequestMethod
+  ): Promise<FavoritesMoviesOrSerialsResult | null> {
+    try {
+      const favoritesDataPayload = getRequestOptions({
+        method,
+        body: JSON.stringify({
+          payload,
         }),
       });
 

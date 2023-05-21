@@ -29,7 +29,7 @@ async function getAvailableFavoritesMoviesOrSerials({
 
   try {
     if (!user) {
-      res?.status(401).send({
+      return res?.status(401).send({
         success: false,
         message: USER_IS_NOT_AUTHORIZED,
         data: null,
@@ -38,7 +38,7 @@ async function getAvailableFavoritesMoviesOrSerials({
 
     const favoritesMovieOrSerialData = await Favorites.find({ user: user.id });
 
-    res?.status(200).send({
+    return res?.status(200).send({
       success: true,
       data: favoritesMovieOrSerialData,
     });
@@ -59,7 +59,7 @@ async function addToFavorites({
 
   try {
     if (!user) {
-      res?.status(401).send({
+      return res?.status(401).send({
         success: false,
         message: USER_IS_NOT_AUTHORIZED,
         data: null,
@@ -68,19 +68,19 @@ async function addToFavorites({
 
     const favoritesMovieOrSerialData = new Favorites({
       ...favorites,
-      user: user.id,
+      user: user?.id,
       isFavorite: true,
     });
 
     await favoritesMovieOrSerialData.save();
 
-    res?.status(200).send({
+    return res?.status(200).send({
       success: true,
       message: SUCCESSFULLY_ADD_TO_FAVORITE,
       data: favoritesMovieOrSerialData,
     });
   } catch (err) {
-    res
+    return res
       ?.status(409)
       .send({ success: false, message: (err as Error).message, data: null });
   }
@@ -98,15 +98,15 @@ async function removeFromFavorites({
     const favoriteMovieOrSerial = await Favorites.findById(id);
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      res?.status(404).send({
+      return res?.status(404).send({
         success: false,
         message: FAVORITES_DATA_IS_NOT_FIND_BY_ID,
         data: null,
       });
     }
 
-    if (favoriteMovieOrSerial.user !== user.id) {
-      res?.status(401).send({
+    if (favoriteMovieOrSerial.user !== user?.id) {
+      return res?.status(401).send({
         success: false,
         message: USER_IS_NOT_AUTHORIZED,
         data: null,
@@ -115,13 +115,13 @@ async function removeFromFavorites({
 
     await Favorites.findByIdAndDelete(id);
 
-    res?.status(200).send({
+    return res?.status(200).send({
       success: true,
       message: SUCCESSFULLY_REMOVE_FROM_FAVORITE,
       data: id,
     });
   } catch (e) {
-    res
+    return res
       ?.status(409)
       .send({ success: false, message: (e as Error).message, data: null });
   }
@@ -135,13 +135,15 @@ async function handleRequestBasedOnMethod({
   switch (method) {
     case RequestMethod.POST:
       await getAvailableFavoritesMoviesOrSerials({ req, res });
+      break;
+    case RequestMethod.PUT:
       await addToFavorites({ req, res });
       break;
     case RequestMethod.DELETE:
       await removeFromFavorites({ req, res });
       break;
     default:
-      res?.status(400).send({
+      return res?.status(400).send({
         success: false,
         message: convertResponseErrorMessageToCorrectFormat(
           method as RequestMethod
