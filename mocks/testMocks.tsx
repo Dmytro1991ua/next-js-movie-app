@@ -180,6 +180,30 @@ export const withQueryClientAndRouterProvider = (
 
 export const withQueryClientAndSessionProvider = (
   component: JSX.Element,
+  session: Session | null,
+  path: AppRoutes
+) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
+  render(
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={session}>
+        <RouterContext.Provider value={createMockRouter({ pathname: path })}>
+          {component}
+        </RouterContext.Provider>
+      </SessionProvider>
+    </QueryClientProvider>
+  );
+};
+
+export const withQueryClientSessionAndRouterProvider = (
+  component: JSX.Element,
   session: Session | null
 ) => {
   const queryClient = new QueryClient({

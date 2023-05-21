@@ -1,9 +1,7 @@
 import clsx from "clsx";
-import { useRouter } from "next/router";
-import React, { useCallback, useMemo } from "react";
+import React from "react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
-import { useTrailerState } from "@/hooks/useTrailerState";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import {
   DEFAULT_NUMBER_OF_START_ICONS,
@@ -12,14 +10,8 @@ import {
   STAR_ICON_COLOR_UNFILLED,
 } from "@/types/constants";
 import { AppRoutes, DetailsPageActionButtons } from "@/types/enums";
-import {
-  detailsSubtitleWithPillsConfig,
-  getDetailsBlockByConfig,
-  getDetailsPageActionButtons,
-  movieOrSerialReleaseConfig,
-  movieOrSerialRevenueOrSeasonsDetailsConfig,
-} from "@/utils/utils";
 
+import { useDetailsPage } from "./hooks/useDetailsPage";
 import Button from "../Button";
 import HeroImage from "../Hero/HeroImage";
 import ReadMore from "../ReadMore";
@@ -40,55 +32,18 @@ const DetailsPage = ({
   searchPath,
   placeholder,
 }: DetailsPageProps) => {
-  const router = useRouter();
-
-  const { isTrailerShown, trailerUrl, onTrailerOpening, onTrailerClosing } =
-    useTrailerState({
-      id: movieOrSerialDetails?.id,
-      name: movieOrSerialDetails?.name ?? movieOrSerialDetails?.title,
-    });
-
-  const detailsBlockWithPillsSubtitle = useMemo(
-    () =>
-      getDetailsBlockByConfig({
-        config: detailsSubtitleWithPillsConfig,
-        movieOrSerialDetails,
-        movieOrSerialCast,
-      }),
-    [movieOrSerialDetails, movieOrSerialCast]
-  );
-
-  const detailsBlockWithMovieOrSerialRelease = useMemo(
-    () =>
-      getDetailsBlockByConfig({
-        config: movieOrSerialReleaseConfig,
-        movieOrSerialDetails,
-        movieOrSerialCast,
-      }),
-    [movieOrSerialDetails, movieOrSerialCast]
-  );
-
-  const detailsBlockWithRevenueOrSeasonsDetails = useMemo(
-    () =>
-      getDetailsBlockByConfig({
-        config: movieOrSerialRevenueOrSeasonsDetailsConfig,
-        movieOrSerialDetails,
-        movieOrSerialCast,
-      }),
-    [movieOrSerialDetails, movieOrSerialCast]
-  );
-
-  const detailsPageActionButtons = useMemo(
-    () =>
-      getDetailsPageActionButtons({
-        movieOrSerialDetails,
-        router,
-        onPlayBtnClick: onTrailerOpening,
-      }),
-    [movieOrSerialDetails, router, onTrailerOpening]
-  );
-
-  const handleGoBackRedirect = useCallback(() => router.back(), [router]);
+  const {
+    detailsBlockWithMovieOrSerialRelease,
+    detailsBlockWithPillsSubtitle,
+    detailsBlockWithRevenueOrSeasonsDetails,
+    detailsPageActionButtons,
+    isTrailerShown,
+    trailerUrl,
+    addToFavorites,
+    removeFromFavorites,
+    onGoBackRedirect,
+    onTrailerClosing,
+  } = useDetailsPage({ movieOrSerialDetails, movieOrSerialCast });
 
   return (
     <section className="relative min-h-screen">
@@ -116,6 +71,10 @@ const DetailsPage = ({
             <h1 className="text-2xl leading-none xl:text-3xl 2xl:leading-none">
               {movieOrSerialDetails?.title ?? movieOrSerialDetails?.name}
             </h1>
+            <button onClick={() => addToFavorites()}>Add to Favorites</button>
+            <button onClick={() => removeFromFavorites()}>
+              Remove from Favorites
+            </button>
             <StarRating
               colorFilled={STAR_ICON_COLOR_FILLED}
               colorUnfilled={STAR_ICON_COLOR_UNFILLED}
@@ -138,7 +97,7 @@ const DetailsPage = ({
           </div>
           <div className="flex items-center gap-5">
             {detailsPageActionButtons}
-            <Button variant="primary" onClick={handleGoBackRedirect}>
+            <Button variant="primary" onClick={onGoBackRedirect}>
               {DetailsPageActionButtons.GoBack}
               <BsFillArrowLeftCircleFill className="ml-2" />
             </Button>

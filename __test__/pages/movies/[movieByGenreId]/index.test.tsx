@@ -8,7 +8,7 @@ import {
   mockSerialCast,
   mockSerialDetails,
   mockSessionWithUser,
-  withQueryClientAndRouterProvider,
+  withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import { moviesPageService } from "@/modules/movies/movies.service";
 import MovieByGenreDetailsPage, {
@@ -68,8 +68,9 @@ describe("MovieByGenreDetailsPage", () => {
       fetcher: () => mockQueryFetcher,
     }));
 
-    withQueryClientAndRouterProvider(
+    withQueryClientAndSessionProvider(
       <MovieByGenreDetailsPage />,
+      mockSessionWithUser,
       AppRoutes.Movies
     );
 

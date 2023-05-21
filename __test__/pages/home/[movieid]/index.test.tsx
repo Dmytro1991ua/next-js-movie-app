@@ -8,7 +8,7 @@ import {
   mockSerialCast,
   mockSerialDetails,
   mockSessionWithUser,
-  withQueryClientAndRouterProvider,
+  withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import { homePageService } from "@/modules/home/home.service";
 import MovieDetailsPage, { getServerSideProps } from "@/pages/home/[movieId]";
@@ -66,7 +66,11 @@ describe("MovieDetailsPage", () => {
       fetcher: () => mockQueryFetcher,
     }));
 
-    withQueryClientAndRouterProvider(<MovieDetailsPage />, AppRoutes.Home);
+    withQueryClientAndSessionProvider(
+      <MovieDetailsPage />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     expect(useFetchMoviesOrSerialsDataMock).toHaveBeenCalled();
     expect(screen.getByRole("img")).toBeInTheDocument();

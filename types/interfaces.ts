@@ -12,6 +12,7 @@ import {
 } from "@/model/common";
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
+import { DefaultUserWithId } from "@/pages/api/auth/auth";
 import {
   AppRoutes,
   DetailsBlockTitle,
@@ -59,15 +60,15 @@ export interface GetAvailableMoviesOrSerialsPayload {
 }
 export interface AddToFavoritePayload {
   payload: {
-    favorites: Movie & Serial;
-    user: DefaultUser;
+    favorites?: MovieOrSerialResults | MovieOrSerialDetail;
+    user?: DefaultUserWithId;
   };
 }
 
 export interface RemoveFromFavoritePayload {
   payload: {
     id: number | string;
-    user: DefaultUser;
+    user?: DefaultUserWithId;
   };
 }
 
@@ -102,7 +103,8 @@ export type ApiRequestConfigForSerialsPage = {
 export type MovieOrSerialResults = Movie & Serial;
 export interface FavoritesMoviesOrSerialsResult {
   success: boolean;
-  data: MovieOrSerialResults[];
+  data: MovieOrSerialResults;
+  message?: string;
 }
 
 export type MovieOrSerialResult = {
