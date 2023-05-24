@@ -12,6 +12,7 @@ import {
 export type HookProps<T> = {
   query: QueryString;
   fetcher: () => Promise<T>;
+  isRefetchOnMount?: boolean;
 };
 
 export type ReturnedHookType<T> = {
@@ -30,9 +31,10 @@ export const useFetchMoviesOrSerialsData = <
 >({
   query,
   fetcher,
+  isRefetchOnMount = false,
 }: HookProps<T>): ReturnedHookType<T> => {
   const { data, error, isLoading } = useQuery<T, Error>([query], fetcher, {
-    refetchOnMount: false,
+    refetchOnMount: isRefetchOnMount,
     refetchOnWindowFocus: false,
   });
 

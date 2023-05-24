@@ -1,18 +1,20 @@
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useCallback, useMemo } from "react";
-import { UseMutateFunction } from "react-query";
 
 import { useUpdateFavoritesMoviesOrSerials } from "@/hooks/mutations/useUpdateFavoritesMoviesOrSerials";
+import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import { useTrailerState } from "@/hooks/useTrailerState";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { homePageService } from "@/modules/home/home.service";
 import { QueryString, RequestMethod } from "@/types/enums";
-import { FavoritesMoviesOrSerialsResult } from "@/types/interfaces";
 import {
   detailsSubtitleWithPillsConfig,
   getDetailsBlockByConfig,
   getDetailsPageActionButtons,
+  getFavoritesIcon,
+  getFavoritesId,
+  getIsMovieOrSerialInFavorites,
   movieOrSerialReleaseConfig,
   movieOrSerialRevenueOrSeasonsDetailsConfig,
 } from "@/utils/utils";
@@ -29,20 +31,9 @@ type ReturnedHookType = {
   detailsPageActionButtons: JSX.Element;
   isTrailerShown: boolean;
   trailerUrl: string | null;
+  favoriteIcon: JSX.Element[];
   onTrailerClosing: () => void;
   onGoBackRedirect: () => void;
-  addToFavorites: UseMutateFunction<
-    FavoritesMoviesOrSerialsResult | null,
-    Error,
-    void,
-    unknown
-  >;
-  removeFromFavorites: UseMutateFunction<
-    FavoritesMoviesOrSerialsResult | null,
-    Error,
-    void,
-    unknown
-  >;
 };
 
 export const useDetailsPage = ({
@@ -52,30 +43,45 @@ export const useDetailsPage = ({
   const router = useRouter();
   const { data: session } = useSession();
 
-  const { data: addedFavorites, mutate: addToFavorites } =
-    useUpdateFavoritesMoviesOrSerials({
-      queryKey: QueryString.favoritesMoviesOrSerials,
-      mutationFn: () =>
-        homePageService.updateFavoriteMovieOrSerial(
-          {
-            favorites: movieOrSerialDetails,
-            user: session?.user,
-          },
-          RequestMethod.PUT
-        ),
-    });
+  const { data: favorites } = useFetchMoviesOrSerialsData({
+    query: QueryString.favoritesMoviesOrSerials,
+    fetcher: () => homePageService.fetchFavoritesMoviesOrSerials(session?.user),
+    isRefetchOnMount: true,
+  });
 
+  const { mutate: addToFavorites } = useUpdateFavoritesMoviesOrSerials({
+    queryKey: QueryString.favoritesMoviesOrSerials,
+    mutationFn: () =>
+      homePageService.updateFavoriteMovieOrSerial(
+        {
+          favorites: movieOrSerialDetails,
+          user: session?.user,
+        },
+        RequestMethod.PUT
+      ),
+  });
+
+  const favoritesMovieOrSerialId = useMemo(
+    () => getFavoritesId(movieOrSerialDetails?.id, favorites?.data),
+    [favorites?.data, movieOrSerialDetails?.id]
+  );
   const { mutate: removeFromFavorites } = useUpdateFavoritesMoviesOrSerials({
     queryKey: QueryString.favoritesMoviesOrSerials,
     mutationFn: () =>
       homePageService.updateFavoriteMovieOrSerial(
         {
-          id: addedFavorites?.data._id,
+          id: favoritesMovieOrSerialId,
           user: session?.user,
         },
         RequestMethod.DELETE
       ),
   });
+
+  const isMovieOrSerialInFavorite = useMemo(
+    () =>
+      getIsMovieOrSerialInFavorites(movieOrSerialDetails?.id, favorites?.data),
+    [favorites?.data, movieOrSerialDetails?.id]
+  );
 
   const { isTrailerShown, trailerUrl, onTrailerOpening, onTrailerClosing } =
     useTrailerState({
@@ -124,6 +130,20 @@ export const useDetailsPage = ({
   );
 
   const onGoBackRedirect = useCallback(() => router.back(), [router]);
+  const onFavoriteIconClick = useCallback(
+    () =>
+      isMovieOrSerialInFavorite ? removeFromFavorites() : addToFavorites(),
+    [addToFavorites, isMovieOrSerialInFavorite, removeFromFavorites]
+  );
+
+  const favoriteIcon = useMemo(
+    () =>
+      getFavoritesIcon({
+        isInFavorites: isMovieOrSerialInFavorite,
+        onFavoriteIconClick,
+      }),
+    [isMovieOrSerialInFavorite, onFavoriteIconClick]
+  );
 
   return {
     detailsBlockWithPillsSubtitle,
@@ -132,8 +152,7 @@ export const useDetailsPage = ({
     detailsPageActionButtons,
     isTrailerShown,
     trailerUrl,
-    addToFavorites,
-    removeFromFavorites,
+    favoriteIcon,
     onTrailerClosing,
     onGoBackRedirect,
   };

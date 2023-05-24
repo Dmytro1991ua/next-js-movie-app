@@ -39,8 +39,7 @@ const DetailsPage = ({
     detailsPageActionButtons,
     isTrailerShown,
     trailerUrl,
-    addToFavorites,
-    removeFromFavorites,
+    favoriteIcon,
     onGoBackRedirect,
     onTrailerClosing,
   } = useDetailsPage({ movieOrSerialDetails, movieOrSerialCast });
@@ -68,13 +67,12 @@ const DetailsPage = ({
               movieOrSerialDetails?.tagline ? "mb-4" : "mb-6",
             ])}
           >
-            <h1 className="text-2xl leading-none xl:text-3xl 2xl:leading-none">
-              {movieOrSerialDetails?.title ?? movieOrSerialDetails?.name}
-            </h1>
-            <button onClick={() => addToFavorites()}>Add to Favorites</button>
-            <button onClick={() => removeFromFavorites()}>
-              Remove from Favorites
-            </button>
+            <div className="flex items-center">
+              <h1 className="text-2xl leading-none xl:text-3xl 2xl:leading-none mr-4">
+                {movieOrSerialDetails?.title ?? movieOrSerialDetails?.name}
+              </h1>
+              {favoriteIcon}
+            </div>
             <StarRating
               colorFilled={STAR_ICON_COLOR_FILLED}
               colorUnfilled={STAR_ICON_COLOR_UNFILLED}

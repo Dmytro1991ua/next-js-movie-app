@@ -103,7 +103,7 @@ export type ApiRequestConfigForSerialsPage = {
 export type MovieOrSerialResults = Movie & Serial;
 export interface FavoritesMoviesOrSerialsResult {
   success: boolean;
-  data: MovieOrSerialResults;
+  data: (MovieOrSerialResults & MovieOrSerialResults[]) | null;
   message?: string;
 }
 
@@ -245,4 +245,16 @@ export interface PrefetchDataForSearchPageProps {
     pageParam = 1,
   }: DataFetcherProps) => Promise<MovieOrSerialResult | null>;
   pageParam?: number;
+}
+
+export interface FavoritesIconConfigItem {
+  id: string;
+  icon: JSX.Element;
+  onClick: () => void;
+  isInFavorites: boolean;
+}
+
+export interface FavoritesIconProps {
+  isInFavorites: boolean;
+  onFavoriteIconClick: () => void;
 }

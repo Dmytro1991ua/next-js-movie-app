@@ -3,7 +3,12 @@ import { filter, shuffle } from "lodash";
 import movieTrailer from "movie-trailer";
 import Link from "next/link";
 import { NextRouter } from "next/router";
-import { AiFillPlayCircle, AiTwotoneHome } from "react-icons/ai";
+import {
+  AiFillHeart,
+  AiFillPlayCircle,
+  AiOutlineHeart,
+  AiTwotoneHome,
+} from "react-icons/ai";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { InfiniteData, QueryClient, dehydrate } from "react-query";
 import { v4 as uuidv4 } from "uuid";
@@ -29,6 +34,8 @@ import {
   AppPageData,
   DetailsBlockWithPillsConfig,
   DetailsPageActionButton,
+  FavoritesIconConfigItem,
+  FavoritesIconProps,
   FavoritesMoviesOrSerialsResult,
   HeroContentActionButton,
   HeroContentActionButtonConfig,
@@ -890,4 +897,52 @@ export const getFavoritesDataBasedOnRoute = (
   return route === AppRoutes.Serials
     ? filter(favorites, "name")
     : filter(favorites, "title");
+};
+
+export const getFavoritesId = (
+  favoriteId?: number,
+  favorites?: MovieOrSerialResults[] | null
+) => favorites?.find((favorite) => favorite.id === favoriteId)?._id;
+
+export const getIsMovieOrSerialInFavorites = (
+  favoriteId?: number,
+  favorites?: MovieOrSerialResults[] | null
+) => favorites?.findIndex((favorite) => favorite.id === favoriteId) !== -1;
+
+export const favoritesIconConfig = ({
+  isInFavorites,
+  onFavoriteIconClick,
+}: FavoritesIconProps): FavoritesIconConfigItem[] => {
+  const commonStyles = "text-2xl text-mantis";
+
+  return [
+    {
+      id: uuidv4(),
+      icon: <AiFillHeart className={commonStyles} />,
+      onClick: onFavoriteIconClick,
+      isInFavorites,
+    },
+    {
+      id: uuidv4(),
+      icon: <AiOutlineHeart className={commonStyles} />,
+      onClick: onFavoriteIconClick,
+      isInFavorites: !isInFavorites,
+    },
+  ];
+};
+
+export const getFavoritesIcon = ({
+  isInFavorites,
+  onFavoriteIconClick,
+}: FavoritesIconProps): JSX.Element[] => {
+  const favoritesConfig = favoritesIconConfig({
+    isInFavorites,
+    onFavoriteIconClick,
+  });
+
+  return favoritesConfig.map(({ id, icon, onClick, isInFavorites }) => (
+    <button key={id} onClick={onClick}>
+      {isInFavorites && icon}
+    </button>
+  ));
 };
