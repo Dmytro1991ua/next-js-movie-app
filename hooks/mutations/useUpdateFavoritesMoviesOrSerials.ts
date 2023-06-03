@@ -36,7 +36,7 @@ export const useUpdateFavoritesMoviesOrSerials = ({
       toastService.success(data?.message as string);
     },
     onError: (error) => {
-      toastService.success(error.message);
+      toastService.error(error.message);
     },
   });
 

@@ -3,6 +3,7 @@ import { Formik } from "formik";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { Cast } from "@/model/common";
@@ -143,7 +144,7 @@ export const mockMovie = {
   vote_count: 46,
 };
 
-export const withQueryClientProvider = (component: JSX.Element) => {
+export const withQueryClientProvider = (component: JSX.Element | ReactNode) => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -152,7 +153,7 @@ export const withQueryClientProvider = (component: JSX.Element) => {
     },
   });
 
-  render(
+  return render(
     <QueryClientProvider client={queryClient}>{component}</QueryClientProvider>
   );
 };
@@ -169,7 +170,7 @@ export const withQueryClientAndRouterProvider = (
     },
   });
 
-  render(
+  return render(
     <QueryClientProvider client={queryClient}>
       <RouterContext.Provider value={createMockRouter({ pathname: path })}>
         {component}
@@ -191,7 +192,7 @@ export const withQueryClientAndSessionProvider = (
     },
   });
 
-  render(
+  return render(
     <QueryClientProvider client={queryClient}>
       <SessionProvider session={session}>
         <RouterContext.Provider value={createMockRouter({ pathname: path })}>
@@ -214,7 +215,7 @@ export const withQueryClientSessionAndRouterProvider = (
     },
   });
 
-  render(
+  return render(
     <QueryClientProvider client={queryClient}>
       <SessionProvider session={session}>{component}</SessionProvider>
     </QueryClientProvider>
