@@ -128,10 +128,6 @@ class HomePageService {
 
       const response = await fetch("/api/favorites", favoritesDataPayload);
 
-      if (!response) {
-        return null;
-      }
-
       return await response.json();
     } catch (error) {
       throw new Error((error as Error).message);
@@ -154,10 +150,6 @@ class HomePageService {
       });
 
       const response = await fetch("/api/favorites", favoritesDataPayload);
-
-      if (!response) {
-        return null;
-      }
 
       return await response.json();
     } catch (error) {

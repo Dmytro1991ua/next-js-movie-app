@@ -1,6 +1,8 @@
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import DetailsPage from "@/components/DetailsPage";
+import * as hooks from "@/components/DetailsPage/hooks/useDetailsPage";
 import {
   mockSerialCast,
   mockSerialDetails,
@@ -43,5 +45,74 @@ describe("DetailsPage", () => {
     expect(screen.getByText(/Casts:/)).toBeInTheDocument();
     expect(screen.getByText(/Spoken Languages:/)).toBeInTheDocument();
     expect(screen.getByText(/Production Countries:/)).toBeInTheDocument();
+  });
+
+  it("should open video player", () => {
+    jest.spyOn(hooks, "useDetailsPage").mockImplementation(() => ({
+      detailsBlockWithPillsSubtitle: <p>Test block with pills</p>,
+      detailsBlockWithMovieOrSerialRelease: (
+        <p>Test block with movie or serial release date</p>
+      ),
+      detailsBlockWithRevenueOrSeasonsDetails: (
+        <p>Test block with revenue or seasons details</p>
+      ),
+      detailsPageActionButtons: <p>Test block with action buttons</p>,
+      trailerUrl: "test_url",
+      favoriteIcon: [<p key="1">Test favorite icon</p>],
+      onTrailerClosing: jest.fn(),
+      onGoBackRedirect: jest.fn(),
+      isTrailerShown: true,
+    }));
+
+    withQueryClientAndSessionProvider(
+      <DetailsPage
+        movieOrSerialCast={mockSerialCast}
+        movieOrSerialDetails={
+          mockSerialDetails as unknown as MovieOrSerialDetail
+        }
+      />,
+      mockSessionWithUser,
+      AppRoutes.SerialDetails
+    );
+
+    expect(screen.getByTestId("video-player")).toBeInTheDocument();
+    expect(screen.getByText(/Close/)).toBeInTheDocument();
+  });
+
+  it("should close video player", async () => {
+    const mockOnTrailerClosing = jest.fn();
+
+    jest.spyOn(hooks, "useDetailsPage").mockImplementation(() => ({
+      detailsBlockWithPillsSubtitle: <p>Test block with pills</p>,
+      detailsBlockWithMovieOrSerialRelease: (
+        <p>Test block with movie or serial release date</p>
+      ),
+      detailsBlockWithRevenueOrSeasonsDetails: (
+        <p>Test block with revenue or seasons details</p>
+      ),
+      detailsPageActionButtons: <p>Test block with action buttons</p>,
+      trailerUrl: "test_url",
+      favoriteIcon: [<p key="1">Test favorite icon</p>],
+      onTrailerClosing: mockOnTrailerClosing,
+      onGoBackRedirect: jest.fn(),
+      isTrailerShown: true,
+    }));
+
+    withQueryClientAndSessionProvider(
+      <DetailsPage
+        movieOrSerialCast={mockSerialCast}
+        movieOrSerialDetails={
+          mockSerialDetails as unknown as MovieOrSerialDetail
+        }
+      />,
+      mockSessionWithUser,
+      AppRoutes.SerialDetails
+    );
+
+    const closeBtn = screen.getByText(/Close/);
+
+    userEvent.click(closeBtn);
+
+    await waitFor(() => expect(mockOnTrailerClosing).toHaveBeenCalled());
   });
 });

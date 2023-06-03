@@ -13,7 +13,10 @@ interface VideoPlayerProps {
 const VideoPlayer: FC<VideoPlayerProps> = ({ trailerUrl, onClose }) => {
   return (
     <>
-      <div className="absolute inset-0 bg-black opacity-50 h-full w-full z-40 transition" />
+      <div
+        className="absolute inset-0 bg-black opacity-50 h-full w-full z-40 transition"
+        data-testid="video-player"
+      />
       <div className="absolute inset-0 z-50">
         <YouTube
           iframeClassName="absolute left-[8%] top-[10%]"

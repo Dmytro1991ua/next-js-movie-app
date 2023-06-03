@@ -2,13 +2,12 @@ import { screen } from "@testing-library/react";
 import { QueryObserverSuccessResult } from "react-query";
 import * as hooks from "react-query";
 
-import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
 import {
   mockMovie,
   mockSessionWithUser,
   withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
-import Home from "@/modules/home";
+import FavoritesSerialsPage from "@/pages/serials/favorites";
 import { AppRoutes } from "@/types/enums";
 
 jest.mock("react-query", () => {
@@ -26,9 +25,19 @@ jest.mock("uuid", () => {
   };
 });
 
-jest.mock("@/hooks/useGetRandomMovieOrSerial");
+jest.mock("@/modules/home/home.service");
 
-describe("Home", () => {
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () =>
+      Promise.resolve({
+        user: { name: "John Doe", email: "john@doe.com" },
+        password: "12456",
+      }),
+  })
+);
+
+describe("FavoritesSerialsPage", () => {
   beforeEach(() => {
     jest.spyOn(hooks, "useQuery").mockReturnValue({
       data: {
@@ -37,9 +46,6 @@ describe("Home", () => {
         },
       },
     } as unknown as QueryObserverSuccessResult<unknown, unknown>);
-    (useGetRandomMovieOrSerial as jest.Mock).mockImplementation(() => ({
-      data: mockMovie,
-    }));
   });
 
   afterEach(() => {
@@ -48,15 +54,14 @@ describe("Home", () => {
 
   it("Should render component without crashing", () => {
     withQueryClientAndSessionProvider(
-      <Home />,
+      <FavoritesSerialsPage />,
       mockSessionWithUser,
-      AppRoutes.Home
+      AppRoutes.Serials
     );
 
-    expect(screen.getByText(/View Details/)).toBeInTheDocument();
-    expect(screen.getByText(/IMDB/)).toBeInTheDocument();
-    expect(screen.getByText(/Popular/)).toBeInTheDocument();
-    expect(screen.getByText(/Upcoming/)).toBeInTheDocument();
-    expect(screen.getByTestId("hero-img")).toBeInTheDocument();
+    expect(
+      screen.getByText(/My list of favorites serials/)
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("cards")).toBeInTheDocument();
   });
 });
