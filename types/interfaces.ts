@@ -11,6 +11,7 @@ import {
   SpokenLanguage,
 } from "@/model/common";
 import { Movie } from "@/model/movie";
+import { Rating } from "@/model/rating";
 import { Serial } from "@/model/serial";
 import { DefaultUserWithId } from "@/pages/api/auth/auth";
 import {
@@ -53,6 +54,8 @@ export interface AddToFavorite {
   method?: RequestMethod;
 }
 
+export type UpdateRating = AddToFavorite;
+
 export interface GetAvailableMoviesOrSerialsPayload {
   payload: {
     user: DefaultUser;
@@ -68,6 +71,19 @@ export interface AddToFavoritePayload {
 export interface RemoveFromFavoritePayload {
   payload: {
     id: number | string;
+    user?: DefaultUserWithId;
+  };
+}
+
+export type GetRatingById = {
+  payload: {
+    id?: number | string;
+    user?: DefaultUserWithId;
+  };
+};
+export interface AddRatingPayload {
+  payload: {
+    data: Rating;
     user?: DefaultUserWithId;
   };
 }
@@ -105,6 +121,17 @@ export interface FavoritesMoviesOrSerialsResult {
   success: boolean;
   data: (MovieOrSerialResults & MovieOrSerialResults[]) | null;
   message?: string;
+}
+
+export interface UpdateRatingResult {
+  success: boolean;
+  data: Pick<Rating, "id" | "rating"> | null;
+  message?: string;
+}
+
+export interface UpdateRatingResponse {
+  status_code: number;
+  status_message: string;
 }
 
 export type MovieOrSerialResult = {
