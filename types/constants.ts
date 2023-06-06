@@ -71,3 +71,8 @@ export const SUCCESSFULLY_ADD_TO_FAVORITE =
   "Successfully added to favorites list";
 export const SUCCESSFULLY_REMOVE_FROM_FAVORITE =
   "Successfully removeded from favorites list";
+
+export const SUCCESSFULLY_UPDATE_RATING =
+  "Successfully updated already existing media rating";
+export const SUCCESSFULLY_ADD_RATING = "Successfully added media rating";
+export const RATING_NOT_FOUND = "Rating not found";
