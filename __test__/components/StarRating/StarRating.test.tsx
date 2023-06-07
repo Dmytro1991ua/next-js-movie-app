@@ -2,19 +2,22 @@ import { render, screen } from "@testing-library/react";
 
 import { useStarRating } from "@/components/StarRating/hooks/useStarRating";
 import StarRating from "@/components/StarRating/StarRating";
-import {
-  DEFAULT_NUMBER_OF_START_ICONS,
-  STAR_ICON_COLOR_FILLED,
-  STAR_ICON_COLOR_UNFILLED,
-} from "@/types/constants";
+import { DEFAULT_NUMBER_OF_START_ICONS } from "@/types/constants";
 
 jest.mock("@/components/StarRating/hooks/useStarRating");
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 const defaultProps = {
   numberOfStars: DEFAULT_NUMBER_OF_START_ICONS,
-  colorFilled: STAR_ICON_COLOR_FILLED,
-  colorUnfilled: STAR_ICON_COLOR_UNFILLED,
-  rating: 8,
+  onMovieRatingState: jest.fn(),
+  onStartIconMouseEnterEvent: jest.fn(),
+  onStartIconMouseLeaveEvent: jest.fn(),
+  getStarIconColor: jest.fn(),
 };
 
 const onMovieRatingStateMock = jest.fn();

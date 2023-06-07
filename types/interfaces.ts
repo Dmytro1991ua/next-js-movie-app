@@ -125,7 +125,7 @@ export interface FavoritesMoviesOrSerialsResult {
 
 export interface UpdateRatingResult {
   success: boolean;
-  data: Pick<Rating, "id" | "rating"> | null;
+  data: Rating[];
   message?: string;
 }
 

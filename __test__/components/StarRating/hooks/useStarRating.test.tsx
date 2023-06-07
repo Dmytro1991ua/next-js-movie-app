@@ -1,35 +1,54 @@
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
+import { SessionProvider } from "next-auth/react";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import { useStarRating } from "@/components/StarRating/hooks/useStarRating";
+import { mockSessionWithUser } from "@/mocks/testMocks";
 import {
   STAR_ICON_COLOR_FILLED,
   STAR_ICON_COLOR_UNFILLED,
 } from "@/types/constants";
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 describe("useStarRating", () => {
+  const queryClient = new QueryClient();
+
   const view = (rating: number) =>
-    renderHook(() =>
-      useStarRating({
-        rating,
-        colorFilled: STAR_ICON_COLOR_FILLED,
-        colorUnfilled: STAR_ICON_COLOR_UNFILLED,
-      })
+    renderHook(
+      () =>
+        useStarRating({
+          rating,
+          colorFilled: STAR_ICON_COLOR_FILLED,
+          colorUnfilled: STAR_ICON_COLOR_UNFILLED,
+          newRating: {
+            id: 100,
+            name: "Test_Movie",
+          },
+        }),
+      {
+        wrapper: ({ children }: { children: React.ReactNode }) => (
+          <QueryClientProvider client={queryClient}>
+            <SessionProvider session={mockSessionWithUser}>
+              {children}
+            </SessionProvider>
+          </QueryClientProvider>
+        ),
+      }
     );
 
-  it("Should have correct starRatingValue equal to 4 based on movie/serial rating (8) props", async () => {
+  it("Should have correct starRatingValue equal based on TMDB or custom rating coming from DB", async () => {
     const { result } = view(8);
 
-    act(() => expect(result.current.starRatingValue).toEqual(4));
+    act(() => expect(result.current.starRatingValue).toEqual(8));
   });
 
-  it("Should have correct starRatingValue equal to 2 based on movie/serial rating (5) props", async () => {
-    const { result } = view(5);
-
-    act(() => expect(result.current.starRatingValue).toEqual(3));
-  });
-
-  it("Should have a devalt iconHover value equal to 0", () => {
+  it("Should have a default iconHover value equal to 0", () => {
     const { result } = view(8);
 
     act(() => expect(result.current.iconHover).toEqual(0));
@@ -51,14 +70,6 @@ describe("useStarRating", () => {
         STAR_ICON_COLOR_UNFILLED
       )
     );
-  });
-
-  it("Should call onMovieRatingState and set star icon rating value", () => {
-    const { result } = view(5);
-
-    act(() => result.current.onMovieRatingState(2));
-
-    expect(result.current.starRatingValue).toEqual(2);
   });
 
   it("Should call onStartIconMouseEnterEvent and set star icon rating value on hover", () => {

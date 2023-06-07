@@ -7,6 +7,7 @@ import {
   MovieOrSerialDetailsData,
   MoviesPageData,
   SerialsPageData,
+  UpdateRatingResult,
 } from "@/types/interfaces";
 
 export type HookProps<T> = {
@@ -28,6 +29,7 @@ export const useFetchMoviesOrSerialsData = <
     | SerialsPageData
     | MovieOrSerialDetailsData
     | (FavoritesMoviesOrSerialsResult | null)
+    | (UpdateRatingResult | null)
 >({
   query,
   fetcher,

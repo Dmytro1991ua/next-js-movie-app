@@ -17,6 +17,7 @@ import Button from "@/components/Button";
 import DetailsBlock from "@/components/DetailsPage/DetailsBlock";
 import Slider from "@/components/Slider";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
+import { Rating } from "@/model/rating";
 import { RequestOption } from "@/modules/auth/auth.types";
 import { toastService } from "@/services/toast.service";
 import { SMALL_IMAGE_URL } from "@/types/constants";
@@ -945,4 +946,24 @@ export const getFavoritesIcon = ({
       {isInFavorites && icon}
     </button>
   ));
+};
+
+export const convertTMDBRatingToStarRating = (rating: number) =>
+  Math.round(rating / 2);
+
+export const convertStarRatingToTMDBRating = (rating: number) => rating * 2;
+
+export const getNewRatingFromDB = (newRatingData: Rating[], id: number) =>
+  newRatingData.find((rating) => rating.id === id)?.rating ?? 0;
+
+export const getStarRatingValue = (
+  tmdbRating: number,
+  newRatingData: Rating[],
+  id: number
+) => {
+  const newRating = getNewRatingFromDB(newRatingData, id);
+
+  return newRating
+    ? convertTMDBRatingToStarRating(newRating)
+    : convertTMDBRatingToStarRating(tmdbRating);
 };

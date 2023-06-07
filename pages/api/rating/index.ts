@@ -5,7 +5,6 @@ import { Rating } from "@/model/rating";
 import { MediaRating } from "@/model/ratingSchema";
 import { NO_DATA_IN_REQUEST_BODY_MESSAGE } from "@/modules/auth/auth.constants";
 import {
-  RATING_NOT_FOUND,
   SUCCESSFULLY_ADD_RATING,
   SUCCESSFULLY_UPDATE_RATING,
   USER_IS_NOT_AUTHORIZED,
@@ -25,7 +24,7 @@ async function getRatingBasedOnUser({
   res,
 }: Pick<UpdateRating, "res" | "req">): Promise<void> {
   const {
-    payload: { id, user },
+    payload: { user },
   }: GetRatingById = req?.body;
 
   try {
@@ -39,19 +38,9 @@ async function getRatingBasedOnUser({
 
     const moviesOrSerialsRatingData = await MediaRating.find({ user: user.id });
 
-    const rating = moviesOrSerialsRatingData.find((rating) => rating.id === id);
-
-    if (!rating) {
-      return res?.status(404).send({
-        success: false,
-        message: RATING_NOT_FOUND,
-        data: null,
-      });
-    }
-
     return res?.status(200).send({
       success: true,
-      data: { id: rating.id, rating: rating.rating },
+      data: moviesOrSerialsRatingData,
     });
   } catch (e) {
     return res

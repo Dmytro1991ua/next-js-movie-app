@@ -38,7 +38,7 @@ export enum QueryString {
   moviesForSearchPage = "moviesForSearchPage",
   tvSerialsForSearchPage = "tvSerialsForSearchPage",
   favoritesMoviesOrSerials = "favoritesMoviesOrSerials",
-  fetchMovieOrSerialRating = "fetchMovieOrSerialRating",
+  movieOrSerialRating = "movieOrSerialRating",
 }
 
 export enum SliderTitle {

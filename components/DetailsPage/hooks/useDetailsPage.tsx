@@ -8,6 +8,7 @@ import { useTrailerState } from "@/hooks/useTrailerState";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { homePageService } from "@/modules/home/home.service";
 import { QueryString, RequestMethod } from "@/types/enums";
+import { UpdateRatingResult } from "@/types/interfaces";
 import {
   detailsSubtitleWithPillsConfig,
   getDetailsBlockByConfig,
@@ -15,6 +16,7 @@ import {
   getFavoritesIcon,
   getFavoritesId,
   getIsMovieOrSerialInFavorites,
+  getStarRatingValue,
   movieOrSerialReleaseConfig,
   movieOrSerialRevenueOrSeasonsDetailsConfig,
 } from "@/utils/utils";
@@ -32,6 +34,7 @@ type ReturnedHookType = {
   isTrailerShown: boolean;
   trailerUrl: string | null;
   favoriteIcon: JSX.Element[];
+  initialRatingValue: number;
   onTrailerClosing: () => void;
   onGoBackRedirect: () => void;
 };
@@ -46,6 +49,12 @@ export const useDetailsPage = ({
   const { data: favorites } = useFetchMoviesOrSerialsData({
     query: QueryString.favoritesMoviesOrSerials,
     fetcher: () => homePageService.fetchFavoritesMoviesOrSerials(session?.user),
+    isRefetchOnMount: true,
+  });
+
+  const { data: newRating } = useFetchMoviesOrSerialsData<UpdateRatingResult>({
+    query: QueryString.movieOrSerialRating,
+    fetcher: () => homePageService.fetchRatingById(session?.user),
     isRefetchOnMount: true,
   });
 
@@ -145,6 +154,16 @@ export const useDetailsPage = ({
     [isMovieOrSerialInFavorite, onFavoriteIconClick]
   );
 
+  const initialRatingValue = useMemo(
+    () =>
+      getStarRatingValue(
+        movieOrSerialDetails?.vote_average ?? 0,
+        newRating?.data ?? [],
+        movieOrSerialDetails?.id ?? 0
+      ),
+    [movieOrSerialDetails?.vote_average, newRating, movieOrSerialDetails?.id]
+  );
+
   return {
     detailsBlockWithPillsSubtitle,
     detailsBlockWithMovieOrSerialRelease,
@@ -153,6 +172,7 @@ export const useDetailsPage = ({
     isTrailerShown,
     trailerUrl,
     favoriteIcon,
+    initialRatingValue,
     onTrailerClosing,
     onGoBackRedirect,
   };

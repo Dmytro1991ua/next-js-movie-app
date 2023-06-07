@@ -2,6 +2,7 @@ import { DefaultUserWithId } from "@/pages/api/auth/auth";
 import { toastService } from "@/services/toast.service";
 import { RequestMethod } from "@/types/enums";
 import {
+  AddRatingPayload,
   AddToFavoritePayload,
   FavoritesMoviesOrSerialsResult,
   HomePageData,
@@ -150,6 +151,44 @@ class HomePageService {
       });
 
       const response = await fetch("/api/favorites", favoritesDataPayload);
+
+      return await response.json();
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  //TODO Move method to shared service
+  async fetchRatingById(user?: DefaultUserWithId) {
+    try {
+      const ratingDataPayload = getRequestOptions({
+        method: RequestMethod.PUT,
+        body: JSON.stringify({
+          payload: {
+            user,
+          },
+        }),
+      });
+
+      const response = await fetch("/api/rating", ratingDataPayload);
+
+      return await response.json();
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  //TODO Move method to shared service
+  async updateMovieOrSerialRating(payload: AddRatingPayload["payload"]) {
+    try {
+      const updateRatingPayload = getRequestOptions({
+        method: RequestMethod.POST,
+        body: JSON.stringify({
+          payload,
+        }),
+      });
+
+      const response = await fetch("/api/rating", updateRatingPayload);
 
       return await response.json();
     } catch (error) {

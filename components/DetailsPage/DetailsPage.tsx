@@ -17,6 +17,7 @@ import HeroImage from "../Hero/HeroImage";
 import ReadMore from "../ReadMore";
 import Search from "../Search";
 import StarRating from "../StarRating";
+import { useStarRating } from "../StarRating/hooks/useStarRating";
 import VideoPlayer from "../VideoPlayer";
 
 interface DetailsPageProps {
@@ -40,9 +41,28 @@ const DetailsPage = ({
     isTrailerShown,
     trailerUrl,
     favoriteIcon,
+    initialRatingValue,
     onGoBackRedirect,
     onTrailerClosing,
-  } = useDetailsPage({ movieOrSerialDetails, movieOrSerialCast });
+  } = useDetailsPage({
+    movieOrSerialDetails,
+    movieOrSerialCast,
+  });
+
+  const {
+    onMovieRatingState,
+    onStartIconMouseEnterEvent,
+    onStartIconMouseLeaveEvent,
+    getStarIconColor,
+  } = useStarRating({
+    rating: initialRatingValue,
+    colorFilled: STAR_ICON_COLOR_FILLED,
+    colorUnfilled: STAR_ICON_COLOR_UNFILLED,
+    newRating: {
+      id: movieOrSerialDetails?.id ?? 0,
+      name: (movieOrSerialDetails?.title || movieOrSerialDetails?.name) ?? "",
+    },
+  });
 
   return (
     <section className="relative min-h-screen">
@@ -74,11 +94,12 @@ const DetailsPage = ({
               {favoriteIcon}
             </div>
             <StarRating
-              colorFilled={STAR_ICON_COLOR_FILLED}
-              colorUnfilled={STAR_ICON_COLOR_UNFILLED}
+              getStarIconColor={getStarIconColor}
               numberOfStars={DEFAULT_NUMBER_OF_START_ICONS}
-              rating={movieOrSerialDetails?.vote_average ?? 0}
               size={18}
+              onMovieRatingState={onMovieRatingState}
+              onStartIconMouseEnterEvent={onStartIconMouseEnterEvent}
+              onStartIconMouseLeaveEvent={onStartIconMouseLeaveEvent}
             />
           </div>
           <h2 className="opacity-75 mb-4">
