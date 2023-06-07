@@ -1,16 +1,13 @@
-import { useRouter } from "next/router";
-import React, { memo, useCallback } from "react";
+import React, { memo } from "react";
 
-import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
-import { useTrailerState } from "@/hooks/useTrailerState";
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
 import { IMAGE_URL } from "@/types/constants";
 import { AppRoutes } from "@/types/enums";
-import { handleRedirectToDetailsPage } from "@/utils/utils";
 
 import HeroContent from "./HeroContent";
 import HeroImage from "./HeroImage";
+import { useHeroState } from "./hooks/useHeroState";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 
 interface HeroProps<T> {
@@ -24,24 +21,16 @@ const Hero = <T extends Movie & Serial>({
   isSerialsPage = false,
   route,
 }: HeroProps<T>) => {
-  const { randomMovieOrSerial } = useGetRandomMovieOrSerial({ data });
-  const { isTrailerShown, trailerUrl, onTrailerOpening, onTrailerClosing } =
-    useTrailerState({
-      id: randomMovieOrSerial?.id,
-      name: randomMovieOrSerial?.name ?? randomMovieOrSerial?.title,
-    });
-
-  const router = useRouter();
-
-  const onHandleRedirectToDetailsPage = useCallback(
-    () =>
-      handleRedirectToDetailsPage({
-        router,
-        route,
-        id: randomMovieOrSerial?.id,
-      }),
-    [randomMovieOrSerial?.id, route, router]
-  );
+  const {
+    initialRatingValue,
+    isTrailerShown,
+    randomMovieOrSerial,
+    newRatingData,
+    onHandleRedirectToDetailsPage,
+    onTrailerClosing,
+    onTrailerOpening,
+    trailerUrl,
+  } = useHeroState({ data, route });
 
   return (
     <section className="relative min-h-screen overflow-x-hidden">
@@ -51,6 +40,8 @@ const Hero = <T extends Movie & Serial>({
         />
       </div>
       <HeroContent
+        initialRatingValue={initialRatingValue}
+        newRatingData={newRatingData}
         overview={randomMovieOrSerial?.overview}
         rating={randomMovieOrSerial?.vote_average}
         releaseDate={

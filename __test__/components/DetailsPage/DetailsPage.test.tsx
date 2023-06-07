@@ -62,6 +62,7 @@ describe("DetailsPage", () => {
       onTrailerClosing: jest.fn(),
       onGoBackRedirect: jest.fn(),
       isTrailerShown: true,
+      initialRatingValue: 6,
     }));
 
     withQueryClientAndSessionProvider(
@@ -96,6 +97,7 @@ describe("DetailsPage", () => {
       onTrailerClosing: mockOnTrailerClosing,
       onGoBackRedirect: jest.fn(),
       isTrailerShown: true,
+      initialRatingValue: 6,
     }));
 
     withQueryClientAndSessionProvider(

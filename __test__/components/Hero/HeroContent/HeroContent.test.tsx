@@ -1,8 +1,13 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 import HeroContent from "@/components/Hero/HeroContent";
 import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
-import { mockMovie } from "@/mocks/testMocks";
+import {
+  mockMovie,
+  mockSessionWithUser,
+  withQueryClientAndSessionProvider,
+} from "@/mocks/testMocks";
+import { AppRoutes } from "@/types/enums";
 
 jest.mock("@/hooks/useGetRandomMovieOrSerial");
 
@@ -16,6 +21,11 @@ const defaultProps = {
   title: "Test tile",
   releaseDate: "2023/03/12",
   rating: 6.4,
+  initialRatingValue: 6,
+  newRatingData: {
+    id: 12,
+    name: "Test_Movie",
+  },
   overview: "Test movie description",
   onDetailsBtnClick: () => jest.fn(),
   onPlayBtnClick: () => jest.fn(),
@@ -33,7 +43,11 @@ describe("Hero", () => {
   });
 
   it("Should render component without crashing", () => {
-    render(<HeroContent {...defaultProps} />);
+    withQueryClientAndSessionProvider(
+      <HeroContent {...defaultProps} />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     expect(screen.getByText(/Test tile/)).toBeInTheDocument();
     expect(screen.getByText("2023/03/12,")).toBeInTheDocument();

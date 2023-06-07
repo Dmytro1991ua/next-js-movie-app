@@ -2,6 +2,8 @@ import React, { FC, memo, useMemo } from "react";
 
 import ReadMore from "@/components/ReadMore";
 import StarRating from "@/components/StarRating";
+import { useStarRating } from "@/components/StarRating/hooks/useStarRating";
+import { Rating } from "@/model/rating";
 import {
   DEFAULT_NUMBER_OF_START_ICONS,
   STAR_ICON_COLOR_FILLED,
@@ -10,10 +12,13 @@ import {
 import { getHeroContentActionButtons } from "@/utils/utils";
 
 interface HeroContentProps {
+  initialRatingValue: number;
+  newRatingData: Pick<Rating, "id" | "name">;
   title?: string;
   releaseDate?: string;
   rating?: number;
   overview?: string;
+  isSerialPage?: boolean;
   onDetailsBtnClick: () => void;
   onPlayBtnClick: () => void;
 }
@@ -23,6 +28,8 @@ const HeroContent: FC<HeroContentProps> = ({
   releaseDate = "",
   rating = 0,
   overview = "",
+  newRatingData,
+  initialRatingValue,
   onDetailsBtnClick,
   onPlayBtnClick,
 }) => {
@@ -31,6 +38,18 @@ const HeroContent: FC<HeroContentProps> = ({
     [onDetailsBtnClick, onPlayBtnClick]
   );
 
+  const {
+    onMovieRatingState,
+    onStartIconMouseEnterEvent,
+    onStartIconMouseLeaveEvent,
+    getStarIconColor,
+  } = useStarRating({
+    rating: initialRatingValue,
+    colorFilled: STAR_ICON_COLOR_FILLED,
+    colorUnfilled: STAR_ICON_COLOR_UNFILLED,
+    newRating: newRatingData,
+  });
+
   return (
     <div className="absolute top-[30%] left-[5%] lg:top-[45%] xl:max-w-[85rem] 2xl:max-w-[108rem]">
       <div className="flex flex-col items-start gap-4 mb-8">
@@ -38,11 +57,12 @@ const HeroContent: FC<HeroContentProps> = ({
           {title}
         </h1>
         <StarRating
-          colorFilled={STAR_ICON_COLOR_FILLED}
-          colorUnfilled={STAR_ICON_COLOR_UNFILLED}
+          getStarIconColor={getStarIconColor}
           numberOfStars={DEFAULT_NUMBER_OF_START_ICONS}
-          rating={rating}
           size={28}
+          onMovieRatingState={onMovieRatingState}
+          onStartIconMouseEnterEvent={onStartIconMouseEnterEvent}
+          onStartIconMouseLeaveEvent={onStartIconMouseLeaveEvent}
         />
       </div>
       <div className="flex items-center mb-2">

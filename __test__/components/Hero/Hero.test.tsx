@@ -1,11 +1,16 @@
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 
 import Hero from "@/components/Hero";
 import {
   RandomMovieOrSerial,
   useGetRandomMovieOrSerial,
 } from "@/hooks/useGetRandomMovieOrSerial";
-import { mockMovie } from "@/mocks/testMocks";
+import {
+  mockMovie,
+  mockSessionWithUser,
+  withQueryClientAndSessionProvider,
+} from "@/mocks/testMocks";
+import { AppRoutes } from "@/types/enums";
 
 jest.mock("@/hooks/useGetRandomMovieOrSerial");
 
@@ -27,7 +32,11 @@ describe("Hero", () => {
   });
 
   it("Should render component without crashing", () => {
-    render(<Hero data={[mockMovie as RandomMovieOrSerial]} />);
+    withQueryClientAndSessionProvider(
+      <Hero data={[mockMovie as RandomMovieOrSerial]} />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();
