@@ -2,11 +2,7 @@ import React, { FC } from "react";
 
 import Button from "@/components/Button";
 import StarRating from "@/components/StarRating";
-import {
-  DEFAULT_NUMBER_OF_START_ICONS,
-  STAR_ICON_COLOR_FILLED,
-  STAR_ICON_COLOR_UNFILLED,
-} from "@/types/constants";
+import { DEFAULT_NUMBER_OF_START_ICONS } from "@/types/constants";
 
 interface CardContentProps {
   serialName?: string;
@@ -15,6 +11,10 @@ interface CardContentProps {
   releaseDate?: string;
   firstAirDate?: string;
   onClick: () => void;
+  getStarIconColor: (starIndex: number) => string;
+  onMovieRatingState: (iconRatingValue: number) => void;
+  onStartIconMouseEnterEvent: (iconRatingValue: number) => void;
+  onStartIconMouseLeaveEvent: () => void;
 }
 
 const CardContent: FC<CardContentProps> = ({
@@ -24,16 +24,21 @@ const CardContent: FC<CardContentProps> = ({
   releaseDate,
   firstAirDate,
   onClick,
+  getStarIconColor,
+  onMovieRatingState,
+  onStartIconMouseEnterEvent,
+  onStartIconMouseLeaveEvent,
 }) => {
   return (
     <div className="card-content-wrapper">
       <h3 className="mb-2">{movieTitle ?? serialName}</h3>
       <StarRating
-        colorFilled={STAR_ICON_COLOR_FILLED}
-        colorUnfilled={STAR_ICON_COLOR_UNFILLED}
+        getStarIconColor={getStarIconColor}
         numberOfStars={DEFAULT_NUMBER_OF_START_ICONS}
-        rating={rating ?? 0}
         size={18}
+        onMovieRatingState={onMovieRatingState}
+        onStartIconMouseEnterEvent={onStartIconMouseEnterEvent}
+        onStartIconMouseLeaveEvent={onStartIconMouseLeaveEvent}
       />
       <div className="flex items-center mb-4 mt-4">
         <p>

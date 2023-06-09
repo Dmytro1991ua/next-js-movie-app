@@ -42,6 +42,7 @@ const DetailsPage = ({
     trailerUrl,
     favoriteIcon,
     initialRatingValue,
+    newRating,
     onGoBackRedirect,
     onTrailerClosing,
   } = useDetailsPage({
@@ -107,6 +108,12 @@ const DetailsPage = ({
           </h2>
           <div className="flex items-center gap-8 mb-2">
             {detailsBlockWithMovieOrSerialRelease}
+            {!!newRating && (
+              <p className="flex flex-col mb-2">
+                My Rating:&nbsp;
+                <span className="text-mantis font-bold">{newRating}</span>
+              </p>
+            )}
           </div>
           <p className="mb-4">
             <ReadMore text={movieOrSerialDetails?.overview ?? ""} />

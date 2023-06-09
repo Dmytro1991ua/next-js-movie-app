@@ -1,13 +1,17 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
-import React, { FC, useCallback, useMemo } from "react";
+import React, { FC } from "react";
 
-import { BLURRED_IMAGE } from "@/types/constants";
+import {
+  BLURRED_IMAGE,
+  STAR_ICON_COLOR_FILLED,
+  STAR_ICON_COLOR_UNFILLED,
+} from "@/types/constants";
 import { AppRoutes } from "@/types/enums";
 import { MovieOrSerialResults } from "@/types/interfaces";
-import { getImageUrl, handleRedirectToDetailsPage } from "@/utils/utils";
 
 import CardContent from "./CardContent/CardContent";
+import { useCardState } from "./hooks/useCardState";
+import { useStarRating } from "../StarRating/hooks/useStarRating";
 
 interface CardProps {
   movieOrSerialData?: MovieOrSerialResults;
@@ -15,27 +19,23 @@ interface CardProps {
 }
 
 const Card: FC<CardProps> = ({ movieOrSerialData, route }) => {
-  const router = useRouter();
+  const { imageUrl, initialRatingValue, onHandleRedirectToDetailsPage } =
+    useCardState({ movieOrSerialData, route });
 
-  const onHandleRedirectToDetailsPage = useCallback(
-    () =>
-      handleRedirectToDetailsPage({
-        router,
-        route,
-        id: movieOrSerialData?.id,
-      }),
-    [movieOrSerialData?.id, route, router]
-  );
-
-  const imageUrl = useMemo(
-    () =>
-      getImageUrl({
-        posterPath: movieOrSerialData?.poster_path ?? "",
-        backdropPath: movieOrSerialData?.backdrop_path ?? "",
-        isCard: true,
-      }),
-    [movieOrSerialData?.poster_path, movieOrSerialData?.backdrop_path]
-  );
+  const {
+    onMovieRatingState,
+    onStartIconMouseEnterEvent,
+    onStartIconMouseLeaveEvent,
+    getStarIconColor,
+  } = useStarRating({
+    rating: initialRatingValue,
+    colorFilled: STAR_ICON_COLOR_FILLED,
+    colorUnfilled: STAR_ICON_COLOR_UNFILLED,
+    newRating: {
+      id: movieOrSerialData?.id ?? 0,
+      name: (movieOrSerialData?.title || movieOrSerialData?.name) ?? "",
+    },
+  });
 
   return (
     <div className="group [perspective:1000px] h-[35rem] xs:w-72 sm:w-96 cursor-pointer">
@@ -53,11 +53,15 @@ const Card: FC<CardProps> = ({ movieOrSerialData, route }) => {
         </div>
         <CardContent
           firstAirDate={movieOrSerialData?.first_air_date}
+          getStarIconColor={getStarIconColor}
           movieTitle={movieOrSerialData?.title}
           rating={movieOrSerialData?.vote_average}
           releaseDate={movieOrSerialData?.release_date}
           serialName={movieOrSerialData?.name}
           onClick={onHandleRedirectToDetailsPage}
+          onMovieRatingState={onMovieRatingState}
+          onStartIconMouseEnterEvent={onStartIconMouseEnterEvent}
+          onStartIconMouseLeaveEvent={onStartIconMouseLeaveEvent}
         />
       </div>
     </div>

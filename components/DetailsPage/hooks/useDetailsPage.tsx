@@ -16,6 +16,7 @@ import {
   getFavoritesIcon,
   getFavoritesId,
   getIsMovieOrSerialInFavorites,
+  getNewRatingFromDB,
   getStarRatingValue,
   movieOrSerialReleaseConfig,
   movieOrSerialRevenueOrSeasonsDetailsConfig,
@@ -35,6 +36,7 @@ type ReturnedHookType = {
   trailerUrl: string | null;
   favoriteIcon: JSX.Element[];
   initialRatingValue: number;
+  newRating: number;
   onTrailerClosing: () => void;
   onGoBackRedirect: () => void;
 };
@@ -164,6 +166,12 @@ export const useDetailsPage = ({
     [movieOrSerialDetails?.vote_average, newRating, movieOrSerialDetails?.id]
   );
 
+  const newRatingValue = useMemo(
+    () =>
+      getNewRatingFromDB(newRating?.data ?? [], movieOrSerialDetails?.id ?? 0),
+    [newRating?.data, movieOrSerialDetails?.id]
+  );
+
   return {
     detailsBlockWithPillsSubtitle,
     detailsBlockWithMovieOrSerialRelease,
@@ -173,6 +181,7 @@ export const useDetailsPage = ({
     trailerUrl,
     favoriteIcon,
     initialRatingValue,
+    newRating: newRatingValue,
     onTrailerClosing,
     onGoBackRedirect,
   };

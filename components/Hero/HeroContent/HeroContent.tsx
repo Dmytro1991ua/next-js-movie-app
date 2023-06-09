@@ -13,6 +13,7 @@ import { getHeroContentActionButtons } from "@/utils/utils";
 
 interface HeroContentProps {
   initialRatingValue: number;
+  newRating: number;
   newRatingData: Pick<Rating, "id" | "name">;
   title?: string;
   releaseDate?: string;
@@ -30,6 +31,7 @@ const HeroContent: FC<HeroContentProps> = ({
   overview = "",
   newRatingData,
   initialRatingValue,
+  newRating,
   onDetailsBtnClick,
   onPlayBtnClick,
 }) => {
@@ -72,6 +74,12 @@ const HeroContent: FC<HeroContentProps> = ({
           <span className="text-mantis font-bold">{rating}</span>
         </p>
       </div>
+      {!!newRating && (
+        <p className="mb-2">
+          My Rating:&nbsp;
+          <span className="text-mantis font-bold">{newRating}</span>
+        </p>
+      )}
       <ReadMore className="mb-8" text={overview} />
       {actionButtons}
     </div>
