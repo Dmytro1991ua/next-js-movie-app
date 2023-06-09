@@ -11,7 +11,11 @@ import { Serial } from "@/model/serial";
 import { homePageService } from "@/modules/home/home.service";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { UpdateRatingResult } from "@/types/interfaces";
-import { getStarRatingValue, handleRedirectToDetailsPage } from "@/utils/utils";
+import {
+  getNewRatingFromDB,
+  getStarRatingValue,
+  handleRedirectToDetailsPage,
+} from "@/utils/utils";
 
 type HookProps<T> = {
   data: T[];
@@ -22,6 +26,7 @@ type ReturnedHookType = {
   isTrailerShown: boolean;
   trailerUrl: string | null;
   initialRatingValue: number;
+  newRating: number;
   newRatingData: Pick<Rating, "id" | "name">;
   randomMovieOrSerial: (Movie & Serial) | null;
   onTrailerOpening: () => void;
@@ -75,12 +80,19 @@ export const useHeroState = <T extends Movie & Serial>({
     name: (randomMovieOrSerial?.title || randomMovieOrSerial?.name) ?? "",
   };
 
+  const newRatingValue = useMemo(
+    () =>
+      getNewRatingFromDB(newRating?.data ?? [], randomMovieOrSerial?.id ?? 0),
+    [newRating?.data, randomMovieOrSerial?.id]
+  );
+
   return {
     isTrailerShown,
     trailerUrl,
     initialRatingValue,
     newRatingData,
     randomMovieOrSerial,
+    newRating: newRatingValue,
     onTrailerOpening,
     onTrailerClosing,
     onHandleRedirectToDetailsPage,

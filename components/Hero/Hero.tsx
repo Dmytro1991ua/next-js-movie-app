@@ -26,6 +26,7 @@ const Hero = <T extends Movie & Serial>({
     isTrailerShown,
     randomMovieOrSerial,
     newRatingData,
+    newRating,
     onHandleRedirectToDetailsPage,
     onTrailerClosing,
     onTrailerOpening,
@@ -41,6 +42,7 @@ const Hero = <T extends Movie & Serial>({
       </div>
       <HeroContent
         initialRatingValue={initialRatingValue}
+        newRating={newRating}
         newRatingData={newRatingData}
         overview={randomMovieOrSerial?.overview}
         rating={randomMovieOrSerial?.vote_average}
