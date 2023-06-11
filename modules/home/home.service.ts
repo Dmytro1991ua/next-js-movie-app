@@ -1,6 +1,8 @@
+import { Cast, MovieOrSerialDetail } from "@/model/common";
+import { Movie } from "@/model/movie";
 import { DefaultUserWithId } from "@/pages/api/auth/auth";
 import { toastService } from "@/services/toast.service";
-import { RequestMethod } from "@/types/enums";
+import { RequestMethod, SliderTitle } from "@/types/enums";
 import {
   AddRatingPayload,
   AddToFavoritePayload,
@@ -9,12 +11,14 @@ import {
   MovieOrSerialDetailsData,
   MovieOrSerialResult,
   RemoveFromFavoritePayload,
+  UpdateRatingResult,
 } from "@/types/interfaces";
 import {
   requestsConfigForHomePage,
   requestsConfigForMovieDetailsPage,
 } from "@/utils/requests";
 import {
+  fetchDataWithHandling,
   getResponseErrorMessage,
   getResponseErrorMessageForDetailsPage,
 } from "@/utils/utils";
@@ -32,24 +36,42 @@ class HomePageService {
         trendingMoviesResponse,
         upcomingMoviesResponse,
       ] = await Promise.all([
-        fetch(requestsConfigForHomePage.fetchLatestMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForHomePage.fetchNowPlayingMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForHomePage.fetchPopularMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForHomePage.fetchTopRatedMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForHomePage.fetchTrendingMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForHomePage.fetchUpcomingMovies).then((res) =>
-          res.json()
-        ),
+        fetchDataWithHandling<Movie>({
+          url: requestsConfigForHomePage.fetchLatestMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.LatestMoviesOrSerials,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult>({
+          url: requestsConfigForHomePage.fetchNowPlayingMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.NowPlayingMovies,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult>({
+          url: requestsConfigForHomePage.fetchPopularMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.PopularMoviesOrSerials,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult>({
+          url: requestsConfigForHomePage.fetchTopRatedMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.TopRatedMoviesOrSerials,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult>({
+          url: requestsConfigForHomePage.fetchTrendingMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.TrendingMovies,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult>({
+          url: requestsConfigForHomePage.fetchUpcomingMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.UpcomingMovies,
+        }),
       ]);
 
       return {
@@ -64,19 +86,20 @@ class HomePageService {
       const errorMessage = getResponseErrorMessage();
       toastService.error(errorMessage);
 
-      throw new Error((error as Error).message);
+      throw error;
     }
   }
 
   //TODO Move this method to shared service and make it reusable for all pages
-
   async fetchSeeMorePageDataForHomePage(
     url: string
   ): Promise<MovieOrSerialResult | null> {
     try {
-      const response = await fetch(url);
-
-      return await response.json();
+      return await fetchDataWithHandling<MovieOrSerialResult>({
+        url,
+        mediaType: "movies",
+        action: "fetch",
+      });
     } catch (error) {
       const errorMessage = getResponseErrorMessage();
       toastService.error(errorMessage);
@@ -97,8 +120,16 @@ class HomePageService {
         requestsConfigForMovieDetailsPage(movieId).fetchMovieActors;
 
       const [movieDetailResponse, movieCastResponse] = await Promise.all([
-        fetch(movieUrl).then((res) => res.json()),
-        fetch(castUrl).then((res) => res.json()),
+        fetchDataWithHandling<MovieOrSerialDetail>({
+          url: movieUrl,
+          mediaType: "movies",
+          action: "fetch",
+        }),
+        fetchDataWithHandling<Cast>({
+          url: castUrl,
+          mediaType: "movies",
+          action: "fetch",
+        }),
       ]);
 
       return {
@@ -127,9 +158,15 @@ class HomePageService {
         }),
       });
 
-      const response = await fetch("/api/favorites", favoritesDataPayload);
-
-      return await response.json();
+      return await fetchDataWithHandling<FavoritesMoviesOrSerialsResult | null>(
+        {
+          url: "/api/favorites",
+          mediaType: "movies",
+          action: "fetch",
+          options: favoritesDataPayload,
+          message: "Failed to load favorites movies or serials",
+        }
+      );
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -150,16 +187,24 @@ class HomePageService {
         }),
       });
 
-      const response = await fetch("/api/favorites", favoritesDataPayload);
-
-      return await response.json();
+      return await fetchDataWithHandling<FavoritesMoviesOrSerialsResult | null>(
+        {
+          url: "/api/favorites",
+          mediaType: "movies",
+          action: "fetch",
+          options: favoritesDataPayload,
+          message: "Failed to add to or remove from favorites list",
+        }
+      );
     } catch (error) {
       throw new Error((error as Error).message);
     }
   }
 
   //TODO Move method to shared service
-  async fetchRatingById(user?: DefaultUserWithId) {
+  async fetchRatingById(
+    user?: DefaultUserWithId
+  ): Promise<UpdateRatingResult | null> {
     try {
       const ratingDataPayload = getRequestOptions({
         method: RequestMethod.PUT,
@@ -170,9 +215,13 @@ class HomePageService {
         }),
       });
 
-      const response = await fetch("/api/rating", ratingDataPayload);
-
-      return await response.json();
+      return await fetchDataWithHandling<UpdateRatingResult | null>({
+        url: "/api/rating",
+        mediaType: "movies",
+        action: "fetch",
+        options: ratingDataPayload,
+        message: "Failed to load rating data",
+      });
     } catch (error) {
       throw new Error((error as Error).message);
     }
@@ -188,9 +237,13 @@ class HomePageService {
         }),
       });
 
-      const response = await fetch("/api/rating", updateRatingPayload);
-
-      return await response.json();
+      return await fetchDataWithHandling<UpdateRatingResult | null>({
+        url: "/api/rating",
+        mediaType: "movies",
+        action: "update",
+        options: updateRatingPayload,
+        message: "Failed to update rating",
+      });
     } catch (error) {
       throw new Error((error as Error).message);
     }

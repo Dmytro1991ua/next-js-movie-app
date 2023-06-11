@@ -1,7 +1,4 @@
-import { waitFor } from "@testing-library/react";
-import { toast } from "react-toastify";
-
-import { mockMovie, mockSerialDetails } from "@/mocks/testMocks";
+import { mockMovie } from "@/mocks/testMocks";
 import { serialsPageService } from "@/modules/serials/serials.service";
 import { getResponseErrorMessage } from "@/utils/utils";
 getResponseErrorMessage;
@@ -12,43 +9,97 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
-jest.mock("@/utils/utils", () => ({
-  getResponseErrorMessage: () => "Test Error Message",
-}));
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
+jest.mock("@/utils/utils", () => {
+  const originalUtils = jest.requireActual("@/utils/utils");
+
+  return {
+    ...originalUtils,
+    getResponseErrorMessageForDetailsPage: jest
+      .fn()
+      .mockReturnValue("Failed to fetch movie details"),
+    getResponseErrorMessage: () => "Test Error Message",
+    getRequestOptions: () => ({
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: "test_body",
+    }),
+  };
+});
 
 describe("SerialsPageService", () => {
   describe("fetchSerialsData", () => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () =>
-          Promise.resolve({
-            ...mockMovie,
-          }),
-      })
-    );
+    beforeEach(() => {
+      (window.fetch as jest.Mock) = jest.fn();
+    });
 
-    it("Should return serials Serials Page", async () => {
+    afterEach(() => {
+      (window.fetch as jest.Mock).mockReset();
+    });
+
+    it("Should return serials for Serials Page", async () => {
+      jest
+        .spyOn(window, "fetch")
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response);
+
       const response = await serialsPageService.fetchSerialsData();
 
       expect(response.latestSerials).toEqual(mockMovie);
       expect(response.topRatedSerials).toEqual(mockMovie);
     });
 
-    it("should failed to load movies by genre and call toast with error message", async () => {
-      try {
-        (window.fetch as jest.Mock).mockResolvedValueOnce({
-          ok: false,
-        });
-        await expect(serialsPageService.fetchSerialsData()).rejects.toEqual(
-          "Test Error Message"
-        );
-      } catch {
-        await waitFor(() =>
-          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
-        );
-      }
+    it("should failed to load serials and call toast with error message", async () => {
+      const errorMessage = "Failed to fetch serials";
+
+      jest
+        .spyOn(global, "fetch")
+        .mockImplementation(() => Promise.reject(new Error(errorMessage)));
+
+      await expect(serialsPageService.fetchSerialsData()).rejects.toThrowError(
+        errorMessage
+      );
     });
+  });
+
+  describe("fetchSeeMorePageDataForSerialsPage", () => {
+    beforeEach(() => {
+      (window.fetch as jest.Mock) = jest.fn();
+    });
+
+    afterEach(() => {
+      (window.fetch as jest.Mock).mockReset();
+    });
+
     it("Should return data for See More pages", async () => {
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(mockMovie),
+      });
+
       const response =
         await serialsPageService.fetchSeeMorePageDataForSerialsPage("Test");
 
@@ -56,50 +107,59 @@ describe("SerialsPageService", () => {
     });
 
     it("Should fail to load data for See More Page", async () => {
-      try {
-        (window.fetch as jest.Mock).mockResolvedValueOnce({
-          ok: false,
-        });
-        await expect(
-          serialsPageService.fetchSeeMorePageDataForSerialsPage("Test")
-        ).rejects.toEqual("Test Error Message");
-      } catch {
-        await waitFor(() =>
-          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
-        );
-      }
+      const errorMessage = "Failed to fetch serials for See More page";
+
+      jest
+        .spyOn(global, "fetch")
+        .mockImplementation(() => Promise.reject(new Error(errorMessage)));
+
+      await expect(
+        serialsPageService.fetchSeeMorePageDataForSerialsPage("Test")
+      ).rejects.toThrowError(errorMessage);
     });
   });
 
   describe("fetchSerialDetailsData", () => {
+    beforeEach(() => {
+      (window.fetch as jest.Mock) = jest.fn();
+    });
+
+    afterEach(() => {
+      (window.fetch as jest.Mock).mockReset();
+    });
+
     it("Should return serials details by its ID", async () => {
-      global.fetch = jest.fn(() =>
-        Promise.resolve({
-          json: () =>
-            Promise.resolve({
-              ...mockSerialDetails,
-            }),
+      const movieDetailResponse = { id: "movie123", title: "Movie Title" };
+      const movieCastResponse = { cast: [{ id: "actor1", name: "Actor 1" }] };
+
+      (window.fetch as jest.Mock)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(movieDetailResponse),
         })
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(movieCastResponse),
+        });
+
+      const result = await serialsPageService.fetchSerialDetailsData(
+        "movie123"
       );
 
-      const response = await serialsPageService.fetchSerialDetailsData();
-
-      expect(response.movieOrSerialDetails).toEqual(mockSerialDetails);
+      expect(result.movieOrSerialDetails).toEqual(movieDetailResponse);
+      expect(result.movieOrSerialActors).toEqual(movieCastResponse);
     });
 
     it("should failed to load movies by genre and call toast with error message", async () => {
-      try {
-        (window.fetch as jest.Mock).mockResolvedValueOnce({
-          ok: false,
-        });
-        await expect(
-          serialsPageService.fetchSerialDetailsData()
-        ).rejects.toEqual("Test Error Message");
-      } catch {
-        await waitFor(() =>
-          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
-        );
-      }
+      const errorMessage = "Failed to fetch serial details";
+
+      jest
+        .spyOn(global, "fetch")
+        .mockImplementation(() => Promise.reject(new Error(errorMessage)));
+
+      await expect(
+        serialsPageService.fetchSerialDetailsData("movie123")
+      ).rejects.toThrowError(errorMessage);
     });
   });
 });

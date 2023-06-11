@@ -967,3 +967,37 @@ export const getStarRatingValue = (
     ? convertTMDBRatingToStarRating(newRating)
     : convertTMDBRatingToStarRating(tmdbRating);
 };
+
+export const fetchDataWithHandling = async <T,>({
+  url,
+  mediaType,
+  action,
+  options,
+  genre = SliderTitle.Default,
+  message = "",
+}: {
+  url: string;
+  mediaType: "movies" | "serials";
+  action: "fetch" | "update" | "delete";
+  options?: RequestOption;
+  genre?: SliderTitle;
+  message?: string;
+}): Promise<T | null> => {
+  const response = await fetch(url, options);
+
+  const errorMessage = message
+    ? message
+    : `Failed to ${action} ${genre} ${mediaType}: ${
+        response.statusText ?? "Unknown error"
+      }`;
+
+  if (!response.ok) {
+    throw new Error(errorMessage);
+  }
+
+  try {
+    return await response.json();
+  } catch (e) {
+    throw new Error((e as Error).message);
+  }
+};

@@ -34,6 +34,7 @@ const FallbackImage: FC<FallbackImageProps> = ({
       className={clsx("flex rounded-[50%] bg-powderAsh", [
         isActive ? "border-2	border-white" : "border-0	border-transparent",
       ])}
+      data-testid="image-wrapper"
     >
       <Image
         alt={altText}

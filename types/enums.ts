@@ -42,6 +42,7 @@ export enum QueryString {
 }
 
 export enum SliderTitle {
+  Default = "",
   PopularMoviesOrSerials = "Popular",
   TopRatedMoviesOrSerials = "Top Rated",
   LatestMoviesOrSerials = "Latest",
