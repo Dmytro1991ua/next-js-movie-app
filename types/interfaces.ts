@@ -199,8 +199,8 @@ export interface PageSlider<T> {
 }
 
 export type MovieOrSerialDetailsData = {
-  movieOrSerialDetails: MovieOrSerialDetail;
-  movieOrSerialActors: Cast;
+  movieOrSerialDetails: MovieOrSerialDetail | null;
+  movieOrSerialActors: Cast | null;
 };
 
 export type DetailsBlockPosition = "column" | "row";

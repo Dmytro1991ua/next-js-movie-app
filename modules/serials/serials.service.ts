@@ -1,4 +1,6 @@
+import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { toastService } from "@/services/toast.service";
+import { SliderTitle } from "@/types/enums";
 import {
   MovieOrSerialDetailsData,
   MovieOrSerialResult,
@@ -9,6 +11,7 @@ import {
   requestsConfigForSerialsPage,
 } from "@/utils/requests";
 import {
+  fetchDataWithHandling,
   getResponseErrorMessage,
   getResponseErrorMessageForDetailsPage,
 } from "@/utils/utils";
@@ -23,21 +26,36 @@ class SerialsPageService {
         popularSerialsResponse,
         topRatedSerialsResponse,
       ] = await Promise.all([
-        fetch(requestsConfigForSerialsPage.fetchLatestSerials).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForSerialsPage.fetchPopularSerials).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForSerialsPage.fetchSerialsAiringToday).then(
-          (res) => res.json()
-        ),
-        fetch(requestsConfigForSerialsPage.fetchSerialsOnAir).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForSerialsPage.fetchTopRatedSerials).then((res) =>
-          res.json()
-        ),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForSerialsPage.fetchLatestSerials,
+          mediaType: "serials",
+          action: "fetch",
+          genre: SliderTitle.LatestMoviesOrSerials,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForSerialsPage.fetchPopularSerials,
+          mediaType: "serials",
+          action: "fetch",
+          genre: SliderTitle.PopularMoviesOrSerials,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForSerialsPage.fetchSerialsAiringToday,
+          mediaType: "serials",
+          action: "fetch",
+          genre: SliderTitle.SerialsAiringToday,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForSerialsPage.fetchSerialsOnAir,
+          mediaType: "serials",
+          action: "fetch",
+          genre: SliderTitle.SerialsOnAir,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForSerialsPage.fetchTopRatedSerials,
+          mediaType: "serials",
+          action: "fetch",
+          genre: SliderTitle.TopRatedMoviesOrSerials,
+        }),
       ]);
 
       return {
@@ -51,7 +69,7 @@ class SerialsPageService {
       const errorMessage = getResponseErrorMessage(true);
       toastService.error(errorMessage);
 
-      throw new Error((error as Error).message);
+      throw error;
     }
   }
 
@@ -67,8 +85,16 @@ class SerialsPageService {
         requestsConfigForSerialDetailsPage(serialId).fetchSerialActors;
 
       const [serialDetailResponse, serialCastResponse] = await Promise.all([
-        fetch(serialUrl).then((res) => res.json()),
-        fetch(castUrl).then((res) => res.json()),
+        fetchDataWithHandling<MovieOrSerialDetail | null>({
+          url: serialUrl,
+          mediaType: "serials",
+          action: "fetch",
+        }),
+        fetchDataWithHandling<Cast | null>({
+          url: castUrl,
+          mediaType: "serials",
+          action: "fetch",
+        }),
       ]);
 
       return {
@@ -88,9 +114,11 @@ class SerialsPageService {
     url: string
   ): Promise<MovieOrSerialResult | null> {
     try {
-      const response = await fetch(url);
-
-      return await response.json();
+      return await fetchDataWithHandling<MovieOrSerialResult>({
+        url,
+        mediaType: "serials",
+        action: "fetch",
+      });
     } catch (error) {
       const errorMessage = getResponseErrorMessage(true);
       toastService.error(errorMessage);

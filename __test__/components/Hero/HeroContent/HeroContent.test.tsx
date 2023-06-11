@@ -29,6 +29,7 @@ const defaultProps = {
   overview: "Test movie description",
   onDetailsBtnClick: () => jest.fn(),
   onPlayBtnClick: () => jest.fn(),
+  newRating: 0,
 };
 
 describe("Hero", () => {
@@ -54,5 +55,16 @@ describe("Hero", () => {
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();
     expect(screen.getByText(/6.4/)).toBeInTheDocument();
     expect(screen.getByText(/Test movie description/)).toBeInTheDocument();
+  });
+
+  it("should display a custom user's rating if newRating value is provided", () => {
+    withQueryClientAndSessionProvider(
+      <HeroContent {...defaultProps} newRating={6} />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
+
+    expect(screen.getByText("My Rating:")).toBeInTheDocument();
+    expect(screen.getByText("6")).toBeInTheDocument();
   });
 });

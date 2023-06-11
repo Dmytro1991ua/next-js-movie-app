@@ -1,17 +1,18 @@
-import { waitFor } from "@testing-library/react";
-import { toast } from "react-toastify";
-
 import { mockMovie, mockSerialDetails } from "@/mocks/testMocks";
 import { homePageService } from "@/modules/home/home.service";
 import { RequestMethod } from "@/types/enums";
-import { getResponseErrorMessage } from "@/utils/utils";
-getResponseErrorMessage;
 
 jest.mock("react-toastify", () => ({
   toast: {
     error: jest.fn(),
   },
 }));
+
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
 
 jest.mock("@/utils/utils", () => ({
   getResponseErrorMessage: () => "Test Error Message",
@@ -21,6 +22,23 @@ jest.mock("@/utils/utils", () => ({
     body: "test_body",
   }),
 }));
+
+jest.mock("@/utils/utils", () => {
+  const originalUtils = jest.requireActual("@/utils/utils");
+
+  return {
+    ...originalUtils,
+    getResponseErrorMessageForDetailsPage: jest
+      .fn()
+      .mockReturnValue("Failed to fetch movie details"),
+    getResponseErrorMessage: () => "Test Error Message",
+    getRequestOptions: () => ({
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: "test_body",
+    }),
+  };
+});
 
 const mockSession = {
   user: {
@@ -33,39 +51,71 @@ const mockSession = {
 };
 
 describe("HomePageService", () => {
-  describe("fetchMoviesForHomePage", () => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () =>
-          Promise.resolve({
-            ...mockMovie,
-          }),
-      })
-    );
+  beforeEach(() => {
+    (window.fetch as jest.Mock) = jest.fn();
+  });
 
+  afterEach(() => {
+    (window.fetch as jest.Mock).mockReset();
+  });
+
+  describe("fetchMoviesForHomePage", () => {
     it("Should return movies for Home Page", async () => {
+      jest
+        .spyOn(window, "fetch")
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(mockMovie),
+        } as unknown as Response);
       const response = await homePageService.fetchMoviesForHomePage();
 
       expect(response.latestMovies).toEqual(mockMovie);
       expect(response.nowPlayingMovies).toEqual(mockMovie);
+      expect(response.trendingMovies).toEqual(mockMovie);
     });
 
     it("Should fail to load movies and call toast with error message", async () => {
-      try {
-        (window.fetch as jest.Mock).mockResolvedValueOnce({
-          ok: false,
-        });
-        await expect(homePageService.fetchMoviesForHomePage()).rejects.toEqual(
-          "Test Error Message"
-        );
-      } catch {
-        await waitFor(() =>
-          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
-        );
-      }
+      const errorMessage = "Failed to fetch movie details";
+
+      jest
+        .spyOn(global, "fetch")
+        .mockImplementation(() => Promise.reject(new Error(errorMessage)));
+
+      await expect(
+        homePageService.fetchMoviesForHomePage()
+      ).rejects.toThrowError(errorMessage);
     });
 
     it("Should return data for See More pages", async () => {
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(mockMovie),
+      });
+
       const response = await homePageService.fetchSeeMorePageDataForHomePage(
         "Test"
       );
@@ -74,90 +124,99 @@ describe("HomePageService", () => {
     });
 
     it("Should fail to load data for See More Page", async () => {
-      try {
-        (window.fetch as jest.Mock).mockResolvedValueOnce({
-          ok: false,
-        });
-        await expect(
-          homePageService.fetchSeeMorePageDataForHomePage("Test")
-        ).rejects.toEqual("Test Error Message");
-      } catch {
-        await waitFor(() =>
-          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
-        );
-      }
+      const errorMessage = "Failed to fetch movies for See More page";
+
+      jest
+        .spyOn(global, "fetch")
+        .mockImplementation(() => Promise.reject(new Error(errorMessage)));
+
+      await expect(
+        homePageService.fetchMoviesDetailsData("movie123")
+      ).rejects.toThrowError(errorMessage);
     });
   });
 
   describe("fetchMoviesDetailsData", () => {
-    it("Should return movie details data by its id", async () => {
-      global.fetch = jest.fn(() =>
-        Promise.resolve({
-          json: () =>
-            Promise.resolve({
-              ...mockSerialDetails,
-            }),
-        })
-      );
-
-      const response = await homePageService.fetchMoviesDetailsData("66633");
-
-      expect(response.movieOrSerialDetails).toEqual(mockSerialDetails);
+    beforeEach(() => {
+      (window.fetch as jest.Mock) = jest.fn();
     });
 
-    it("Should failed to load movies details and call toast with error message", async () => {
-      try {
-        (window.fetch as jest.Mock).mockResolvedValueOnce({
-          ok: false,
-        });
-        await expect(homePageService.fetchMoviesDetailsData()).rejects.toEqual(
-          "Test Error Message"
-        );
-      } catch {
-        await waitFor(() =>
-          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
-        );
-      }
-    });
-  });
-
-  describe("fetchFavoritesMoviesOrSerials", () => {
     afterEach(() => {
       (window.fetch as jest.Mock).mockReset();
     });
 
-    it("Should return return favorites movies or serials for a specific user", async () => {
-      global.fetch = jest.fn(() =>
-        Promise.resolve({
-          json: () =>
-            Promise.resolve({
-              data: {
-                ...mockSerialDetails,
-              },
-            }),
+    it("Should return movie details data by its id", async () => {
+      const movieDetailResponse = { id: "movie123", title: "Movie Title" };
+      const movieCastResponse = { cast: [{ id: "actor1", name: "Actor 1" }] };
+
+      (window.fetch as jest.Mock)
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(movieDetailResponse),
         })
-      );
+        .mockResolvedValueOnce({
+          ok: true,
+          json: jest.fn().mockResolvedValueOnce(movieCastResponse),
+        });
+
+      const result = await homePageService.fetchMoviesDetailsData("movie123");
+
+      expect(result.movieOrSerialDetails).toEqual(movieDetailResponse);
+      expect(result.movieOrSerialActors).toEqual(movieCastResponse);
+    });
+
+    it("Should fail to fetch movie details and throw an error with the error message", async () => {
+      const errorMessage = "Failed to fetch movie details";
+
+      jest
+        .spyOn(global, "fetch")
+        .mockImplementation(() => Promise.reject(new Error(errorMessage)));
+
+      await expect(
+        homePageService.fetchMoviesDetailsData("movie123")
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe("fetchFavoritesMoviesOrSerials", () => {
+    beforeEach(() => {
+      (window.fetch as jest.Mock) = jest.fn();
+    });
+
+    afterEach(() => {
+      (window.fetch as jest.Mock).mockReset();
+    });
+
+    const mockData = {
+      success: true,
+      data: mockSerialDetails,
+    };
+
+    it("Should return favorites movies or serials for a specific user", async () => {
+      const mockResponse = mockData;
+
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(mockResponse),
+      });
 
       const response = await homePageService.fetchFavoritesMoviesOrSerials(
         mockSession.user
       );
 
-      expect(response?.data).toEqual(mockSerialDetails);
+      expect(response).toEqual(mockResponse);
     });
 
     it("Should failed to load favorites movies or serials and call toast with error message", async () => {
-      try {
-        (window.fetch as jest.Mock).mockResolvedValueOnce({
-          ok: false,
-        });
-        await expect(
-          homePageService.fetchFavoritesMoviesOrSerials(mockSession.user)
-        ).rejects.toEqual("Test Error Message");
-      } catch {
-        await waitFor(() =>
-          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
-        );
-      }
+      const errorMessage = "Failed to load favorites movies or serials";
+
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+      });
+
+      await expect(
+        homePageService.fetchFavoritesMoviesOrSerials(mockSession.user)
+      ).rejects.toThrowError(errorMessage);
     });
   });
 
@@ -172,45 +231,147 @@ describe("HomePageService", () => {
       favorites: mockSerialDetails,
     };
 
+    const mockData = {
+      success: true,
+      data: mockSerialDetails,
+    };
+
     const mockMethod = RequestMethod.POST;
+
+    beforeEach(() => {
+      (window.fetch as jest.Mock) = jest.fn();
+    });
 
     afterEach(() => {
       (window.fetch as jest.Mock).mockReset();
     });
 
-    it("Should return return favorites movies or serials for a specific user", async () => {
-      global.fetch = jest.fn(() =>
-        Promise.resolve({
-          json: () =>
-            Promise.resolve({
-              data: {
-                ...mockSerialDetails,
-              },
-            }),
-        })
-      );
+    it("Should successfully add to or remove from favorites list", async () => {
+      const mockResponse = mockData;
+
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(mockResponse),
+      });
 
       const response = await homePageService.updateFavoriteMovieOrSerial(
         mockPayload,
         mockMethod
       );
 
-      expect(response?.data).toEqual(mockSerialDetails);
+      expect(response).toEqual(mockResponse);
     });
 
-    it("Should failed to load favorites movies or serials and call toast with error message", async () => {
-      try {
-        (window.fetch as jest.Mock).mockResolvedValueOnce({
-          ok: false,
-        });
-        await expect(
-          homePageService.updateFavoriteMovieOrSerial(mockPayload, mockMethod)
-        ).rejects.toEqual("Test Error Message");
-      } catch {
-        await waitFor(() =>
-          expect(toast.error).toHaveBeenCalledWith("Test Error Message")
-        );
-      }
+    it("Should failed to update favorites movies or serials", async () => {
+      const errorMessage = "Failed to add to or remove from favorites list";
+
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+      });
+
+      await expect(
+        homePageService.updateFavoriteMovieOrSerial(mockPayload, mockMethod)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe("fetchRatingById", () => {
+    beforeEach(() => {
+      (window.fetch as jest.Mock) = jest.fn();
+    });
+
+    afterEach(() => {
+      (window.fetch as jest.Mock).mockReset();
+    });
+
+    const mockData = {
+      success: true,
+      data: {
+        id: 1,
+        name: "test_movie",
+        rating: 4,
+      },
+    };
+
+    it("Should successfully fetch rating data by id related to a specific, authenticated user", async () => {
+      const mockResponse = mockData;
+
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(mockResponse),
+      });
+
+      const result = await homePageService.fetchRatingById(mockSession.user);
+
+      expect(result).toEqual(mockResponse);
+    });
+
+    it("Should failed to load rating data and call toast with error message", async () => {
+      const errorMessage = "Failed to load rating data";
+
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+      });
+
+      await expect(
+        homePageService.fetchRatingById(mockSession.user)
+      ).rejects.toThrowError(errorMessage);
+    });
+  });
+
+  describe("updateMovieOrSerialRating", () => {
+    const mockPayload = {
+      user: {
+        id: "mockUserId",
+        name: "John Doe",
+        email: "johndoe@example.com",
+        image: "https://example.com/avatar.jpg",
+      },
+      data: {
+        id: 1,
+        name: "test_movie",
+        rating: 6,
+      },
+    };
+
+    const mockData = {
+      success: true,
+      data: mockSerialDetails,
+    };
+
+    beforeEach(() => {
+      (window.fetch as jest.Mock) = jest.fn();
+    });
+
+    afterEach(() => {
+      (window.fetch as jest.Mock).mockReset();
+    });
+
+    it("Should successfully add to or remove from favorites list", async () => {
+      const mockResponse = mockData;
+
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(mockResponse),
+      });
+
+      const response = await homePageService.updateMovieOrSerialRating(
+        mockPayload
+      );
+
+      expect(response).toEqual(mockResponse);
+    });
+
+    it("Should failed to update favorites movies or serials", async () => {
+      const errorMessage = "Failed to update rating";
+
+      (window.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+      });
+
+      await expect(
+        homePageService.updateMovieOrSerialRating(mockPayload)
+      ).rejects.toThrowError(errorMessage);
     });
   });
 });

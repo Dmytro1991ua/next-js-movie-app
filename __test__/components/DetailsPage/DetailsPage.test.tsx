@@ -63,6 +63,7 @@ describe("DetailsPage", () => {
       onGoBackRedirect: jest.fn(),
       isTrailerShown: true,
       initialRatingValue: 6,
+      newRating: 8,
     }));
 
     withQueryClientAndSessionProvider(
@@ -98,6 +99,7 @@ describe("DetailsPage", () => {
       onGoBackRedirect: jest.fn(),
       isTrailerShown: true,
       initialRatingValue: 6,
+      newRating: 8,
     }));
 
     withQueryClientAndSessionProvider(

@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import StarRating from "@/components/StarRating";
 import { DEFAULT_NUMBER_OF_START_ICONS } from "@/types/constants";
 
-interface CardContentProps {
+export interface CardContentProps {
   serialName?: string;
   movieTitle?: string;
   rating?: number;

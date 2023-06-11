@@ -1,4 +1,6 @@
+import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { toastService } from "@/services/toast.service";
+import { SliderTitle } from "@/types/enums";
 import {
   DataFetcherProps,
   MovieOrSerialDetailsData,
@@ -11,6 +13,7 @@ import {
   requestsConfigForMoviesPage,
 } from "@/utils/requests";
 import {
+  fetchDataWithHandling,
   getResponseErrorMessage,
   getResponseErrorMessageForDetailsPage,
 } from "@/utils/utils";
@@ -28,30 +31,54 @@ class MoviesPageService {
         warMoviesResponse,
         westernMoviesResponse,
       ] = await Promise.all([
-        fetch(requestsConfigForMoviesPage.fetchActionMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForMoviesPage.fetchComedyMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForMoviesPage.fetchDocumentariesMovies).then(
-          (res) => res.json()
-        ),
-        fetch(requestsConfigForMoviesPage.fetchHistoryMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForMoviesPage.fetchHorrorMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForMoviesPage.fetchThrillerMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForMoviesPage.fetchWarMovies).then((res) =>
-          res.json()
-        ),
-        fetch(requestsConfigForMoviesPage.fetchWesternMovies).then((res) =>
-          res.json()
-        ),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForMoviesPage.fetchActionMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.ActionMovies,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForMoviesPage.fetchComedyMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.ComedyMovies,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForMoviesPage.fetchDocumentariesMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.Documentaries,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForMoviesPage.fetchHistoryMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.HistoryMovies,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForMoviesPage.fetchHorrorMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.HistoryMovies,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForMoviesPage.fetchThrillerMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.ThrillerMovies,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForMoviesPage.fetchWarMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.WarMovies,
+        }),
+        fetchDataWithHandling<MovieOrSerialResult | null>({
+          url: requestsConfigForMoviesPage.fetchWesternMovies,
+          mediaType: "movies",
+          action: "fetch",
+          genre: SliderTitle.WesternMovies,
+        }),
       ]);
 
       return {
@@ -68,7 +95,7 @@ class MoviesPageService {
       const errorMessage = getResponseErrorMessage();
       toastService.error(errorMessage);
 
-      throw new Error((error as Error).message);
+      throw error;
     }
   }
 
@@ -85,8 +112,16 @@ class MoviesPageService {
 
       const [movieByGenreDetailResponse, movieCastResponse] = await Promise.all(
         [
-          fetch(movieByGenreUrl).then((res) => res.json()),
-          fetch(castUrl).then((res) => res.json()),
+          fetchDataWithHandling<MovieOrSerialDetail | null>({
+            url: movieByGenreUrl,
+            mediaType: "movies",
+            action: "fetch",
+          }),
+          fetchDataWithHandling<Cast | null>({
+            url: castUrl,
+            mediaType: "movies",
+            action: "fetch",
+          }),
         ]
       );
 
@@ -107,9 +142,11 @@ class MoviesPageService {
     url: string
   ): Promise<MovieOrSerialResult | null> {
     try {
-      const response = await fetch(url);
-
-      return await response.json();
+      return await fetchDataWithHandling<MovieOrSerialResult | null>({
+        url,
+        mediaType: "movies",
+        action: "fetch",
+      });
     } catch (error) {
       const errorMessage = getResponseErrorMessage();
       toastService.error(errorMessage);
@@ -131,9 +168,12 @@ class MoviesPageService {
         pageParam,
       }).fetchDataForSearchPage;
 
-      const response = await fetch(url);
-
-      return await response.json();
+      return await fetchDataWithHandling<MovieOrSerialResult | null>({
+        url,
+        mediaType: "movies",
+        action: "fetch",
+        message: "Failed to fetch data based on search parameter",
+      });
     } catch (error) {
       const errorMessage = getResponseErrorMessage();
       toastService.error(errorMessage);

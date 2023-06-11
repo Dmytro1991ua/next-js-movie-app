@@ -1,5 +1,6 @@
 import { act } from "@testing-library/react";
 import { renderHook } from "@testing-library/react-hooks";
+import { debounce } from "lodash";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -13,6 +14,19 @@ import {
 jest.mock("uuid", () => {
   return {
     v4: jest.fn(() => 1),
+  };
+});
+
+jest.mock("lodash", () => ({
+  debounce: jest.fn((fn) => fn),
+}));
+
+jest.mock("@/utils/utils", () => {
+  return {
+    __esModule: true,
+    convertStarRatingToTMDBRating: jest
+      .fn()
+      .mockImplementation((rating) => rating),
   };
 });
 
@@ -86,5 +100,17 @@ describe("useStarRating", () => {
     act(() => result.current.onStartIconMouseLeaveEvent());
 
     expect(result.current.iconHover).toEqual(0);
+  });
+
+  it("should call debouncedUpdateRating with the correct starIconRatingValue within onMovieRatingState method", () => {
+    const { result } = view(2);
+
+    const { onMovieRatingState } = result.current;
+
+    act(() => {
+      onMovieRatingState(4);
+    });
+
+    expect(debounce).toHaveBeenCalledWith(expect.any(Function), 300);
   });
 });
