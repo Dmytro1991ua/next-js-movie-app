@@ -1,4 +1,3 @@
-import { hash } from "bcryptjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import connectMongoDb from "@/lib/connectMongoDb";
@@ -10,16 +9,15 @@ import {
 } from "@/modules/auth/auth.constants";
 import { RequestMethod } from "@/types/enums";
 import { CreateUser, UpdateExistingUser } from "@/types/interfaces";
-import { convertResponseErrorMessageToCorrectFormat } from "@/utils/utils";
+import {
+  convertResponseErrorMessageToCorrectFormat,
+  handleHashPassword,
+} from "@/utils/utils";
 
 function handleCaseWithNoBodyReceived(req: NextApiRequest): void {
   if (!req.body) {
     throw new Error(NO_DATA_IN_REQUEST_BODY_MESSAGE);
   }
-}
-
-async function handleHashPassword(password: string): Promise<string> {
-  return await hash(password, 12);
 }
 
 async function createNewUser({

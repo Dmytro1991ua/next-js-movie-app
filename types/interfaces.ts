@@ -55,6 +55,7 @@ export interface AddToFavorite {
 }
 
 export type UpdateRating = AddToFavorite;
+export type UpdateProfile = AddToFavorite;
 
 export interface GetAvailableMoviesOrSerialsPayload {
   payload: {
@@ -85,6 +86,13 @@ export interface AddRatingPayload {
   payload: {
     data: Rating;
     user?: DefaultUserWithId;
+  };
+}
+
+export interface UpdateUserProfile {
+  payload: {
+    userInfo: Omit<DefaultUser, "id"> & { password: string };
+    user: DefaultUserWithId;
   };
 }
 

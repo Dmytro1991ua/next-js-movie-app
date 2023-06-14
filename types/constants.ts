@@ -75,3 +75,6 @@ export const SUCCESSFULLY_REMOVE_FROM_FAVORITE =
 export const SUCCESSFULLY_UPDATE_RATING =
   "Successfully updated already existing media rating";
 export const SUCCESSFULLY_ADD_RATING = "Successfully added media rating";
+
+export const SUCCESSFULLY_UPDATE_USER_PROFILE_DATA =
+  "Profile data has been updated successfully";
