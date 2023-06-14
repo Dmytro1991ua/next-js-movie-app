@@ -1,3 +1,4 @@
+import { hash } from "bcryptjs";
 import clsx from "clsx";
 import { filter, shuffle } from "lodash";
 import movieTrailer from "movie-trailer";
@@ -1000,4 +1001,8 @@ export const fetchDataWithHandling = async <T,>({
   } catch (e) {
     throw new Error((e as Error).message);
   }
+};
+
+export const handleHashPassword = async (password: string): Promise<string> => {
+  return await hash(password, 12);
 };

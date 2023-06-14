@@ -1,0 +1,124 @@
+import { compare } from "bcryptjs";
+import { NextApiRequest, NextApiResponse } from "next";
+
+import connectMongoDb from "@/lib/connectMongoDb";
+import { User } from "@/model/userSchema";
+import {
+  SUCCESSFULLY_UPDATE_USER_PROFILE_DATA,
+  USER_IS_NOT_AUTHORIZED,
+  USER_NOT_FOUND,
+} from "@/types/constants";
+import { RequestMethod } from "@/types/enums";
+import { UpdateProfile, UpdateUserProfile } from "@/types/interfaces";
+import {
+  convertResponseErrorMessageToCorrectFormat,
+  handleHashPassword,
+} from "@/utils/utils";
+
+async function updatePasswordIfProvided(
+  newPassword: string | undefined,
+  existingHashedPassword: string
+): Promise<string> {
+  if (!newPassword) {
+    return existingHashedPassword;
+  }
+
+  try {
+    const isPasswordMatch = await compare(newPassword, existingHashedPassword);
+
+    if (isPasswordMatch) {
+      return existingHashedPassword;
+    }
+
+    return await handleHashPassword(newPassword);
+  } catch (e) {
+    throw new Error("Error occurred while hashing the password");
+  }
+}
+
+async function updateUserProfile(req?: NextApiRequest, res?: NextApiResponse) {
+  const {
+    payload: { userInfo, user },
+  }: UpdateUserProfile = req?.body;
+
+  const { name, password, image } = userInfo;
+  const { email, id } = user;
+
+  try {
+    if (!user) {
+      return res?.status(401).send({
+        success: false,
+        message: USER_IS_NOT_AUTHORIZED,
+        data: null,
+      });
+    }
+
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      return res?.status(404).send({
+        success: false,
+        message: USER_NOT_FOUND,
+        data: null,
+      });
+    }
+
+    const hashedPassword = await updatePasswordIfProvided(
+      password,
+      existingUser.password
+    );
+
+    await User.findOneAndUpdate(
+      { _id: id },
+      {
+        image: image ?? existingUser.image,
+        name: name ?? existingUser.name,
+        password: hashedPassword,
+      },
+      { new: true }
+    );
+
+    return res?.status(200).send({
+      message: SUCCESSFULLY_UPDATE_USER_PROFILE_DATA,
+      success: true,
+    });
+  } catch (e) {
+    return res
+      ?.status(409)
+      .send({ success: false, message: (e as Error).message, data: null });
+  }
+}
+
+async function handleRequestBasedOnMethod({
+  req,
+  res,
+  method,
+}: UpdateProfile): Promise<void> {
+  switch (method) {
+    case RequestMethod.PATCH:
+      await updateUserProfile(req, res);
+      break;
+    default:
+      return res?.status(400).send({
+        success: false,
+        message: convertResponseErrorMessageToCorrectFormat(
+          method as RequestMethod
+        ),
+      });
+  }
+}
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { method } = req;
+
+  await connectMongoDb();
+
+  await handleRequestBasedOnMethod({
+    req,
+    res,
+    method: method as RequestMethod,
+  });
+}
