@@ -43,14 +43,15 @@ export const useStarRating = ({
     queryKey: QueryString.movieOrSerialRating,
     mutationFn: () => {
       const convertedRating = convertStarRatingToTMDBRating(starRatingValue);
+      const ratingData = {
+        ...newRating,
+        rating: convertedRating,
+      };
 
-      return homePageService.updateMovieOrSerialRating({
-        data: {
-          ...newRating,
-          rating: convertedRating,
-        },
-        user: session?.user,
-      });
+      return homePageService.updateMovieOrSerialRating(
+        ratingData,
+        session?.user
+      );
     },
   });
 

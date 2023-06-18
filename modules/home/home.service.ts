@@ -1,10 +1,10 @@
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { Movie } from "@/model/movie";
+import { Rating } from "@/model/rating";
 import { DefaultUserWithId } from "@/pages/api/auth/auth";
 import { toastService } from "@/services/toast.service";
 import { RequestMethod, SliderTitle } from "@/types/enums";
 import {
-  AddRatingPayload,
   AddToFavoritePayload,
   FavoritesMoviesOrSerialsResult,
   HomePageData,
@@ -228,12 +228,15 @@ class HomePageService {
   }
 
   //TODO Move method to shared service
-  async updateMovieOrSerialRating(payload: AddRatingPayload["payload"]) {
+  async updateMovieOrSerialRating(data: Rating, user?: DefaultUserWithId) {
     try {
       const updateRatingPayload = getRequestOptions({
         method: RequestMethod.POST,
         body: JSON.stringify({
-          payload,
+          payload: {
+            data,
+            user,
+          },
         }),
       });
 
