@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import connectMongoDb from "@/lib/connectMongoDb";
+import { Avatar } from "@/model/avatarSchema";
 import { User } from "@/model/userSchema";
 import {
   NO_DATA_IN_REQUEST_BODY_MESSAGE,
@@ -29,19 +30,24 @@ async function createNewUser({
 }: CreateUser) {
   const hashedPassword = await handleHashPassword(password);
 
-  const newUser = new User({
-    name,
-    password: hashedPassword,
-    email,
-    image: image ?? "",
-  });
-
   try {
-    const savedUser = await newUser.save();
+    const newUser = await User.create({
+      name,
+      password: hashedPassword,
+      email,
+    });
+
+    const newAvatarDocument = await Avatar.create({
+      user: newUser._id,
+      name,
+      image: image ?? "",
+    });
+
+    await newAvatarDocument.save();
+
     res.status(200).send({
       success: true,
       message: SUCCESSFULLY_CREATED_USER_MESSAGE,
-      user: savedUser,
     });
   } catch (err) {
     res.status(400).send({ success: false, message: (err as Error).message });
