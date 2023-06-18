@@ -41,11 +41,12 @@ export const useHeroState = <T extends Movie & Serial>({
   const router = useRouter();
   const { data: session } = useSession();
 
-  const { data: newRating } = useFetchMoviesOrSerialsData<UpdateRatingResult>({
-    query: QueryString.movieOrSerialRating,
-    fetcher: () => homePageService.fetchRatingById(session?.user),
-    isRefetchOnMount: true,
-  });
+  const { data: newRating } =
+    useFetchMoviesOrSerialsData<UpdateRatingResult | null>({
+      query: QueryString.movieOrSerialRating,
+      fetcher: () => homePageService.fetchRatingById(session?.user),
+      isRefetchOnMount: true,
+    });
 
   const { randomMovieOrSerial } = useGetRandomMovieOrSerial({ data });
 

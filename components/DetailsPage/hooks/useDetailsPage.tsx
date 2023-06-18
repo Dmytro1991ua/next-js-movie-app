@@ -54,11 +54,12 @@ export const useDetailsPage = ({
     isRefetchOnMount: true,
   });
 
-  const { data: newRating } = useFetchMoviesOrSerialsData<UpdateRatingResult>({
-    query: QueryString.movieOrSerialRating,
-    fetcher: () => homePageService.fetchRatingById(session?.user),
-    isRefetchOnMount: true,
-  });
+  const { data: newRating } =
+    useFetchMoviesOrSerialsData<UpdateRatingResult | null>({
+      query: QueryString.movieOrSerialRating,
+      fetcher: () => homePageService.fetchRatingById(session?.user),
+      isRefetchOnMount: true,
+    });
 
   const { mutate: addToFavorites } = useUpdateFavoritesMoviesOrSerials({
     queryKey: QueryString.favoritesMoviesOrSerials,

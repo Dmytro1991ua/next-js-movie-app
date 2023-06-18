@@ -978,7 +978,7 @@ export const fetchDataWithHandling = async <T,>({
   message = "",
 }: {
   url: string;
-  mediaType: "movies" | "serials";
+  mediaType: "movies" | "serials" | "";
   action: "fetch" | "update" | "delete";
   options?: RequestOption;
   genre?: SliderTitle;

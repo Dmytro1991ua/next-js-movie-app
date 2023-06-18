@@ -2,18 +2,18 @@ import { UseMutateFunction, useMutation, useQueryClient } from "react-query";
 
 import { toastService } from "@/services/toast.service";
 import { QueryString } from "@/types/enums";
-import { UpdateRatingResponse } from "@/types/interfaces";
+import { UpdateRatingResult } from "@/types/interfaces";
 
 export type HookProps = {
   queryKey: QueryString;
-  mutationFn: () => Promise<UpdateRatingResponse | null>;
+  mutationFn: () => Promise<UpdateRatingResult | null>;
 };
 
 export type ReturnedHookType = {
   isLoading: boolean;
-  mutate: UseMutateFunction<UpdateRatingResponse | null, Error, void, unknown>;
+  mutate: UseMutateFunction<UpdateRatingResult | null, Error, void, unknown>;
   error: Error | null;
-  data?: UpdateRatingResponse | null;
+  data?: UpdateRatingResult | null;
 };
 
 export const useUpdateMovieOrSerialRating = ({
@@ -23,12 +23,12 @@ export const useUpdateMovieOrSerialRating = ({
   const queryClient = useQueryClient();
 
   const { data, isLoading, error, mutate } = useMutation<
-    UpdateRatingResponse | null,
+    UpdateRatingResult | null,
     Error
   >(mutationFn, {
     onSuccess: (data) => {
       queryClient.invalidateQueries([queryKey]);
-      toastService.success(data?.status_message as string);
+      toastService.success(data?.message as string);
     },
     onError: (error) => {
       toastService.error(error.message);
