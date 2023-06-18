@@ -56,6 +56,7 @@ export interface AddToFavorite {
 
 export type UpdateRating = AddToFavorite;
 export type UpdateProfile = AddToFavorite;
+export type GetUserAvatar = AddToFavorite;
 
 export interface GetAvailableMoviesOrSerialsPayload {
   payload: {
@@ -89,10 +90,16 @@ export interface AddRatingPayload {
   };
 }
 
-export interface UpdateUserProfile {
+export interface UpdateUserProfilePayload {
   payload: {
-    userInfo: Omit<DefaultUser, "id"> & { password: string };
-    user: DefaultUserWithId;
+    userInfo: Omit<DefaultUser, "id"> & { password?: string };
+    user?: DefaultUserWithId;
+  };
+}
+
+export interface GetUserAvatarPayload {
+  payload: {
+    user?: DefaultUserWithId;
   };
 }
 
@@ -137,10 +144,13 @@ export interface UpdateRatingResult {
   message?: string;
 }
 
-export interface UpdateRatingResponse {
-  status_code: number;
-  status_message: string;
+export interface GetUserAvatarResult {
+  success: boolean;
+  data: string;
+  message?: string;
 }
+
+export type UpdateProfileData = Omit<UpdateRatingResult, "data">;
 
 export type MovieOrSerialResult = {
   page: number;
