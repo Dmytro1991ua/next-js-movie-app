@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { QueryString } from "@/types/enums";
 import {
   FavoritesMoviesOrSerialsResult,
+  GetUserAvatarResult,
   HomePageData,
   MovieOrSerialDetailsData,
   MoviesPageData,
@@ -30,6 +31,7 @@ export const useFetchMoviesOrSerialsData = <
     | MovieOrSerialDetailsData
     | (FavoritesMoviesOrSerialsResult | null)
     | (UpdateRatingResult | null)
+    | (GetUserAvatarResult | null)
 >({
   query,
   fetcher,
