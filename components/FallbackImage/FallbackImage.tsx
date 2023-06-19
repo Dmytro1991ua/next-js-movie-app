@@ -2,6 +2,8 @@ import clsx from "clsx";
 import Image, { StaticImageData } from "next/image";
 import React, { FC, useEffect, useState } from "react";
 
+import { BLURRED_IMAGE } from "@/types/constants";
+
 import DefaultUserPhoto from "../../public/assets/header/user.png";
 
 interface FallbackImageProps {
@@ -38,6 +40,7 @@ const FallbackImage: FC<FallbackImageProps> = ({
     >
       <Image
         alt={altText}
+        blurDataURL={BLURRED_IMAGE}
         className="rounded-[50%]"
         height={height}
         objectFit="cover"

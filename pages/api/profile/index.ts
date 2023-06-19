@@ -2,6 +2,7 @@ import { compare } from "bcryptjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
 import connectMongoDb from "@/lib/connectMongoDb";
+import { Avatar } from "@/model/avatarSchema";
 import { User } from "@/model/userSchema";
 import {
   SUCCESSFULLY_UPDATE_USER_PROFILE_DATA,
@@ -9,11 +10,13 @@ import {
   USER_NOT_FOUND,
 } from "@/types/constants";
 import { RequestMethod } from "@/types/enums";
-import { UpdateProfile, UpdateUserProfile } from "@/types/interfaces";
+import { UpdateProfile, UpdateUserProfilePayload } from "@/types/interfaces";
 import {
   convertResponseErrorMessageToCorrectFormat,
   handleHashPassword,
 } from "@/utils/utils";
+
+import { DefaultUserWithId } from "../auth/auth";
 
 async function updatePasswordIfProvided(
   newPassword: string | undefined,
@@ -39,10 +42,10 @@ async function updatePasswordIfProvided(
 async function updateUserProfile(req?: NextApiRequest, res?: NextApiResponse) {
   const {
     payload: { userInfo, user },
-  }: UpdateUserProfile = req?.body;
+  }: UpdateUserProfilePayload = req?.body;
 
   const { name, password, image } = userInfo;
-  const { email, id } = user;
+  const { email, id } = user as DefaultUserWithId;
 
   try {
     if (!user) {
@@ -71,10 +74,15 @@ async function updateUserProfile(req?: NextApiRequest, res?: NextApiResponse) {
     await User.findOneAndUpdate(
       { _id: id },
       {
-        image: image ?? existingUser.image,
         name: name ?? existingUser.name,
         password: hashedPassword,
       },
+      { new: true }
+    );
+
+    await Avatar.findOneAndUpdate(
+      { user: id },
+      { image: image ?? existingUser.image },
       { new: true }
     );
 
