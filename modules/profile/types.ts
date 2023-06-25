@@ -11,3 +11,11 @@ export type ResizeImageParams = {
   maxWidth?: number;
   maxHeight?: number;
 };
+
+export interface ProfileFormInitialValues {
+  name?: string;
+  email?: string;
+  currentPassword?: string;
+  newPassword?: string;
+  confirmedPassword?: string;
+}

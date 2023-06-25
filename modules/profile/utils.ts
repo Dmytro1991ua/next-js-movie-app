@@ -1,3 +1,4 @@
+import { isEqual } from "lodash";
 import Resizer from "react-image-file-resizer";
 
 import { toastService } from "@/services/toast.service";
@@ -119,4 +120,13 @@ export const handleImageDrop = async (
   } catch (error) {
     toastService.error((error as Error).message);
   }
+};
+
+export const getUpdatedUserName = (
+  updatedName: string,
+  currentName: string
+) => {
+  const areNamesEqual = isEqual(updatedName, currentName);
+
+  return areNamesEqual ? currentName : updatedName;
 };

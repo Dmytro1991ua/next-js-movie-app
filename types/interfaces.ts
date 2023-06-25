@@ -146,7 +146,10 @@ export interface UpdateRatingResult {
 
 export interface GetUserAvatarResult {
   success: boolean;
-  data: string;
+  data: {
+    image: string;
+    name: string;
+  };
   message?: string;
 }
 
@@ -302,4 +305,14 @@ export interface FavoritesIconConfigItem {
 export interface FavoritesIconProps {
   isInFavorites: boolean;
   onFavoriteIconClick: () => void;
+}
+
+export interface FromInputConfig {
+  fullWidth?: boolean;
+  id: string;
+  name: string;
+  placeholder: string;
+  type?: string;
+  label?: string;
+  disabled?: boolean;
 }

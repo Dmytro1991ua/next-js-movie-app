@@ -16,7 +16,7 @@ const Avatar: FC = () => {
         <FallbackImage
           altText="User Avatar"
           height={scrolledAvatarMeasurement}
-          imageUrl={userAvatar}
+          imageUrl={userAvatar.image}
           isActive={isRouteActive}
           width={scrolledAvatarMeasurement}
         />

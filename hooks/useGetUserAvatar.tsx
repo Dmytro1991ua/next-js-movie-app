@@ -8,7 +8,10 @@ import { GetUserAvatarResult } from "@/types/interfaces";
 import { useFetchMoviesOrSerialsData } from "./queries/useFetchMoviesOrSerialsData";
 
 type ReturnedHooType = {
-  userAvatar: string;
+  userAvatar: {
+    image: string;
+    name: string;
+  };
 };
 
 export const useGetUserAvatar = (): ReturnedHooType => {
@@ -21,10 +24,12 @@ export const useGetUserAvatar = (): ReturnedHooType => {
       isRefetchOnMount: true,
     });
 
-  const userAvatar = useMemo(
-    () => (avatar ? avatar.data : session?.user?.image ?? ""),
-    [session?.user?.image, avatar]
-  );
+  const userAvatar = useMemo(() => {
+    const image = avatar ? avatar.data.image : session?.user?.image ?? "";
+    const name = avatar?.data.name ?? "";
+
+    return { image, name };
+  }, [session?.user?.image, avatar]);
 
   return { userAvatar };
 };
