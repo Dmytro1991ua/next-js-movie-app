@@ -82,7 +82,7 @@ async function updateUserProfile(req?: NextApiRequest, res?: NextApiResponse) {
 
     await Avatar.findOneAndUpdate(
       { user: id },
-      { image: image ?? existingUser.image },
+      { name: name ?? existingUser.name, image: image ?? existingUser.image },
       { new: true }
     );
 

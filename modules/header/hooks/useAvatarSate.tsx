@@ -13,7 +13,10 @@ import { getScrolledImageMeasurements } from "../header.utils";
 
 type ReturnedHookType = {
   isRouteActive: boolean;
-  userAvatar: string;
+  userAvatar: {
+    image: string;
+    name: string;
+  };
   scrolledAvatarMeasurement: string;
 };
 

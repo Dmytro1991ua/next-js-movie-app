@@ -35,7 +35,7 @@ async function getUserAvatar({
 
     return res?.status(200).send({
       success: true,
-      data: userAvatar.image,
+      data: { image: userAvatar.image, name: userAvatar.name },
     });
   } catch (e) {
     return res

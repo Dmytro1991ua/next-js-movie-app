@@ -19,15 +19,6 @@ export type AuthFormInitialValues =
   | SignInFormInitialValues
   | SignUpFormInitialValues;
 
-export interface FromInputConfig {
-  fullWidth?: boolean;
-  id: string;
-  name: string;
-  placeholder: string;
-  type?: string;
-  label?: string;
-}
-
 export type ButtonClick = (
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>
 ) => void | Promise<void>;

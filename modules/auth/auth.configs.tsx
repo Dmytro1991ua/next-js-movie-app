@@ -3,11 +3,9 @@ import { MdAttachEmail } from "react-icons/md";
 import { RxGithubLogo } from "react-icons/rx";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  FormActionConfig,
-  FormActionConfigProps,
-  FromInputConfig,
-} from "./auth.types";
+import { FromInputConfig } from "@/types/interfaces";
+
+import { FormActionConfig, FormActionConfigProps } from "./auth.types";
 
 export const SIGN_IN_FORM_INPUTS_CONFIG: FromInputConfig[] = [
   {

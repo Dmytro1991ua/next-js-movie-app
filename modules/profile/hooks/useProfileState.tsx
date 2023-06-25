@@ -1,4 +1,4 @@
-import { DefaultUser } from "next-auth";
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
 import {
@@ -8,20 +8,20 @@ import {
 } from "react-dropzone";
 
 import { useUpdateProfileData } from "@/hooks/mutations/useUpdateProfileData";
-import { useGetUserAvatar } from "@/hooks/useGetUserAvatar";
-import { QueryString } from "@/types/enums";
+import { AppRoutes, QueryString } from "@/types/enums";
 
 import { ACCEPTABLE_FILE_IMAGE_TYPES } from "../constants";
 import { profileService } from "../profile.service";
+import { ProfileFormInitialValues } from "../types";
 import { handleImageDrop } from "../utils";
 
 type HookProps = {
-  profileData?: Omit<DefaultUser, "id"> & { password?: string };
+  avatar: string;
+  profileData?: ProfileFormInitialValues;
 };
 
 type ReturnedHookType = {
   previewImage: string | null;
-  userAvatar: string;
   getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
   getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
   onImageUpload: () => void;
@@ -29,9 +29,11 @@ type ReturnedHookType = {
 };
 
 export const useProfileState = ({
+  avatar,
   profileData,
 }: HookProps): ReturnedHookType => {
   const { data: session } = useSession();
+  const router = useRouter();
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
@@ -43,26 +45,28 @@ export const useProfileState = ({
 
   const { mutate: updateProfileData } = useUpdateProfileData({
     queryKey: QueryString.updateProfileData,
-    mutationFn: () => {
-      return profileService.uploadProfileData({
+    mutationFn: async () => {
+      const response = await profileService.uploadProfileData({
         userInfo: {
-          ...profileData,
-          image: previewImage,
+          name: profileData?.name,
+          image: previewImage ?? avatar,
+          password: profileData?.newPassword,
         },
         user: session?.user,
       });
+
+      return response;
     },
   });
 
-  const { userAvatar } = useGetUserAvatar();
-
   const onImageUpload = useCallback(() => {
     updateProfileData();
-  }, [updateProfileData]);
+
+    router.push(AppRoutes.Home);
+  }, [updateProfileData, router]);
 
   return {
     previewImage,
-    userAvatar,
     getRootProps,
     getInputProps,
     onImageUpload,

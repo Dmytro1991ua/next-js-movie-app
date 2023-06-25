@@ -1,14 +1,13 @@
 import React, { FC, memo } from "react";
 
 import FormikInput from "@/components/Input/FormikInput";
+import { FromInputConfig } from "@/types/interfaces";
 
-import { FromInputConfig } from "../../auth.types";
-
-interface FormInputsProps {
-  config: FromInputConfig[];
+interface FormInputsProps<T> {
+  config: T[];
 }
 
-const FormInputs: FC<FormInputsProps> = ({ config }) => {
+const FormInputs: FC<FormInputsProps<FromInputConfig>> = ({ config }) => {
   return (
     <>
       {config.map((input) => {
