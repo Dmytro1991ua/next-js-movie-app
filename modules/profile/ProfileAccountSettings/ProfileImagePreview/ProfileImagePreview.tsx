@@ -20,17 +20,17 @@ const ProfileImagePreview: FC<ProfileImagePreviewProps> = ({
           alt="Preview"
           blurDataURL={BLURRED_IMAGE}
           className="rounded-[50%] bg-powderAsh"
-          height={100}
+          height={200}
           objectFit="cover"
           src={previewImage}
-          width={100}
+          width={200}
         />
       ) : (
         <FallbackImage
           altText="User Avatar"
-          height="100"
+          height="200"
           imageUrl={image}
-          width="100"
+          width="200"
         />
       )}
     </div>

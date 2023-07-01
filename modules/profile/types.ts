@@ -1,3 +1,10 @@
+import { FormikProps } from "formik";
+import { DropzoneInputProps, DropzoneRootProps } from "react-dropzone";
+
+import { ButtonVariant } from "@/components/Button/Button.types";
+
+import { ProfileFormButtonLabel } from "./enums";
+
 export type Dimensions = {
   width: number;
   height: number;
@@ -18,4 +25,27 @@ export interface ProfileFormInitialValues {
   currentPassword?: string;
   newPassword?: string;
   confirmedPassword?: string;
+}
+
+export interface ProfileContent {
+  formikInstance: FormikProps<ProfileFormInitialValues>;
+  getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
+  getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
+  image: string;
+  previewImage: string | null;
+}
+
+export interface ProfileFormActionsConfig {
+  id: string;
+  label: ProfileFormButtonLabel;
+  variant: ButtonVariant;
+  disabled?: boolean;
+  onClick: () => void;
+}
+
+export interface ProfileFormActionsProps {
+  onCancel: () => void;
+  onFormReset: () => void;
+  onSubmit: () => void;
+  disabled?: boolean;
 }

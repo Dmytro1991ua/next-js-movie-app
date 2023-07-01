@@ -1,3 +1,4 @@
+import { FormikProps } from "formik";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
@@ -8,7 +9,7 @@ import {
 } from "react-dropzone";
 
 import { useUpdateProfileData } from "@/hooks/mutations/useUpdateProfileData";
-import { AppRoutes, QueryString } from "@/types/enums";
+import { QueryString } from "@/types/enums";
 
 import { ACCEPTABLE_FILE_IMAGE_TYPES } from "../constants";
 import { profileService } from "../profile.service";
@@ -17,27 +18,32 @@ import { handleImageDrop } from "../utils";
 
 type HookProps = {
   avatar: string;
-  profileData?: ProfileFormInitialValues;
+  userName: string | null;
+  formikInstance: FormikProps<ProfileFormInitialValues>;
 };
 
 type ReturnedHookType = {
   previewImage: string | null;
   getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
   getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
-  onImageUpload: () => void;
-  isDragActive: boolean;
+  onProfileUpdate: () => void;
+  onProfileFormCancel: () => void;
+  onResetForm: () => void;
 };
 
 export const useProfileState = ({
   avatar,
-  profileData,
+  formikInstance,
+  userName,
 }: HookProps): ReturnedHookType => {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const { values, resetForm } = formikInstance;
+
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop: (file: File[]) => handleImageDrop(file, setPreviewImage),
     multiple: false,
     accept: ACCEPTABLE_FILE_IMAGE_TYPES,
@@ -48,9 +54,9 @@ export const useProfileState = ({
     mutationFn: async () => {
       const response = await profileService.uploadProfileData({
         userInfo: {
-          name: profileData?.name,
+          name: values?.name ?? userName,
           image: previewImage ?? avatar,
-          password: profileData?.newPassword,
+          password: values?.newPassword,
         },
         user: session?.user,
       });
@@ -59,17 +65,31 @@ export const useProfileState = ({
     },
   });
 
-  const onImageUpload = useCallback(() => {
+  const onProfileUpdate = useCallback(() => {
     updateProfileData();
 
-    router.push(AppRoutes.Home);
-  }, [updateProfileData, router]);
+    router.back();
+
+    resetForm();
+  }, [updateProfileData, router, resetForm]);
+
+  const onProfileFormCancel = useCallback(() => {
+    router.back();
+
+    resetForm();
+  }, [router, resetForm]);
+
+  const onResetForm = useCallback(() => {
+    resetForm();
+    setPreviewImage(null);
+  }, [resetForm]);
 
   return {
     previewImage,
     getRootProps,
     getInputProps,
-    onImageUpload,
-    isDragActive,
+    onProfileUpdate,
+    onProfileFormCancel,
+    onResetForm,
   };
 };

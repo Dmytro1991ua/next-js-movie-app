@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import FormikInput from "@/components/Input/FormikInput";
 import { FromInputConfig } from "@/types/interfaces";
 
-export const PROFILE_FORM_INPUTS_CONFIG: FromInputConfig[] = [
+export const PROFILE_ACCOUNT_SETTINGS_CONFIG: FromInputConfig[] = [
   {
     id: uuidv4(),
     name: "email",
@@ -18,6 +18,9 @@ export const PROFILE_FORM_INPUTS_CONFIG: FromInputConfig[] = [
     placeholder: "Enter your name",
     fullWidth: true,
   },
+];
+
+export const PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG: FromInputConfig[] = [
   {
     id: uuidv4(),
     name: "currentPassword",
@@ -41,9 +44,11 @@ export const PROFILE_FORM_INPUTS_CONFIG: FromInputConfig[] = [
   },
 ];
 
-export const getProfileFormInputConfigs = () => (
+export const getProfileFormInputConfigs = (
+  config: FromInputConfig[]
+): JSX.Element => (
   <>
-    {PROFILE_FORM_INPUTS_CONFIG.map((input) => {
+    {config.map((input) => {
       const { id, name, placeholder, fullWidth, label, type, disabled } = input;
 
       return (

@@ -105,12 +105,15 @@ const authOptions: NextAuthOptions = {
       token.id = user.id ?? "";
       token.name = user.name;
       token.email = user.email;
+      token.isCredentialsProvider = existingUser.isCredentialsProvider;
 
       return token;
     },
     async session({ session, token }) {
       if (session?.user) {
         session.user.id = token.id;
+        session.user.isCredentialsProvider = token.isCredentialsProvider;
+
         delete session.user.image;
       }
 
