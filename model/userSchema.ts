@@ -10,6 +10,7 @@ const userSchema = new Schema<NextAuthUser>(
     password: { type: String, require: true },
     emailVerified: { type: Boolean, require: true },
     authTime: { type: String, require: true },
+    isCredentialsProvider: { type: Boolean },
   },
   {
     timestamps: true,

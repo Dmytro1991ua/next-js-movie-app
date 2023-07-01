@@ -35,6 +35,7 @@ async function createNewUser({
       name,
       password: hashedPassword,
       email,
+      isCredentialsProvider: true,
     });
 
     const newAvatarDocument = await Avatar.create({
