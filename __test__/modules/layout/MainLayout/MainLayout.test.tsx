@@ -7,7 +7,7 @@ import createMockRouter from "@/mocks/createMockRouter";
 import {
   mockSessionWithNoUser,
   mockSessionWithUser,
-  withSessionProviderAndReactContext,
+  withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import { MainLayout } from "@/modules/layout";
 import { AppRoutes } from "@/types/enums";
@@ -24,11 +24,11 @@ describe("MainLayout", () => {
   });
 
   it("Should render component without crashing and logo if user is not authenticated", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.SignIn,
-      session: mockSessionWithNoUser,
-      component: <MainLayout />,
-    });
+    withQueryClientAndSessionProvider(
+      <MainLayout />,
+      mockSessionWithNoUser,
+      AppRoutes.SignIn
+    );
 
     expect(screen.getByText(/Movie/)).toBeInTheDocument();
     expect(screen.getByText(/Room/)).toBeInTheDocument();
@@ -39,11 +39,11 @@ describe("MainLayout", () => {
   });
 
   it("Should render Sign-Out button, navigation and user avatar when user is authenticated", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <MainLayout />,
-    });
+    withQueryClientAndSessionProvider(
+      <MainLayout />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     expect(screen.getByAltText(/User Avatar/)).toBeInTheDocument();
     expect(screen.getByText(/Home/)).toBeInTheDocument();
@@ -51,21 +51,21 @@ describe("MainLayout", () => {
   });
 
   it("Should render Sign-Out button when user is authenticated", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <MainLayout />,
-    });
+    withQueryClientAndSessionProvider(
+      <MainLayout />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
   });
 
   it("Should render Image component when user is not authenticated", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.SignIn,
-      session: mockSessionWithNoUser,
-      component: <MainLayout />,
-    });
+    withQueryClientAndSessionProvider(
+      <MainLayout />,
+      mockSessionWithNoUser,
+      AppRoutes.SignIn
+    );
 
     const image = screen.getByTestId("image");
 
@@ -73,11 +73,11 @@ describe("MainLayout", () => {
   });
 
   it("Should not render Image component when user is authenticated", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <MainLayout />,
-    });
+    withQueryClientAndSessionProvider(
+      <MainLayout />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     const image = screen.queryByTestId("image");
 
