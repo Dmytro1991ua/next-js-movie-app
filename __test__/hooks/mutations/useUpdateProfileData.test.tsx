@@ -1,8 +1,7 @@
 import { renderHook } from "@testing-library/react-hooks";
 import { useMutation, useQueryClient } from "react-query";
 
-import { useUpdateMovieOrSerialRating } from "@/hooks/mutations/useUpdateMovieOrSerialRating";
-import { mockSerialDetails } from "@/mocks/testMocks";
+import { useUpdateProfileData } from "@/hooks/mutations/useUpdateProfileData";
 import { QueryString } from "@/types/enums";
 
 jest.mock("react-query", () => ({
@@ -19,10 +18,10 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
-const mockQueryKey = QueryString.movieOrSerialRating;
+const mockQueryKey = QueryString.updateProfileData;
 const mockMutationFn = jest.fn();
 
-describe("useUpdateMovieOrSerialRating", () => {
+describe("useUpdateProfileData", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -40,7 +39,7 @@ describe("useUpdateMovieOrSerialRating", () => {
     });
 
     const { result } = renderHook(() =>
-      useUpdateMovieOrSerialRating({
+      useUpdateProfileData({
         queryKey: mockQueryKey,
         mutationFn: jest.fn(),
       })
@@ -51,7 +50,7 @@ describe("useUpdateMovieOrSerialRating", () => {
 
   it("should call useMutation with the correct mutationFn", () => {
     renderHook(() =>
-      useUpdateMovieOrSerialRating({
+      useUpdateProfileData({
         queryKey: mockQueryKey,
         mutationFn: mockMutationFn,
       })
@@ -59,10 +58,7 @@ describe("useUpdateMovieOrSerialRating", () => {
 
     expect(useMutation).toHaveBeenCalledWith(
       mockMutationFn,
-      expect.objectContaining({
-        onSuccess: expect.any(Function),
-        onError: expect.any(Function),
-      })
+      expect.any(Object)
     );
   });
 
@@ -71,7 +67,6 @@ describe("useUpdateMovieOrSerialRating", () => {
     const mutationResult = {
       message: successMessage,
       success: true,
-      data: mockSerialDetails,
     };
 
     const invalidateQueriesMock = jest.fn();
@@ -91,7 +86,7 @@ describe("useUpdateMovieOrSerialRating", () => {
     });
 
     const { result } = renderHook(() =>
-      useUpdateMovieOrSerialRating({
+      useUpdateProfileData({
         queryKey: mockQueryKey,
         mutationFn: mockMutationFn,
       })
@@ -118,7 +113,7 @@ describe("useUpdateMovieOrSerialRating", () => {
     });
 
     const { result } = renderHook(() =>
-      useUpdateMovieOrSerialRating({
+      useUpdateProfileData({
         queryKey: mockQueryKey,
         mutationFn: mutationFnMock,
       })

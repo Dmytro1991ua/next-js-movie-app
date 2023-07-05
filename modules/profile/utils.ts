@@ -21,7 +21,7 @@ export const validateImageDimensions = (
   maxHeight: number
 ): boolean => image.width <= maxWidth && image.height <= maxHeight;
 
-const resizeImage = ({
+export const resizeImage = ({
   file,
   width,
   height,
