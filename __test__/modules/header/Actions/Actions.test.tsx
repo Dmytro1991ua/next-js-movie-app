@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import {
   mockSessionWithNoUser,
   mockSessionWithUser,
-  withSessionProviderAndReactContext,
+  withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import useAuth from "@/modules/auth/hooks/useAuth";
 import Actions from "@/modules/header/Actions";
@@ -42,34 +42,33 @@ describe("Navigation", () => {
   const { result } = renderHook(() => useAuth());
 
   it("Should render component without crashing if user is not authenticated", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.SignIn,
-      session: mockSessionWithNoUser,
-      component: <Actions />,
-    });
+    withQueryClientAndSessionProvider(
+      <Actions />,
+      mockSessionWithNoUser,
+      AppRoutes.SignIn
+    );
 
     expect(screen.queryByText(/Sign Out/)).not.toBeInTheDocument();
     expect(screen.queryByAltText(/User Avatar/)).not.toBeInTheDocument();
   });
 
   it("Should render Sign-Out button when user is authenticated", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <Actions />,
-    });
+    withQueryClientAndSessionProvider(
+      <Actions />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     expect(screen.getByAltText(/User Avatar/)).toBeInTheDocument();
     expect(screen.getByText(/Sign Out/)).toBeInTheDocument();
   });
 
   it("Should redirect to Profile page on user avatar click", async () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Profile,
-      session: mockSessionWithUser,
-      component: <Actions />,
-    });
-
+    withQueryClientAndSessionProvider(
+      <Actions />,
+      mockSessionWithUser,
+      AppRoutes.Profile
+    );
     const userAvatar = screen.getByRole("link");
 
     userEvent.click(userAvatar);
@@ -85,11 +84,11 @@ describe("Navigation", () => {
       redirect: false,
     });
 
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <Actions />,
-    });
+    withQueryClientAndSessionProvider(
+      <Actions />,
+      mockSessionWithUser,
+      AppRoutes.SignIn
+    );
 
     const signOutBtn = screen.getByText(/Sign Out/);
 
@@ -105,11 +104,11 @@ describe("Navigation", () => {
   });
 
   it("Should have a secondary styles applied to SignOut button on mobile screen", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <Actions isMobileScreen />,
-    });
+    withQueryClientAndSessionProvider(
+      <Actions isMobileScreen />,
+      mockSessionWithUser,
+      AppRoutes.SignIn
+    );
 
     const signOutBtn = screen.getByText(/Sign Out/);
 

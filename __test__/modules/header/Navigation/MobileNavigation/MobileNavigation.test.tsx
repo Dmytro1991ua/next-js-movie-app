@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 
 import {
   mockSessionWithUser,
-  withSessionProviderAndReactContext,
+  withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import MobileNavigation from "@/modules/header/Navigation/MobileNavigation";
 import { AppRoutes } from "@/types/enums";
@@ -25,11 +25,11 @@ global.fetch = jest.fn(() =>
 
 describe("MobileNavigation", () => {
   it("Should render component without crashing", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <MobileNavigation isVisible />,
-    });
+    withQueryClientAndSessionProvider(
+      <MobileNavigation isVisible />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     expect(screen.getByTestId("mobile-navigation")).toBeInTheDocument();
     expect(screen.getByText(/Home/)).toBeInTheDocument();
@@ -38,11 +38,11 @@ describe("MobileNavigation", () => {
   });
 
   it("Should not render MobileNavigation component when isVisible props is false", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <MobileNavigation isVisible={false} />,
-    });
+    withQueryClientAndSessionProvider(
+      <MobileNavigation isVisible={false} />,
+      mockSessionWithUser,
+      AppRoutes.Home
+    );
 
     expect(screen.queryByTestId("mobile-navigation")).not.toBeInTheDocument();
   });

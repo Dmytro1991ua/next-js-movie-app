@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { Formik } from "formik";
+import { Formik, FormikErrors, FormikTouched, FormikValues } from "formik";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { Cast } from "@/model/common";
+import { Rating } from "@/model/rating";
 import { IMAGE_URL } from "@/types/constants";
 import { AppRoutes } from "@/types/enums";
 
@@ -50,39 +51,43 @@ export const withFormikWrapper = (
 
 export const MOCK_FORMIK_INSTANCE = {
   formikInstance: {
-    dirty: false,
-    values: jest.fn(),
-    touched: jest.fn(),
-    isSubmitting: false,
-    isValidating: false,
-    submitCount: 0,
-    errors: jest.fn(),
-    isValid: true,
     initialValues: jest.fn(),
-    initialErrors: jest.fn(),
+    initialErrors: {} as FormikErrors<FormikValues>,
     initialTouched: jest.fn(),
-    getFieldHelpers: jest.fn(),
-    getFieldMeta: jest.fn(),
-    getFieldProps: jest.fn(),
+    initialStatus: null,
     handleBlur: jest.fn(),
     handleChange: jest.fn(),
     handleReset: jest.fn(),
     handleSubmit: jest.fn(),
-    setStatus: jest.fn(),
+    validateForm: jest.fn(),
+    validateField: jest.fn(),
+    setFieldValue: jest.fn(),
+    setFieldTouched: jest.fn(),
+    setFieldError: jest.fn(),
+    resetForm: jest.fn(),
+    submitForm: jest.fn(),
+    values: jest.fn(),
+    errors: {} as FormikErrors<FormikValues>,
+    touched: {} as FormikTouched<FormikValues>,
+    isSubmitting: false,
+    isValidating: false,
+    submitCount: 0,
+    dirty: false,
+    isValid: true,
+    registerField: jest.fn(),
+    unregisterField: jest.fn(),
     setErrors: jest.fn(),
+    setFormikState: jest.fn(),
+    setStatus: jest.fn(),
     setSubmitting: jest.fn(),
     setTouched: jest.fn(),
     setValues: jest.fn(),
-    setFieldValue: jest.fn(),
-    setFieldError: jest.fn(),
-    setFieldTouched: jest.fn(),
-    validateForm: jest.fn(),
-    validateField: jest.fn(),
-    resetForm: jest.fn(),
-    submitForm: jest.fn(),
-    setFormikState: jest.fn(),
-    registerField: jest.fn(),
-    unregisterField: jest.fn(),
+    getFieldProps: jest.fn(),
+    getFieldMeta: jest.fn(),
+    getFieldHelpers: jest.fn(),
+    validateOnBlur: true,
+    validateOnChange: true,
+    validateOnMount: true,
   },
 };
 
@@ -407,4 +412,10 @@ export const mockSerialCast: Cast = {
     { id: 1, name: "Bryan Cranston" },
     { id: 2, name: "Aaron Paul" },
   ],
+};
+
+export const mockRatingData: Rating = {
+  id: 666,
+  name: "test_movie_name",
+  rating: 6,
 };

@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import {
   mockSessionWithNoUser,
   mockSessionWithUser,
-  withSessionProviderAndReactContext,
+  withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import Header from "@/modules/header";
 import { AppRoutes } from "@/types/enums";
@@ -17,11 +17,11 @@ jest.mock("uuid", () => {
 
 describe("Header", () => {
   it("Should render component without crashing with logo if user is not authenticated", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.SignIn,
-      session: mockSessionWithNoUser,
-      component: <Header />,
-    });
+    withQueryClientAndSessionProvider(
+      <Header />,
+      mockSessionWithNoUser,
+      AppRoutes.SignIn
+    );
 
     expect(screen.getByText(/Movie/)).toBeInTheDocument();
     expect(screen.getByText(/Room/)).toBeInTheDocument();
@@ -32,11 +32,11 @@ describe("Header", () => {
   });
 
   it("Should render Sign-Out button, navigation and user avatar when user is authenticated", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <Header />,
-    });
+    withQueryClientAndSessionProvider(
+      <Header />,
+      mockSessionWithUser,
+      AppRoutes.SignIn
+    );
 
     expect(screen.getByAltText(/User Avatar/)).toBeInTheDocument();
     expect(screen.getByText(/Home/)).toBeInTheDocument();
@@ -46,11 +46,11 @@ describe("Header", () => {
   });
 
   it("Should redirect to Home page on Logo click", () => {
-    withSessionProviderAndReactContext({
-      path: AppRoutes.Home,
-      session: mockSessionWithUser,
-      component: <Header />,
-    });
+    withQueryClientAndSessionProvider(
+      <Header />,
+      mockSessionWithUser,
+      AppRoutes.SignIn
+    );
 
     const logo = screen.getByTestId("logo");
 

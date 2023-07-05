@@ -14,15 +14,6 @@ jest.mock("uuid", () => {
   };
 });
 
-jest.mock("@/utils/utils", () => ({
-  getResponseErrorMessage: () => "Test Error Message",
-  getRequestOptions: () => ({
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: "test_body",
-  }),
-}));
-
 jest.mock("@/utils/utils", () => {
   const originalUtils = jest.requireActual("@/utils/utils");
 
@@ -356,7 +347,7 @@ describe("HomePageService", () => {
       });
 
       const response = await homePageService.updateMovieOrSerialRating(
-        mockPayload
+        mockPayload.data
       );
 
       expect(response).toEqual(mockResponse);
@@ -370,7 +361,7 @@ describe("HomePageService", () => {
       });
 
       await expect(
-        homePageService.updateMovieOrSerialRating(mockPayload)
+        homePageService.updateMovieOrSerialRating(mockPayload.data)
       ).rejects.toThrowError(errorMessage);
     });
   });
