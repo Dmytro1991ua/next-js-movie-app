@@ -36,10 +36,11 @@ export interface ProfileContent {
 }
 
 export interface ProfileFormActionsConfig {
-  id: string;
+  id: ProfileFormButtonLabel;
   label: ProfileFormButtonLabel;
   variant: ButtonVariant;
   disabled?: boolean;
+  isLoading?: boolean;
   onClick: () => void;
 }
 
@@ -48,4 +49,7 @@ export interface ProfileFormActionsProps {
   onFormReset: () => void;
   onSubmit: () => void;
   disabled?: boolean;
+  isLoading?: boolean;
+  clickedButtonId?: string | number | null;
+  onHandleButtonClick?: (id: string, onClick: () => void) => void;
 }

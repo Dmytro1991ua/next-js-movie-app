@@ -259,19 +259,24 @@ export interface DetailsPageActionButton {
   label: DetailsPageActionButtons;
   className?: string;
   disabledClassName?: string;
+  isLoading?: boolean;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 }
 
 export interface HeroContentActionButtonConfig {
   onDetailsBtnClick: () => void;
   onPlayBtnClick: () => void;
+  isLoading?: boolean;
+  clickedButtonId?: string | number | null;
+  onHandleButtonClick?: (id: string | number, onClick: () => void) => void;
 }
 
 export interface HeroContentActionButton {
-  id: string;
+  id: HeroContentActionButtons;
   label: HeroContentActionButtons;
   icon: JSX.Element;
   variant: ButtonVariant;
+  isLoading?: boolean;
   onClick: () => void;
 }
 

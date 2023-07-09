@@ -1,5 +1,6 @@
 import { FormikHelpers } from "formik";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 import { AppRoutes, AuthProvider, RequestMethod } from "@/types/enums";
 import { getRequestOptions } from "@/utils/utils";
@@ -7,6 +8,7 @@ import { getRequestOptions } from "@/utils/utils";
 import { authService } from "./../auth.service";
 import {
   HookReturnedType,
+  LoadingState,
   NewUser,
   SignInFormInitialValues,
   SignUpFormInitialValues,
@@ -14,6 +16,8 @@ import {
 
 const useAuth = (): HookReturnedType => {
   const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState<LoadingState>({});
 
   async function onSignInViaGithub(): Promise<void> {
     await authService.loginWithProvider(AuthProvider.GitHub, AppRoutes.Home);
@@ -51,7 +55,11 @@ const useAuth = (): HookReturnedType => {
     values: SignInFormInitialValues,
     helpers: FormikHelpers<SignInFormInitialValues>
   ): Promise<void> {
+    setIsLoading((prevLoading) => ({ ...prevLoading, signIn: true }));
+
     await onSignInViaEmailAndPassword(values.email, values.password);
+    setIsLoading((prevLoading) => ({ ...prevLoading, signIn: false }));
+
     helpers.resetForm({ values });
   }
 
@@ -59,9 +67,13 @@ const useAuth = (): HookReturnedType => {
     values: SignUpFormInitialValues,
     helpers: FormikHelpers<SignUpFormInitialValues>
   ): Promise<void> {
+    setIsLoading((prevLoading) => ({ ...prevLoading, signUp: true }));
+
     const { name, email, password } = values;
 
     await onCreateNewUser({ name, email, password });
+    setIsLoading((prevLoading) => ({ ...prevLoading, signUp: false }));
+
     helpers.resetForm({ values });
   }
 
@@ -70,7 +82,11 @@ const useAuth = (): HookReturnedType => {
   ): void {
     e.preventDefault();
 
+    setIsLoading((prevLoading) => ({ ...prevLoading, github: true }));
+
     onSignInViaGithub();
+
+    setIsLoading((prevLoading) => ({ ...prevLoading, github: false }));
   }
 
   function onSubmitFormViaGoogle(
@@ -78,10 +94,15 @@ const useAuth = (): HookReturnedType => {
   ) {
     e.preventDefault();
 
+    setIsLoading((prevLoading) => ({ ...prevLoading, google: true }));
+
     onSignInViaGoogle();
+
+    setIsLoading((prevLoading) => ({ ...prevLoading, google: false }));
   }
 
   return {
+    isLoading,
     onSignInViaGithub,
     onSignInViaGoogle,
     onSignInViaEmailAndPassword,

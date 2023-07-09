@@ -52,6 +52,7 @@ const Card: FC<CardProps> = ({ movieOrSerialData, route }) => {
           />
         </div>
         <CardContent
+          entityId={movieOrSerialData?.id}
           firstAirDate={movieOrSerialData?.first_air_date}
           getStarIconColor={getStarIconColor}
           movieTitle={movieOrSerialData?.title}

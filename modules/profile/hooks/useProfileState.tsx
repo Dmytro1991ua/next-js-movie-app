@@ -9,6 +9,7 @@ import {
 } from "react-dropzone";
 
 import { useUpdateProfileData } from "@/hooks/mutations/useUpdateProfileData";
+import { useRedirectStatus } from "@/hooks/useRedirectStatus";
 import { QueryString } from "@/types/enums";
 
 import { ACCEPTABLE_FILE_IMAGE_TYPES } from "../constants";
@@ -24,6 +25,7 @@ type HookProps = {
 
 type ReturnedHookType = {
   previewImage: string | null;
+  isLoading: boolean;
   getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
   getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
   onProfileUpdate: () => void;
@@ -49,7 +51,9 @@ export const useProfileState = ({
     accept: ACCEPTABLE_FILE_IMAGE_TYPES,
   });
 
-  const { mutate: updateProfileData } = useUpdateProfileData({
+  const isRedirecting = useRedirectStatus();
+
+  const { mutate: updateProfileData, isLoading } = useUpdateProfileData({
     queryKey: QueryString.updateProfileData,
     mutationFn: async () => {
       const response = await profileService.uploadProfileData({
@@ -86,6 +90,7 @@ export const useProfileState = ({
 
   return {
     previewImage,
+    isLoading: isLoading || isRedirecting,
     getRootProps,
     getInputProps,
     onProfileUpdate,

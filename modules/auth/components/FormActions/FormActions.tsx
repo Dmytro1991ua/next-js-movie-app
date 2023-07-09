@@ -9,6 +9,7 @@ import FormRedirectLink from "../FormRedirectLink";
 const FormActions: FC<FormActionsProps> = ({
   isSignUpForm = false,
   isDisabled,
+  isLoading,
   route,
   title,
   onSubmitWithCredentials,
@@ -22,19 +23,29 @@ const FormActions: FC<FormActionsProps> = ({
         onSubmitWithCredentials,
         onSubmitWithGithub,
         onSubmitWithGoogle,
+        isLoading,
       }),
     [
       isSignUpForm,
       onSubmitWithCredentials,
       onSubmitWithGithub,
       onSubmitWithGoogle,
+      isLoading,
     ]
   );
   return (
     <div className="flex flex-col mt-5">
       {actionButtonsConfig.map((button) => {
-        const { id, label, variant, className, fullWidth, icon, onClick } =
-          button;
+        const {
+          id,
+          label,
+          variant,
+          className,
+          fullWidth,
+          icon,
+          isLoading,
+          onClick,
+        } = button;
 
         return (
           <Button
@@ -42,6 +53,7 @@ const FormActions: FC<FormActionsProps> = ({
             className={className}
             disabled={variant === "primary" && isDisabled}
             fullWidth={fullWidth}
+            isLoading={isLoading}
             variant={variant}
             onClick={onClick}
           >

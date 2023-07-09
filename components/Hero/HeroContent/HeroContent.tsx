@@ -3,6 +3,8 @@ import React, { FC, memo, useMemo } from "react";
 import ReadMore from "@/components/ReadMore";
 import StarRating from "@/components/StarRating";
 import { useStarRating } from "@/components/StarRating/hooks/useStarRating";
+import { useButtonAction } from "@/hooks/ueButtonAction";
+import { useRedirectStatus } from "@/hooks/useRedirectStatus";
 import { Rating } from "@/model/rating";
 import {
   DEFAULT_NUMBER_OF_START_ICONS,
@@ -35,9 +37,25 @@ const HeroContent: FC<HeroContentProps> = ({
   onDetailsBtnClick,
   onPlayBtnClick,
 }) => {
+  const isLoading = useRedirectStatus();
+  const { clickedButtonId, onHandleButtonClick } = useButtonAction();
+
   const actionButtons = useMemo(
-    () => getHeroContentActionButtons({ onDetailsBtnClick, onPlayBtnClick }),
-    [onDetailsBtnClick, onPlayBtnClick]
+    () =>
+      getHeroContentActionButtons({
+        onDetailsBtnClick,
+        onPlayBtnClick,
+        isLoading,
+        clickedButtonId,
+        onHandleButtonClick,
+      }),
+    [
+      onDetailsBtnClick,
+      onPlayBtnClick,
+      onHandleButtonClick,
+      clickedButtonId,
+      isLoading,
+    ]
   );
 
   const {

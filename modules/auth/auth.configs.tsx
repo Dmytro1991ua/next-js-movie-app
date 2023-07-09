@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { FromInputConfig } from "@/types/interfaces";
 
+import { FormActionsLabel } from "./auth.enums";
 import { FormActionConfig, FormActionConfigProps } from "./auth.types";
 
 export const SIGN_IN_FORM_INPUTS_CONFIG: FromInputConfig[] = [
@@ -48,6 +49,7 @@ export const SIGN_UP_FORM_INPUTS_CONFIG: FromInputConfig[] = [
 
 export const FORM_ACTIONS_CONFIG = ({
   isSignUpForm,
+  isLoading,
   onSubmitWithCredentials,
   onSubmitWithGithub,
   onSubmitWithGoogle,
@@ -56,11 +58,12 @@ export const FORM_ACTIONS_CONFIG = ({
 
   const signInWithCredentialsConfig: FormActionConfig[] = [
     {
-      id: uuidv4(),
-      label: "Create a new user with credentials",
+      id: FormActionsLabel.SignUp,
+      label: FormActionsLabel.SignUp,
       variant: "primary",
       className: "mb-3",
       fullWidth: true,
+      isLoading: isLoading?.signUp,
       icon: credentialsButtonIcon,
       onClick: onSubmitWithCredentials,
     },
@@ -72,28 +75,31 @@ export const FORM_ACTIONS_CONFIG = ({
 
   return [
     {
-      id: uuidv4(),
-      label: "Sign-In with Credentials",
+      id: FormActionsLabel.SignInWithCredentials,
+      label: FormActionsLabel.SignInWithCredentials,
       variant: "primary",
       className: "mb-3",
       fullWidth: true,
+      isLoading: isLoading?.signIn,
       icon: credentialsButtonIcon,
       onClick: onSubmitWithCredentials,
     },
     {
-      id: uuidv4(),
-      label: "Sign-In with Github",
+      id: FormActionsLabel.SignInWithGithub,
+      label: FormActionsLabel.SignInWithGithub,
       variant: "secondary",
       className: "mb-3",
       fullWidth: true,
+      isLoading: isLoading?.github,
       icon: <RxGithubLogo className="ml-4 text-2xl" />,
       onClick: onSubmitWithGithub,
     },
     {
-      id: uuidv4(),
-      label: "Sign-In with Google",
+      id: FormActionsLabel.SignInWithGoogle,
+      label: FormActionsLabel.SignInWithGoogle,
       variant: "tertiary",
       className: "mb-3",
+      isLoading: isLoading?.google,
       icon: <FcGoogle className="ml-4 text-2xl" />,
       fullWidth: true,
       onClick: onSubmitWithGoogle,

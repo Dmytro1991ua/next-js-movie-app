@@ -22,6 +22,7 @@ import FormInputs from "../FormInputs";
 
 const SignIn: FC = () => {
   const {
+    isLoading,
     onSubmitFormWithCredentials,
     onSubmitFormViaGithub,
     onSubmitFormViaGoogle,
@@ -48,6 +49,7 @@ const SignIn: FC = () => {
               <FormInputs config={SIGN_IN_FORM_INPUTS_CONFIG} />
               <FormActions
                 isDisabled={isSubmitting || Object.keys(errors).length > 0}
+                isLoading={isLoading}
                 route={AppRoutes.SignUp}
                 title={SIGN_IN_FORM_REDIRECTION_LINK}
                 onSubmitWithCredentials={submitForm}

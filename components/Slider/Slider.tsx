@@ -28,6 +28,7 @@ const Slider = <T extends Movie & Serial>({
 }: SliderProps<T>) => {
   const {
     isActionButtonClicked,
+    isLoading,
     rowRef,
     onActionIconClick,
     onRedirectToSeeMorePage,
@@ -38,6 +39,7 @@ const Slider = <T extends Movie & Serial>({
       <div className="flex justify-between items-center pr-2 mb-2">
         <h2 className="slider-header-title">{title}</h2>
         <Button
+          isLoading={isLoading}
           size="small"
           variant="primary"
           onClick={onRedirectToSeeMorePage}
@@ -56,7 +58,11 @@ const Slider = <T extends Movie & Serial>({
 
         <div ref={rowRef} className="slider-wrapper">
           {data.map((item) => (
-            <SliderThumbnail key={uuidv4()} data={item} route={route} />
+            <SliderThumbnail
+              key={`${item.id}_${item.name || item.title}`}
+              data={item}
+              route={route}
+            />
           ))}
         </div>
 

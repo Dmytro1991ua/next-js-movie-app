@@ -1,5 +1,7 @@
 import React, { FC, useMemo } from "react";
 
+import { useButtonAction } from "@/hooks/ueButtonAction";
+
 import { getProfileFormActions } from "./config";
 import { ProfileFormActionsProps } from "../types";
 
@@ -8,10 +10,30 @@ const ProfileFormActions: FC<ProfileFormActionsProps> = ({
   onFormReset,
   onSubmit,
   disabled,
+  isLoading,
 }: ProfileFormActionsProps) => {
+  const { clickedButtonId, onHandleButtonClick } = useButtonAction();
+
   const formActions = useMemo(
-    () => getProfileFormActions({ onCancel, onFormReset, onSubmit, disabled }),
-    [onCancel, onFormReset, onSubmit, disabled]
+    () =>
+      getProfileFormActions({
+        onCancel,
+        onFormReset,
+        onSubmit,
+        disabled,
+        isLoading,
+        clickedButtonId,
+        onHandleButtonClick,
+      }),
+    [
+      onCancel,
+      onFormReset,
+      onSubmit,
+      disabled,
+      isLoading,
+      clickedButtonId,
+      onHandleButtonClick,
+    ]
   );
 
   return (

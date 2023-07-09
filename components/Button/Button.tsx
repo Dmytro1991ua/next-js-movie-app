@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React, { FC } from "react";
 
 import { ButtonProps } from "./Button.types";
+import Loader from "./Loader";
 
 const Button: FC<ButtonProps> = ({
   children,
@@ -13,6 +14,7 @@ const Button: FC<ButtonProps> = ({
   disabled = false,
   fullWidth = false,
   formTarget = "",
+  isLoading = false,
   ...rest
 }) => {
   const stylesConfig = {
@@ -33,6 +35,7 @@ const Button: FC<ButtonProps> = ({
         "bg-tomato text-errorText border-2 border-tomato placeholder-errorText hover:bg-errorBg focus:ring-2 focus:ring-bg-tomato focus:ring-opacity-50 focus:border-errorBg border-2 border-solid",
     },
     disabled: "pointer-events-none shadow-inner opacity-50",
+    loading: "cursor-not-allowed",
     rounded: {
       none: null,
       sm: "rounded-sm",
@@ -50,6 +53,7 @@ const Button: FC<ButtonProps> = ({
         disabled && stylesConfig.disabled,
         size && stylesConfig.size[size],
         fullWidth ? "w-full" : "w-fit",
+        isLoading && stylesConfig.loading,
         className,
       ])}
       disabled={disabled}
@@ -57,7 +61,7 @@ const Button: FC<ButtonProps> = ({
       type={type}
       {...rest}
     >
-      {children}
+      {isLoading ? <Loader /> : children}
     </button>
   );
 };
