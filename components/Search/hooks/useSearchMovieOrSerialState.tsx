@@ -2,6 +2,7 @@ import { debounce } from "lodash";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 
+import { useButtonAction } from "@/hooks/ueButtonAction";
 import { AppRoutes } from "@/types/enums";
 import { getSearchRedirectUrl } from "@/utils/utils";
 
@@ -12,6 +13,7 @@ type HookProps = {
 
 type ReturnedHookType = {
   searchTerm: string | null;
+  isLoading: boolean;
   isButtonDisabled: boolean;
   onSetNewSearchTerm: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onHandleFormSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -25,6 +27,8 @@ export const useSearchMovieOrSerialState = ({
 
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const [debouncedValue, setDebouncedValue] = useState<string | null>(null);
+
+  const { isSubmitting, onSubmitting } = useButtonAction();
 
   const searchRedirectUrl = useMemo(
     () => getSearchRedirectUrl(searchPath, debouncedValue),
@@ -43,6 +47,8 @@ export const useSearchMovieOrSerialState = ({
 
     if (!searchTerm) return;
 
+    onSubmitting();
+
     router.push(searchRedirectUrl);
   };
 
@@ -55,6 +61,7 @@ export const useSearchMovieOrSerialState = ({
 
   return {
     searchTerm,
+    isLoading: isSubmitting,
     isButtonDisabled,
     onSetNewSearchTerm,
     onHandleFormSubmit,

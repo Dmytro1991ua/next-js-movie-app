@@ -21,7 +21,7 @@ import FormHeader from "../FormHeader";
 import FormInputs from "../FormInputs";
 
 const SignUp: FC = () => {
-  const { onSubmitFormAndCreateNewUser } = useAuth();
+  const { isLoading, onSubmitFormAndCreateNewUser } = useAuth();
 
   return (
     <AuthLayout
@@ -44,6 +44,7 @@ const SignUp: FC = () => {
             <FormActions
               isSignUpForm
               isDisabled={isSubmitting || Object.keys(errors).length > 0}
+              isLoading={isLoading}
               route={AppRoutes.SignIn}
               title={SIGN_UP_FORM_REDIRECTION_LINK}
               onSubmitWithCredentials={submitForm}

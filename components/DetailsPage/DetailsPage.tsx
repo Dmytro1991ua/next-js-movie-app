@@ -2,6 +2,8 @@ import clsx from "clsx";
 import React from "react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
+import { useButtonAction } from "@/hooks/ueButtonAction";
+import { useRedirectStatus } from "@/hooks/useRedirectStatus";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import {
   DEFAULT_NUMBER_OF_START_ICONS,
@@ -33,6 +35,9 @@ const DetailsPage = ({
   searchPath,
   placeholder,
 }: DetailsPageProps) => {
+  const isLoading = useRedirectStatus();
+  const { clickedButtonId, onHandleButtonClick } = useButtonAction();
+
   const {
     detailsBlockWithMovieOrSerialRelease,
     detailsBlockWithPillsSubtitle,
@@ -123,7 +128,18 @@ const DetailsPage = ({
           </div>
           <div className="flex items-center gap-5">
             {detailsPageActionButtons}
-            <Button variant="primary" onClick={onGoBackRedirect}>
+            <Button
+              isLoading={
+                isLoading && clickedButtonId === movieOrSerialDetails?.id
+              }
+              variant="primary"
+              onClick={() =>
+                onHandleButtonClick(
+                  movieOrSerialDetails?.id as number,
+                  onGoBackRedirect
+                )
+              }
+            >
               {DetailsPageActionButtons.GoBack}
               <BsFillArrowLeftCircleFill className="ml-2" />
             </Button>

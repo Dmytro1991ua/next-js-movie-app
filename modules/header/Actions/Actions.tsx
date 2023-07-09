@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo} from "react";
 
 import Button from "@/components/Button";
+import { useButtonAction } from "@/hooks/ueButtonAction";
 import useAuth from "@/modules/auth/hooks/useAuth";
 
 import Avatar from "./../Avatar";
@@ -16,6 +17,7 @@ const Actions: FC<ActionsProps> = ({ isMobileScreen = false }) => {
   const { onSignOut } = useAuth();
 
   const { data: session } = useSession();
+  const { isSubmitting, onSubmitting } = useButtonAction();
 
   const actionVariant = useMemo(
     () => getHeaderActionsVariant(isMobileScreen),
@@ -24,6 +26,8 @@ const Actions: FC<ActionsProps> = ({ isMobileScreen = false }) => {
 
   function handleSignOut(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
+
+    onSubmitting();
 
     onSignOut();
   }
@@ -38,7 +42,11 @@ const Actions: FC<ActionsProps> = ({ isMobileScreen = false }) => {
       {session?.user && <Avatar />}
       <div className="ml-2">
         {session?.user && (
-          <Button variant={actionVariant} onClick={handleSignOut}>
+          <Button
+            isLoading={isSubmitting}
+            variant={actionVariant}
+            onClick={handleSignOut}
+          >
             Sign Out
           </Button>
         )}

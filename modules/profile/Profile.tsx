@@ -60,6 +60,7 @@ const Profile: FC = () => {
     getInputProps,
     getRootProps,
     previewImage,
+    isLoading,
     onProfileUpdate,
     onProfileFormCancel,
     onResetForm,
@@ -108,6 +109,7 @@ const Profile: FC = () => {
       {renderProfileChangePasswordSettings}
       <ProfileFormActions
         disabled={!formikInstance.dirty && !previewImage}
+        isLoading={isLoading}
         onCancel={onProfileFormCancel}
         onFormReset={onResetForm}
         onSubmit={formikInstance.submitForm}

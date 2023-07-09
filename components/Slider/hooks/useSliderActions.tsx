@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { MutableRefObject, useRef, useState } from "react";
 
+import { useButtonAction } from "@/hooks/ueButtonAction";
 import { SeeMorePageRoutes } from "@/types/enums";
 
 type HookProps = {
@@ -9,6 +10,7 @@ type HookProps = {
 
 type ReturnedHookType = {
   isActionButtonClicked: boolean;
+  isLoading: boolean;
   rowRef: MutableRefObject<HTMLDivElement | null>;
   onActionIconClick: (direction: string) => void;
   onRedirectToSeeMorePage: () => void;
@@ -17,6 +19,8 @@ type ReturnedHookType = {
 export const useSliderActions = ({
   seeMoreRoute,
 }: HookProps): ReturnedHookType => {
+  const { isSubmitting, onSubmitting } = useButtonAction();
+
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [isActionButtonClicked, setIsActionButtonClicked] =
     useState<boolean>(false);
@@ -40,10 +44,12 @@ export const useSliderActions = ({
 
   const onRedirectToSeeMorePage = () => {
     seeMoreRoute && router.push(seeMoreRoute);
+    onSubmitting();
   };
 
   return {
     isActionButtonClicked,
+    isLoading: isSubmitting,
     rowRef,
     onActionIconClick,
     onRedirectToSeeMorePage,

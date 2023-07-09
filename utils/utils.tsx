@@ -667,20 +667,23 @@ export const getTruncatedLongText = (text: string, limit: number): string => {
 export const heroContentActionButtonsConfig = ({
   onDetailsBtnClick,
   onPlayBtnClick,
+  isLoading,
 }: HeroContentActionButtonConfig): HeroContentActionButton[] => {
   return [
     {
-      id: uuidv4(),
+      id: HeroContentActionButtons.ViewDetails,
       label: HeroContentActionButtons.ViewDetails,
       icon: <BsFillInfoCircleFill />,
       variant: "primary",
+      isLoading,
       onClick: onDetailsBtnClick,
     },
     {
-      id: uuidv4(),
+      id: HeroContentActionButtons.Play,
       label: HeroContentActionButtons.Play,
       icon: <AiFillPlayCircle />,
       variant: "secondary",
+      isLoading,
       onClick: onPlayBtnClick,
     },
   ];
@@ -689,19 +692,32 @@ export const heroContentActionButtonsConfig = ({
 export const getHeroContentActionButtons = ({
   onDetailsBtnClick,
   onPlayBtnClick,
+  isLoading,
+  clickedButtonId,
+  onHandleButtonClick,
 }: HeroContentActionButtonConfig) => {
   const heroContentActionButtons = heroContentActionButtonsConfig({
     onDetailsBtnClick,
     onPlayBtnClick,
+    isLoading,
   });
 
   return (
     <div className="flex gap-2">
-      {heroContentActionButtons.map(({ icon, id, label, variant, onClick }) => (
-        <Button key={id} variant={variant} onClick={onClick}>
-          {icon}&nbsp;{label}
-        </Button>
-      ))}
+      {heroContentActionButtons.map(
+        ({ icon, id, label, variant, isLoading, onClick }) => (
+          <Button
+            key={id}
+            isLoading={isLoading && clickedButtonId === id}
+            variant={variant}
+            onClick={() =>
+              onHandleButtonClick && onHandleButtonClick(id, onClick)
+            }
+          >
+            {icon}&nbsp;{label}
+          </Button>
+        )
+      )}
     </div>
   );
 };

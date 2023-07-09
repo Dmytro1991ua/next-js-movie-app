@@ -2,6 +2,8 @@ import React, { FC } from "react";
 
 import Button from "@/components/Button";
 import StarRating from "@/components/StarRating";
+import { useButtonAction } from "@/hooks/ueButtonAction";
+import { useRedirectStatus } from "@/hooks/useRedirectStatus";
 import { DEFAULT_NUMBER_OF_START_ICONS } from "@/types/constants";
 
 export interface CardContentProps {
@@ -10,6 +12,7 @@ export interface CardContentProps {
   rating?: number;
   releaseDate?: string;
   firstAirDate?: string;
+  entityId?: number;
   onClick: () => void;
   getStarIconColor: (starIndex: number) => string;
   onMovieRatingState: (iconRatingValue: number) => void;
@@ -22,6 +25,7 @@ const CardContent: FC<CardContentProps> = ({
   movieTitle,
   rating,
   releaseDate,
+  entityId,
   firstAirDate,
   onClick,
   getStarIconColor,
@@ -29,6 +33,10 @@ const CardContent: FC<CardContentProps> = ({
   onStartIconMouseEnterEvent,
   onStartIconMouseLeaveEvent,
 }) => {
+  const isLoading = useRedirectStatus();
+
+  const { clickedButtonId, onHandleButtonClick } = useButtonAction();
+
   return (
     <div className="card-content-wrapper">
       <h3 className="mb-2">{movieTitle ?? serialName}</h3>
@@ -50,7 +58,11 @@ const CardContent: FC<CardContentProps> = ({
           <span className="text-mantis font-bold">{rating}</span>
         </p>
       </div>
-      <Button variant="primary" onClick={onClick}>
+      <Button
+        isLoading={isLoading && clickedButtonId === entityId}
+        variant="primary"
+        onClick={() => onHandleButtonClick(entityId as number, onClick)}
+      >
         See Details
       </Button>
     </div>

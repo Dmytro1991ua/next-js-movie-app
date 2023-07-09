@@ -25,6 +25,7 @@ const Search: FC<SearchProps> = ({
   const {
     isButtonDisabled,
     searchTerm,
+    isLoading,
     onHandleFormSubmit,
     onSetNewSearchTerm,
   } = useSearchMovieOrSerialState({ searchPath });
@@ -53,7 +54,12 @@ const Search: FC<SearchProps> = ({
         value={searchTerm ?? ""}
         onChange={onSetNewSearchTerm}
       />
-      <Button disabled={isButtonDisabled} size="small" type="submit">
+      <Button
+        disabled={isButtonDisabled}
+        isLoading={isLoading}
+        size="small"
+        type="submit"
+      >
         Search
       </Button>
     </form>

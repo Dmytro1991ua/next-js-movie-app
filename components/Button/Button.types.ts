@@ -13,4 +13,5 @@ export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   disabled?: boolean;
   fullWidth?: boolean;
   formTarget?: string;
+  isLoading?: boolean;
 }
