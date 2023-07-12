@@ -11,8 +11,9 @@ import {
   STAR_ICON_COLOR_FILLED,
   STAR_ICON_COLOR_UNFILLED,
 } from "@/types/constants";
-import { AppRoutes, DetailsPageActionButtons } from "@/types/enums";
+import { AppRoutes } from "@/types/enums";
 
+import { DetailsPageActionButtons } from "./enums";
 import { useDetailsPage } from "./hooks/useDetailsPage";
 import Button from "../Button";
 import HeroImage from "../Hero/HeroImage";

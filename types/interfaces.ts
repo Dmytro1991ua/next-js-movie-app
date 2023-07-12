@@ -3,6 +3,11 @@ import { DefaultUser, User } from "next-auth";
 
 import { ButtonVariant } from "@/components/Button/Button.types";
 import {
+  DetailsBlockTitle,
+  DetailsPageActionButtons,
+} from "@/components/DetailsPage/enums";
+import { HeroContentActionButtons } from "@/components/Hero/enums";
+import {
   Actor,
   Cast,
   Genre,
@@ -14,14 +19,7 @@ import { Movie } from "@/model/movie";
 import { Rating } from "@/model/rating";
 import { Serial } from "@/model/serial";
 import { DefaultUserWithId } from "@/pages/api/auth/auth";
-import {
-  AppRoutes,
-  DetailsBlockTitle,
-  DetailsPageActionButtons,
-  HeroContentActionButtons,
-  QueryString,
-  SeeMorePageRoutes,
-} from "@/types/enums";
+import { AppRoutes, QueryString, SeeMorePageRoutes } from "@/types/enums";
 
 import { RequestMethod, SliderTitle } from "./enums";
 

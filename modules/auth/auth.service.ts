@@ -3,7 +3,7 @@ import { signIn, signOut } from "next-auth/react";
 import fetch from "node-fetch";
 
 import { toastService } from "@/services/toast.service";
-import { AppRoutes, AuthProvider } from "@/types/enums";
+import { AppRoutes } from "@/types/enums";
 
 import {
   SIGN_OUT_SUCCESSFUL_MESSAGE,
@@ -12,6 +12,7 @@ import {
   USERNAME_OR_PASSWORD_DOES_NOT_MATCH_MESSAGE,
   USER_ALREADY_EXIST_MESSAGE,
 } from "./auth.constants";
+import { AuthProvider } from "./auth.enums";
 import { RequestOption } from "./auth.types";
 
 class AuthService {

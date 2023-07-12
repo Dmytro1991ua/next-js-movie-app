@@ -12,9 +12,10 @@ import {
   SUCCESSFULLY_SIGNED_IN_WITH_CREDENTIALS_MESSAGE,
   USERNAME_OR_PASSWORD_DOES_NOT_MATCH_MESSAGE,
 } from "@/modules/auth/auth.constants";
+import { AuthProvider } from "@/modules/auth/auth.enums";
 import { authService } from "@/modules/auth/auth.service";
 import { RequestOption } from "@/modules/auth/auth.types";
-import { AppRoutes, AuthProvider } from "@/types/enums";
+import { AppRoutes } from "@/types/enums";
 
 jest.mock("node-fetch");
 const { Response } = jest.requireActual("node-fetch");

@@ -2,8 +2,8 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import Search from "@/components/Search";
+import { DEFAULT_SEARCH_INPUT_PLACEHOLDER } from "@/components/Search/constants";
 import * as utils from "@/components/Search/hooks/useSearchMovieOrSerialState";
-import { DEFAULT_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
 import { AppRoutes } from "@/types/enums";
 
 jest.mock("uuid", () => {
@@ -26,6 +26,7 @@ describe("Search", () => {
     jest.spyOn(utils, "useSearchMovieOrSerialState").mockImplementation(() => ({
       searchTerm: mockSearchTerm,
       isButtonDisabled: false,
+      isLoading: false,
       onSetNewSearchTerm: onSetNewSearchTermMock,
       onHandleFormSubmit: onHandleFormSubmitMock,
     }));

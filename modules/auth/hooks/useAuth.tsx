@@ -2,10 +2,11 @@ import { FormikHelpers } from "formik";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { AppRoutes, AuthProvider, RequestMethod } from "@/types/enums";
+import { AppRoutes, RequestMethod } from "@/types/enums";
 import { getRequestOptions } from "@/utils/utils";
 
 import { authService } from "./../auth.service";
+import { AuthProvider } from "../auth.enums";
 import {
   HookReturnedType,
   LoadingState,

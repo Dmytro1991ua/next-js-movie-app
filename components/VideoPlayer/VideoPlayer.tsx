@@ -1,8 +1,7 @@
 import React, { FC } from "react";
 import YouTube from "react-youtube";
 
-import { PLAYER_CONFIG } from "@/types/constants";
-
+import { PLAYER_CONFIG } from "./constants";
 import Button from "../Button";
 
 interface VideoPlayerProps {
