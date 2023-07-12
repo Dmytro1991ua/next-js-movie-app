@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
-import React, { FC, useMemo} from "react";
+import React, { FC, useMemo } from "react";
 
 import Button from "@/components/Button";
-import { useButtonAction } from "@/hooks/ueButtonAction";
+import { useButtonAction } from "@/hooks/useButtonAction";
 import useAuth from "@/modules/auth/hooks/useAuth";
 
 import Avatar from "./../Avatar";

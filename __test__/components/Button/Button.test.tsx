@@ -95,4 +95,27 @@ describe("Button", () => {
 
     expect(button).toHaveClass("w-full");
   });
+
+  it("Should not show a Loader when isLoading is false", () => {
+    render(
+      <SessionProvider session={mockSessionWithNoUser}>
+        <Button fullWidth isLoading={false} />
+      </SessionProvider>
+    );
+
+    expect(screen.queryByTestId("button-loader")).not.toBeInTheDocument();
+  });
+
+  it("Should show a Loader when isLoading is true", () => {
+    render(
+      <SessionProvider session={mockSessionWithNoUser}>
+        <Button fullWidth isLoading={true} />
+      </SessionProvider>
+    );
+
+    const button = screen.getByRole("button");
+
+    expect(screen.getByTestId("button-loader")).toBeInTheDocument();
+    expect(button).toHaveClass("cursor-not-allowed");
+  });
 });

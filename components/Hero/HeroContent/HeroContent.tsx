@@ -3,7 +3,7 @@ import React, { FC, memo, useMemo } from "react";
 import ReadMore from "@/components/ReadMore";
 import StarRating from "@/components/StarRating";
 import { useStarRating } from "@/components/StarRating/hooks/useStarRating";
-import { useButtonAction } from "@/hooks/ueButtonAction";
+import { useButtonAction } from "@/hooks/useButtonAction";
 import { useRedirectStatus } from "@/hooks/useRedirectStatus";
 import { Rating } from "@/model/rating";
 import {
