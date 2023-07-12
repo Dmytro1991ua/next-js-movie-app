@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
-import { useButtonAction } from "@/hooks/ueButtonAction";
+import { useButtonAction } from "@/hooks/useButtonAction";
 import { useRedirectStatus } from "@/hooks/useRedirectStatus";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import {
@@ -65,8 +65,9 @@ const DetailsPage = ({
     colorFilled: STAR_ICON_COLOR_FILLED,
     colorUnfilled: STAR_ICON_COLOR_UNFILLED,
     newRating: {
-      id: movieOrSerialDetails?.id ?? 0,
-      name: (movieOrSerialDetails?.title || movieOrSerialDetails?.name) ?? "",
+      id: movieOrSerialDetails?.id as number,
+      name: (movieOrSerialDetails?.title ||
+        movieOrSerialDetails?.name) as string,
     },
   });
 

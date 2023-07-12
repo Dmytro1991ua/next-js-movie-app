@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 import Button from "@/components/Button";
 import StarRating from "@/components/StarRating";
-import { useButtonAction } from "@/hooks/ueButtonAction";
+import { useButtonAction } from "@/hooks/useButtonAction";
 import { useRedirectStatus } from "@/hooks/useRedirectStatus";
 import { DEFAULT_NUMBER_OF_START_ICONS } from "@/types/constants";
 
