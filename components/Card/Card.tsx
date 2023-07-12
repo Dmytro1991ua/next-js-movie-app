@@ -32,8 +32,8 @@ const Card: FC<CardProps> = ({ movieOrSerialData, route }) => {
     colorFilled: STAR_ICON_COLOR_FILLED,
     colorUnfilled: STAR_ICON_COLOR_UNFILLED,
     newRating: {
-      id: movieOrSerialData?.id ?? 0,
-      name: (movieOrSerialData?.title || movieOrSerialData?.name) ?? "",
+      id: movieOrSerialData?.id as number,
+      name: (movieOrSerialData?.title || movieOrSerialData?.name) as string,
     },
   });
 

@@ -16,6 +16,8 @@ jest.mock("uuid", () => {
   };
 });
 
+jest.mock("@/hooks/useRedirectStatus");
+
 jest.mock("next/router", () => ({
   useRouter: jest.fn(),
 }));

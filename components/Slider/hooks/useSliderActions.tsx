@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { MutableRefObject, useRef, useState } from "react";
 
-import { useButtonAction } from "@/hooks/ueButtonAction";
+import { useButtonAction } from "@/hooks/useButtonAction";
 import { SeeMorePageRoutes } from "@/types/enums";
 
 type HookProps = {

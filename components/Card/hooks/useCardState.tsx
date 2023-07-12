@@ -51,8 +51,8 @@ export const useCardState = ({
   const imageUrl = useMemo(
     () =>
       getImageUrl({
-        posterPath: movieOrSerialData?.poster_path ?? "",
-        backdropPath: movieOrSerialData?.backdrop_path ?? "",
+        posterPath: movieOrSerialData?.poster_path as string,
+        backdropPath: movieOrSerialData?.backdrop_path as string,
         isCard: true,
       }),
     [movieOrSerialData?.poster_path, movieOrSerialData?.backdrop_path]

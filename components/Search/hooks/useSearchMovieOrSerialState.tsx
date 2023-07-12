@@ -2,7 +2,7 @@ import { debounce } from "lodash";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 
-import { useButtonAction } from "@/hooks/ueButtonAction";
+import { useButtonAction } from "@/hooks/useButtonAction";
 import { AppRoutes } from "@/types/enums";
 import { getSearchRedirectUrl } from "@/utils/utils";
 
