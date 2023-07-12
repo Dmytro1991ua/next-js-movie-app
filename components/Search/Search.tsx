@@ -2,9 +2,9 @@ import clsx from "clsx";
 import React, { FC } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 
-import { DEFAULT_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
 import { AppRoutes } from "@/types/enums";
 
+import { DEFAULT_SEARCH_INPUT_PLACEHOLDER } from "./constants";
 import { useSearchMovieOrSerialState } from "./hooks/useSearchMovieOrSerialState";
 import Button from "../Button/Button";
 import Input from "../Input/Input";

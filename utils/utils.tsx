@@ -16,6 +16,11 @@ import { v4 as uuidv4 } from "uuid";
 
 import Button from "@/components/Button";
 import DetailsBlock from "@/components/DetailsPage/DetailsBlock";
+import {
+  DetailsBlockTitle,
+  DetailsPageActionButtons,
+} from "@/components/DetailsPage/enums";
+import { HeroContentActionButtons } from "@/components/Hero/enums";
 import Slider from "@/components/Slider";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { Rating } from "@/model/rating";
@@ -24,9 +29,6 @@ import { toastService } from "@/services/toast.service";
 import { SMALL_IMAGE_URL } from "@/types/constants";
 import {
   AppRoutes,
-  DetailsBlockTitle,
-  DetailsPageActionButtons,
-  HeroContentActionButtons,
   QueryString,
   RequestMethod,
   SeeMorePageRoutes,

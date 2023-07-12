@@ -3,10 +3,11 @@ import { act, renderHook } from "@testing-library/react-hooks";
 import * as nextAuth from "next-auth/react";
 
 import { MOCK_FORMIK_INSTANCE } from "@/mocks/testMocks";
+import { AuthProvider } from "@/modules/auth/auth.enums";
 import { SIGN_IN_FORM_INITIAL_VALUE } from "@/modules/auth/components/SignIn/SignIn.schema";
 import { SIGN_UP_FORM_INITIAL_VALUE } from "@/modules/auth/components/SignUp/SignUp.schema";
 import useAuth from "@/modules/auth/hooks/useAuth";
-import { AppRoutes, AuthProvider } from "@/types/enums";
+import { AppRoutes } from "@/types/enums";
 
 import { authService } from "./../../../../modules/auth/auth.service";
 

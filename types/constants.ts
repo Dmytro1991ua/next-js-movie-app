@@ -50,16 +50,6 @@ export const DEFAULT_READ_MORE_TEXT_LIMIT = 250;
 export const DEFAULT_READ_MORE_TEXT = "...Read More";
 export const DEFAULT_READ_LESS_TEXT = " Show Less";
 
-export const PLAYER_CONFIG = {
-  height: "80%",
-  width: "80%",
-  playerVars: {
-    autoplay: 1,
-  },
-};
-
-export const DEFAULT_SEARCH_INPUT_PLACEHOLDER =
-  "Search for movies or TV series";
 export const MOVIE_SEARCH_INPUT_PLACEHOLDER = "Search for movies...";
 export const TV_SEARCH_INPUT_PLACEHOLDER = "Search for TV serials...";
 
