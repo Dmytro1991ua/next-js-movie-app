@@ -7,14 +7,15 @@ import {
   SerialsPageData,
 } from "@/types/interfaces";
 import {
-  requestsConfigForSerialDetailsPage,
-  requestsConfigForSerialsPage,
-} from "@/utils/requests";
-import {
   fetchDataWithHandling,
   getResponseErrorMessage,
   getResponseErrorMessageForDetailsPage,
 } from "@/utils/utils";
+
+import {
+  requestsConfigForSerialDetailsPage,
+  requestsConfigForSerialsPage,
+} from "./configs";
 
 class SerialsPageService {
   async fetchSerialsData(): Promise<SerialsPageData> {

@@ -20,7 +20,18 @@ import {
   DetailsBlockTitle,
   DetailsPageActionButtons,
 } from "@/components/DetailsPage/enums";
+import {
+  DetailsBlockWithPillsConfig,
+  DetailsPageActionButton,
+  FavoritesIconConfigItem,
+  FavoritesIconProps,
+  MovieOrSerialWithRegularSubtitle,
+} from "@/components/DetailsPage/types";
 import { HeroContentActionButtons } from "@/components/Hero/enums";
+import {
+  HeroContentActionButton,
+  HeroContentActionButtonConfig,
+} from "@/components/Hero/types";
 import Slider from "@/components/Slider";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { Rating } from "@/model/rating";
@@ -36,18 +47,11 @@ import {
 } from "@/types/enums";
 import {
   AppPageData,
-  DetailsBlockWithPillsConfig,
-  DetailsPageActionButton,
-  FavoritesIconConfigItem,
-  FavoritesIconProps,
   FavoritesMoviesOrSerialsResult,
-  HeroContentActionButton,
-  HeroContentActionButtonConfig,
   HomePageData,
   MovieOrSerialDetailsData,
   MovieOrSerialResult,
   MovieOrSerialResults,
-  MovieOrSerialWithRegularSubtitle,
   MoviesPageData,
   PageSlider,
   PrefetchDataForSearchPageProps,

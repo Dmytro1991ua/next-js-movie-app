@@ -13,10 +13,7 @@ import {
   RemoveFromFavoritePayload,
   UpdateRatingResult,
 } from "@/types/interfaces";
-import {
-  requestsConfigForHomePage,
-  requestsConfigForMovieDetailsPage,
-} from "@/utils/requests";
+import { requestsConfigForMovieDetailsPage } from "@/utils/requests";
 import {
   fetchDataWithHandling,
   getResponseErrorMessage,
@@ -24,6 +21,7 @@ import {
 } from "@/utils/utils";
 
 import { getRequestOptions } from "./../../utils/utils";
+import { requestsConfigForHomePage } from "./configs";
 
 class HomePageService {
   async fetchMoviesForHomePage(): Promise<HomePageData> {
