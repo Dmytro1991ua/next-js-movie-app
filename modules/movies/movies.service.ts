@@ -10,13 +10,14 @@ import {
 import {
   requestConfigForSearchPage,
   requestsConfigForMovieDetailsPage,
-  requestsConfigForMoviesPage,
 } from "@/utils/requests";
 import {
   fetchDataWithHandling,
   getResponseErrorMessage,
   getResponseErrorMessageForDetailsPage,
 } from "@/utils/utils";
+
+import { requestsConfigForMoviesPage } from "./configs";
 
 class MoviesPageService {
   async fetchMoviesByGenre(): Promise<MoviesPageData> {

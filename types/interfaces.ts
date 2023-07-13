@@ -1,20 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { DefaultUser, User } from "next-auth";
 
-import { ButtonVariant } from "@/components/Button/Button.types";
-import {
-  DetailsBlockTitle,
-  DetailsPageActionButtons,
-} from "@/components/DetailsPage/enums";
-import { HeroContentActionButtons } from "@/components/Hero/enums";
-import {
-  Actor,
-  Cast,
-  Genre,
-  MovieOrSerialDetail,
-  ProductionCountryOrCompany,
-  SpokenLanguage,
-} from "@/model/common";
+import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { Movie } from "@/model/movie";
 import { Rating } from "@/model/rating";
 import { Serial } from "@/model/serial";
@@ -222,62 +209,6 @@ export type MovieOrSerialDetailsData = {
   movieOrSerialActors: Cast | null;
 };
 
-export type DetailsBlockPosition = "column" | "row";
-
-export type DetailsSubtitleWithPills = (
-  | Genre
-  | Actor
-  | SpokenLanguage
-  | ProductionCountryOrCompany
-)[];
-
-export interface DetailsBlockCommonConfig {
-  id: string;
-  className?: string;
-  position: DetailsBlockPosition;
-  title: DetailsBlockTitle;
-}
-
-export interface DetailsBlockWithPillsConfig extends DetailsBlockCommonConfig {
-  hasSubtitlePill?: boolean;
-  list?: DetailsSubtitleWithPills;
-}
-
-export interface MovieOrSerialWithRegularSubtitle
-  extends DetailsBlockCommonConfig {
-  subtitle?: string | number;
-}
-
-export interface DetailsPageActionButton {
-  id: string;
-  url: string;
-  icon: JSX.Element;
-  rel?: string;
-  target?: string;
-  label: DetailsPageActionButtons;
-  className?: string;
-  disabledClassName?: string;
-  isLoading?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-}
-
-export interface HeroContentActionButtonConfig {
-  onDetailsBtnClick: () => void;
-  onPlayBtnClick: () => void;
-  isLoading?: boolean;
-  clickedButtonId?: string | number | null;
-  onHandleButtonClick?: (id: string | number, onClick: () => void) => void;
-}
-
-export interface HeroContentActionButton {
-  id: HeroContentActionButtons;
-  label: HeroContentActionButtons;
-  icon: JSX.Element;
-  variant: ButtonVariant;
-  isLoading?: boolean;
-  onClick: () => void;
-}
-
 export type Status = "idle" | "error" | "loading" | "success";
 
 export interface DataFetcherProps {
@@ -296,18 +227,6 @@ export interface PrefetchDataForSearchPageProps {
     pageParam = 1,
   }: DataFetcherProps) => Promise<MovieOrSerialResult | null>;
   pageParam?: number;
-}
-
-export interface FavoritesIconConfigItem {
-  id: string;
-  icon: JSX.Element;
-  onClick: () => void;
-  isInFavorites: boolean;
-}
-
-export interface FavoritesIconProps {
-  isInFavorites: boolean;
-  onFavoriteIconClick: () => void;
 }
 
 export interface FromInputConfig {

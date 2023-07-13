@@ -7,7 +7,8 @@ import {
   ProductionCountryOrCompany,
   SpokenLanguage,
 } from "@/model/common";
-import { DetailsBlockPosition } from "@/types/interfaces";
+
+import { DetailsBlockPosition } from "../types";
 
 interface DetailsBlockProps<T> {
   title: string;
