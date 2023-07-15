@@ -15,11 +15,12 @@ import {
   MovieOrSerialResults,
   Status,
 } from "@/types/interfaces";
+
 import {
   getMovieOrSerialDataLength,
   getMoviesOrSerialsPageData,
   getTitleForSeeMoreOrSearchPage,
-} from "@/utils/utils";
+} from "../utils";
 
 export type HookProps = {
   query: SeeMorePageQueryString | QueryString;

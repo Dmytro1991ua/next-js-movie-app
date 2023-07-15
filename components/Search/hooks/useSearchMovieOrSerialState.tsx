@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 
 import { useButtonAction } from "@/hooks/useButtonAction";
 import { AppRoutes } from "@/types/enums";
-import { getSearchRedirectUrl } from "@/utils/utils";
+
+import { getSearchRedirectUrl } from "../utils";
 
 type HookProps = {
   searchPath: AppRoutes;

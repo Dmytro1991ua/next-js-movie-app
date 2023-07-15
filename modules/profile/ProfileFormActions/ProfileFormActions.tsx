@@ -2,8 +2,8 @@ import React, { FC, useMemo } from "react";
 
 import { useButtonAction } from "@/hooks/useButtonAction";
 
-import { getProfileFormActions } from "./config";
 import { ProfileFormActionsProps } from "../types";
+import { getProfileFormActions } from "../utils";
 
 const ProfileFormActions: FC<ProfileFormActionsProps> = ({
   onCancel,
