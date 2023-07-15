@@ -1,8 +1,8 @@
 import { Form, FormikProvider } from "formik";
 import React, { FC } from "react";
 
+import { PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG } from "../configs";
 import ProfileFormInputs from "../ProfileFormInputs";
-import { PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG } from "../ProfileFormInputs/config";
 import { ProfileContent } from "../types";
 
 const ProfileChangePasswordSettings: FC<

@@ -3,7 +3,7 @@ import React, { FC, useMemo } from "react";
 
 import { FromInputConfig } from "@/types/interfaces";
 
-import { getProfileFormInputConfigs } from "./config";
+import { getProfileFormInputConfigs } from "../utils";
 
 interface ProfileFormInputsProps {
   config: FromInputConfig[];

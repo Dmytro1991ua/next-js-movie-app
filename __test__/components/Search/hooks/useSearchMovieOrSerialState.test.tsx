@@ -15,8 +15,8 @@ jest.mock("next/router", () => ({
   useRouter: jest.fn(),
 }));
 
-jest.mock("@/utils/utils", () => {
-  const originalModule = jest.requireActual("@/utils/utils");
+jest.mock("@/components/Search/utils", () => {
+  const originalModule = jest.requireActual("@/components/Search/utils");
 
   return {
     ...originalModule,

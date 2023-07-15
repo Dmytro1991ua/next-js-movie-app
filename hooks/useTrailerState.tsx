@@ -1,9 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 
-import {
-  getTrailerUrl,
-  getWarningMessageWhenTrailerNotFound,
-} from "@/utils/utils";
+import { getTrailerUrl, getWarningMessageWhenTrailerNotFound } from "./utils";
 
 interface HoopProps {
   id?: string | number;

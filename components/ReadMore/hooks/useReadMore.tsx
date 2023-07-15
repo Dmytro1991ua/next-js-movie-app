@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 
-import { getTruncatedLongText } from "@/utils/utils";
+import { getTruncatedLongText } from "../utils";
 
 interface HookProps {
   text: string;

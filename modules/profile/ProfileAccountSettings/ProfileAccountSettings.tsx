@@ -3,7 +3,7 @@ import React, { FC } from "react";
 
 import ProfileDropzone from "./ProfileDropzone";
 import ProfileImagePreview from "./ProfileImagePreview";
-import { PROFILE_ACCOUNT_SETTINGS_CONFIG } from "../ProfileFormInputs/config";
+import { PROFILE_ACCOUNT_SETTINGS_CONFIG } from "../configs";
 import ProfileFormInputs from "../ProfileFormInputs/ProfileFormInputs";
 import { ProfileContent } from "../types";
 

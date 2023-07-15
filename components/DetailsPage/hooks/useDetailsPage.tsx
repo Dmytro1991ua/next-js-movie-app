@@ -9,18 +9,20 @@ import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { homePageService } from "@/modules/home/home.service";
 import { QueryString, RequestMethod } from "@/types/enums";
 import { UpdateRatingResult } from "@/types/interfaces";
+import { getNewRatingFromDB, getStarRatingValue } from "@/utils/utils";
+
 import {
   detailsSubtitleWithPillsConfig,
+  movieOrSerialReleaseConfig,
+  movieOrSerialRevenueOrSeasonsDetailsConfig,
+} from "../configs";
+import {
   getDetailsBlockByConfig,
   getDetailsPageActionButtons,
   getFavoritesIcon,
   getFavoritesId,
   getIsMovieOrSerialInFavorites,
-  getNewRatingFromDB,
-  getStarRatingValue,
-  movieOrSerialReleaseConfig,
-  movieOrSerialRevenueOrSeasonsDetailsConfig,
-} from "@/utils/utils";
+} from "../utils";
 
 type HookProps = {
   movieOrSerialDetails?: MovieOrSerialDetail;

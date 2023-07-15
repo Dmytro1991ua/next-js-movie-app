@@ -1,8 +1,12 @@
 import { isEqual } from "lodash";
 import Resizer from "react-image-file-resizer";
 
+import Button from "@/components/Button";
+import FormikInput from "@/components/Input/FormikInput";
 import { toastService } from "@/services/toast.service";
+import { FromInputConfig } from "@/types/interfaces";
 
+import { profileFormActionsConfig } from "./configs";
 import {
   ALLOWED_IMAGE_FORMATS,
   DEFAULT_MAX_FILE_SIZE,
@@ -13,7 +17,7 @@ import {
   INCOMPATIBLE_FILE_FORMAT_MESSAGE,
   INCOMPATIBLE_FILE_SIZE_MESSAGE,
 } from "./constants";
-import { ResizeImageParams } from "./types";
+import { ProfileFormActionsProps, ResizeImageParams } from "./types";
 
 export const validateImageDimensions = (
   image: HTMLImageElement,
@@ -129,4 +133,62 @@ export const getUpdatedUserName = (
   const areNamesEqual = isEqual(updatedName, currentName);
 
   return areNamesEqual ? currentName : updatedName;
+};
+
+export const getProfileFormInputConfigs = (
+  config: FromInputConfig[]
+): JSX.Element => (
+  <>
+    {config.map((input) => {
+      const { id, name, placeholder, fullWidth, label, type, disabled } = input;
+
+      return (
+        <FormikInput
+          key={id}
+          disabled={disabled}
+          fullWidth={fullWidth}
+          id={name}
+          label={label}
+          name={name}
+          placeholder={placeholder}
+          type={type}
+        />
+      );
+    })}
+  </>
+);
+
+export const getProfileFormActions = ({
+  onCancel,
+  onFormReset,
+  onSubmit,
+  disabled,
+  isLoading,
+  clickedButtonId,
+  onHandleButtonClick,
+}: ProfileFormActionsProps) => {
+  const config = profileFormActionsConfig({
+    onCancel,
+    onFormReset,
+    onSubmit,
+    disabled,
+    isLoading,
+  });
+
+  return config.map(({ id, label, variant, disabled, isLoading, onClick }) => {
+    return (
+      <Button
+        key={id}
+        fullWidth
+        disabled={disabled}
+        isLoading={isLoading && clickedButtonId === id}
+        variant={variant}
+        onClick={() => {
+          onHandleButtonClick && onHandleButtonClick(id, onClick);
+        }}
+      >
+        {label}
+      </Button>
+    );
+  });
 };

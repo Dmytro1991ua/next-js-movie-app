@@ -1,7 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 
-import FormikInput from "@/components/Input/FormikInput";
 import { FromInputConfig } from "@/types/interfaces";
+
+import { ProfileFormButtonLabel } from "./enums";
+import { ProfileFormActionsConfig, ProfileFormActionsProps } from "./types";
 
 export const PROFILE_ACCOUNT_SETTINGS_CONFIG: FromInputConfig[] = [
   {
@@ -44,25 +46,37 @@ export const PROFILE_CHANGE_PASSWORD_SETTINGS_CONFIG: FromInputConfig[] = [
   },
 ];
 
-export const getProfileFormInputConfigs = (
-  config: FromInputConfig[]
-): JSX.Element => (
-  <>
-    {config.map((input) => {
-      const { id, name, placeholder, fullWidth, label, type, disabled } = input;
-
-      return (
-        <FormikInput
-          key={id}
-          disabled={disabled}
-          fullWidth={fullWidth}
-          id={name}
-          label={label}
-          name={name}
-          placeholder={placeholder}
-          type={type}
-        />
-      );
-    })}
-  </>
-);
+export const profileFormActionsConfig = ({
+  onCancel,
+  onFormReset,
+  onSubmit,
+  disabled,
+  isLoading,
+}: ProfileFormActionsProps): ProfileFormActionsConfig[] => {
+  return [
+    {
+      id: ProfileFormButtonLabel.Cancel,
+      label: ProfileFormButtonLabel.Cancel,
+      variant: "danger",
+      disabled: false,
+      onClick: onCancel,
+      isLoading,
+    },
+    {
+      id: ProfileFormButtonLabel.ResetForm,
+      label: ProfileFormButtonLabel.ResetForm,
+      variant: "secondary",
+      disabled,
+      onClick: onFormReset,
+      isLoading,
+    },
+    {
+      id: ProfileFormButtonLabel.Submit,
+      label: ProfileFormButtonLabel.Submit,
+      variant: "primary",
+      disabled,
+      onClick: onSubmit,
+      isLoading,
+    },
+  ];
+};

@@ -21,6 +21,12 @@ jest.mock("react-image-file-resizer", () => ({
   imageFileResizer: jest.fn(),
 }));
 
+jest.mock("uuid", () => {
+  return {
+    v4: jest.fn(() => 1),
+  };
+});
+
 jest.mock("@/services/toast.service", () => ({
   toastService: {
     error: jest.fn(),

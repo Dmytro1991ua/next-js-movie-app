@@ -11,7 +11,8 @@ import {
   STAR_ICON_COLOR_FILLED,
   STAR_ICON_COLOR_UNFILLED,
 } from "@/types/constants";
-import { getHeroContentActionButtons } from "@/utils/utils";
+
+import { getHeroContentActionButtons } from "../utils";
 
 interface HeroContentProps {
   initialRatingValue: number;
