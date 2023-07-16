@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import React, { FC, ReactNode, useEffect } from "react";
 
-import { AppRoutes } from "@/types/enums";
+import { AppRoutes, SeeMorePageRoutes } from "@/types/enums";
 
 import GenerateMainLayoutSkeleton from "../layout/MainLayout/GenerateMainLayoutSkeleton";
 
@@ -27,15 +27,27 @@ const ProtectedRoutes: FC<ProtectedRoutesProps> = ({
   }, [pathIsProtected, router, session?.user, status]);
 
   if ((status === "loading" || !session?.user?.id) && pathIsProtected) {
-    return <GenerateMainLayoutSkeleton asPath={router.asPath as AppRoutes} />;
+    return (
+      <GenerateMainLayoutSkeleton
+        asPath={router.route as AppRoutes | SeeMorePageRoutes}
+      />
+    );
   }
 
   if (status === "loading" && pathIsProtected) {
-    return <GenerateMainLayoutSkeleton asPath={router.asPath as AppRoutes} />;
+    return (
+      <GenerateMainLayoutSkeleton
+        asPath={router.route as AppRoutes | SeeMorePageRoutes}
+      />
+    );
   }
 
   if (session?.user?.id && !pathIsProtected) {
-    return <GenerateMainLayoutSkeleton asPath={router.asPath as AppRoutes} />;
+    return (
+      <GenerateMainLayoutSkeleton
+        asPath={router.route as AppRoutes | SeeMorePageRoutes}
+      />
+    );
   }
 
   return <>{children}</>;

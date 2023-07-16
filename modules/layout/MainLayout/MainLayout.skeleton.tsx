@@ -18,7 +18,7 @@ const MainLayoutSkeleton: FC<MainLayoutSkeletonProps> = ({ children }) => {
         layout="fill"
         src={LayoutBgImage}
       />
-      <div className="m-auto">{children}</div>
+      <div>{children}</div>
     </div>
   );
 };
