@@ -3,14 +3,14 @@ import Skeleton from "react-loading-skeleton";
 
 const HeaderSkeleton: FC = () => {
   return (
-    <header className=" flex items-center justify-between p-3 bg-mantisDarker">
+    <header className=" flex items-center  p-3 bg-mantisDarker">
       <Skeleton
         baseColor="#7ac142"
         height={60}
         highlightColor="#5a803d"
         width={120}
       />
-      <div className="mr-4">
+      <div className="ml-10 ">
         <Skeleton
           baseColor="#7ac142"
           className="mr-2"
@@ -21,15 +21,17 @@ const HeaderSkeleton: FC = () => {
           width={100}
         />
       </div>
-      <div className="flex items-center">
-        <Skeleton
-          baseColor="#7ac142"
-          borderRadius="50%"
-          containerClassName="mr-4"
-          height={50}
-          highlightColor="#5a803d"
-          width={50}
-        />
+      <div className="flex items-center ml-auto">
+        <div className="flex">
+          <Skeleton
+            baseColor="#7ac142"
+            borderRadius="50%"
+            height={50}
+            highlightColor="#5a803d"
+            width={50}
+          />
+          <div className="mr-4" />
+        </div>
         <Skeleton
           baseColor="#7ac142"
           height={30}

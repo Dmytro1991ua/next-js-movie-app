@@ -14,7 +14,7 @@ const AuthLayoutSkeleton: FC<AuthLayoutSkeletonProps> = ({ children }) => {
         height="100%"
         highlightColor="#5a803d"
       />
-      {children}
+      <div className="form-wrapper">{children}</div>
     </section>
   );
 };

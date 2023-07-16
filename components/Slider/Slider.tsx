@@ -1,7 +1,6 @@
 import { clsx } from "clsx";
 import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
-import { v4 as uuidv4 } from "uuid";
 
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";

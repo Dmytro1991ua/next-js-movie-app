@@ -4,7 +4,7 @@ import { FC, ReactNode } from "react";
 
 import BackgroundImageBlock from "@/components/BackgroundImageBlock";
 import Header from "@/modules/header";
-import { AppRoutes } from "@/types/enums";
+import { AppRoutes, SeeMorePageRoutes } from "@/types/enums";
 
 import GenerateMainLayoutSkeleton from "./GenerateMainLayoutSkeleton";
 import LayoutBgImage from "../../../public/assets/auth-layout/auth-layout-bg-big.jpg";
@@ -15,10 +15,14 @@ interface MainLayoutProps {
 
 const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const { data: session, status } = useSession();
-  const { asPath } = useRouter();
+  const { route } = useRouter();
 
   if (status === "loading") {
-    return <GenerateMainLayoutSkeleton asPath={asPath as AppRoutes} />;
+    return (
+      <GenerateMainLayoutSkeleton
+        asPath={route as AppRoutes | SeeMorePageRoutes}
+      />
+    );
   }
 
   const renderImageComponentFotAuthLayout = (

@@ -92,7 +92,7 @@ describe("MainLayout", () => {
     render(
       <SessionProvider session={mockSessionWithNoUser}>
         <RouterContext.Provider
-          value={createMockRouter({ asPath: AppRoutes.SignIn })}
+          value={createMockRouter({ route: AppRoutes.SignIn })}
         >
           <MainLayout />
         </RouterContext.Provider>
