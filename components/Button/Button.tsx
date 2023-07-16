@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React, { FC } from "react";
 
 import { ButtonProps } from "./Button.types";
-import Loader from "./Loader";
+import Loader from "../Loader";
 
 const Button: FC<ButtonProps> = ({
   children,
