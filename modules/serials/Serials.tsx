@@ -4,12 +4,12 @@ import React, { FC, useMemo } from "react";
 import Hero from "@/components/Hero";
 import Search from "@/components/Search";
 import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
+import { favoritesService } from "@/services/favorites.service";
 import { TV_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
 import { AppRoutes, QueryString, SeeMorePageRoutes } from "@/types/enums";
 import { getFavoritesDataBasedOnRoute, getPageSlider } from "@/utils/utils";
 
 import { serialsPageService } from "./serials.service";
-import { homePageService } from "../home/home.service";
 
 const Serials: FC = () => {
   const { data: session } = useSession();
@@ -21,7 +21,8 @@ const Serials: FC = () => {
 
   const { data: favorites } = useFetchMoviesOrSerialsData({
     query: QueryString.favoritesMoviesOrSerials,
-    fetcher: () => homePageService.fetchFavoritesMoviesOrSerials(session?.user),
+    fetcher: () =>
+      favoritesService.fetchFavoritesMoviesOrSerials(session?.user),
   });
 
   const favoritesDataBasedOnRoute = useMemo(

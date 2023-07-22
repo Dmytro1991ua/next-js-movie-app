@@ -10,8 +10,8 @@ import {
   mockSessionWithUser,
   withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
-import { homePageService } from "@/modules/home/home.service";
 import MovieDetailsPage, { getServerSideProps } from "@/pages/home/[movieId]";
+import { mediaDetailsService } from "@/services/mediaDetails.service";
 import { AppRoutes, QueryString } from "@/types/enums";
 
 jest.mock("react-query", () => {
@@ -76,9 +76,9 @@ describe("MovieDetailsPage", () => {
     expect(screen.getByRole("img")).toBeInTheDocument();
   });
 
-  it("Should trigger getServerSideProps and called fetchMoviesDetailsData method within homePageService", async () => {
+  it("Should trigger getServerSideProps and called fetchMediaDetailsData method within mediaDetailsService", async () => {
     const fetchMoviesMock = jest
-      .spyOn(homePageService, "fetchMoviesDetailsData")
+      .spyOn(mediaDetailsService, "fetchMediaDetailsData")
       .mockImplementation(async () => ({
         movieOrSerialDetails: mockSerialDetails,
         movieOrSerialActors: mockSerialCast,

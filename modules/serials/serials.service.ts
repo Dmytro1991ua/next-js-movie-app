@@ -1,21 +1,9 @@
-import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { toastService } from "@/services/toast.service";
 import { SliderTitle } from "@/types/enums";
-import {
-  MovieOrSerialDetailsData,
-  MovieOrSerialResult,
-  SerialsPageData,
-} from "@/types/interfaces";
-import {
-  fetchDataWithHandling,
-  getResponseErrorMessage,
-  getResponseErrorMessageForDetailsPage,
-} from "@/utils/utils";
+import { MovieOrSerialResult, SerialsPageData } from "@/types/interfaces";
+import { fetchDataWithHandling, getResponseErrorMessage } from "@/utils/utils";
 
-import {
-  requestsConfigForSerialDetailsPage,
-  requestsConfigForSerialsPage,
-} from "./configs";
+import { requestsConfigForSerialsPage } from "./configs";
 
 class SerialsPageService {
   async fetchSerialsData(): Promise<SerialsPageData> {
@@ -71,60 +59,6 @@ class SerialsPageService {
       toastService.error(errorMessage);
 
       throw error;
-    }
-  }
-
-  async fetchSerialDetailsData(
-    serialId?: string | string[]
-  ): Promise<MovieOrSerialDetailsData> {
-    try {
-      const serialUrl =
-        requestsConfigForSerialDetailsPage(
-          serialId
-        ).fetchDataForSerialDetailsPage;
-      const castUrl =
-        requestsConfigForSerialDetailsPage(serialId).fetchSerialActors;
-
-      const [serialDetailResponse, serialCastResponse] = await Promise.all([
-        fetchDataWithHandling<MovieOrSerialDetail | null>({
-          url: serialUrl,
-          mediaType: "serials",
-          action: "fetch",
-        }),
-        fetchDataWithHandling<Cast | null>({
-          url: castUrl,
-          mediaType: "serials",
-          action: "fetch",
-        }),
-      ]);
-
-      return {
-        movieOrSerialDetails: serialDetailResponse,
-        movieOrSerialActors: serialCastResponse,
-      };
-    } catch (error) {
-      const errorMessage = getResponseErrorMessageForDetailsPage(true);
-      toastService.error(errorMessage);
-
-      throw new Error((error as Error).message);
-    }
-  }
-
-  //TODO Move this method to shared service and make it reusable for all pages
-  async fetchSeeMorePageDataForSerialsPage(
-    url: string
-  ): Promise<MovieOrSerialResult | null> {
-    try {
-      return await fetchDataWithHandling<MovieOrSerialResult>({
-        url,
-        mediaType: "serials",
-        action: "fetch",
-      });
-    } catch (error) {
-      const errorMessage = getResponseErrorMessage(true);
-      toastService.error(errorMessage);
-
-      throw new Error((error as Error).message);
     }
   }
 }

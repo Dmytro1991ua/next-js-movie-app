@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import Cards from "@/components/Cards";
 import { useFetchSeeMoreOrSearchPageData } from "@/hooks/queries/useFetchSeeMoreOrSearchPageData";
-import { moviesPageService } from "@/modules/movies/movies.service";
+import { searchService } from "@/services/search.service";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { prefetchMoviesOrSerialsForSearchPage } from "@/utils/utils";
 
@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     searchParam: movieSearchParam as string,
     queryString: QueryString.moviesForSearchPage,
     fetcher: () =>
-      moviesPageService.fetchDataForSearchPage({
+      searchService.fetchDataForSearchPage({
         searchPath: AppRoutes.SearchMovies,
         searchParam: movieSearchParam as string,
       }),
@@ -37,7 +37,7 @@ const SearchMoviePage: NextPage = () => {
   } = useFetchSeeMoreOrSearchPageData({
     query: QueryString.moviesForSearchPage,
     fetcher: (pageParam) =>
-      moviesPageService.fetchDataForSearchPage({
+      searchService.fetchDataForSearchPage({
         searchPath: AppRoutes.SearchMovies,
         searchParam: movieSearchParam as string,
         pageParam,

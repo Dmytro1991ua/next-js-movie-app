@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useCallback, useMemo } from "react";
 
 import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
-import { homePageService } from "@/modules/home/home.service";
+import { ratingService } from "@/services/rating.service";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { MovieOrSerialResults, UpdateRatingResult } from "@/types/interfaces";
 import {
@@ -34,7 +34,7 @@ export const useCardState = ({
   const { data: newRating } =
     useFetchMoviesOrSerialsData<UpdateRatingResult | null>({
       query: QueryString.movieOrSerialRating,
-      fetcher: () => homePageService.fetchRatingById(session?.user),
+      fetcher: () => ratingService.fetchRatingById(session?.user),
       isRefetchOnMount: true,
     });
 

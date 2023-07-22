@@ -3,6 +3,7 @@ import { GetServerSideProps, NextPage } from "next";
 import Cards from "@/components/Cards";
 import { useFetchSeeMoreOrSearchPageData } from "@/hooks/queries/useFetchSeeMoreOrSearchPageData";
 import { homePageService } from "@/modules/home/home.service";
+import { mediaSeeMorePageService } from "@/services/mediaSeeMorePage.service";
 import {
   AppRoutes,
   QueryString,
@@ -30,7 +31,7 @@ const TrendingMoviesPage: NextPage = () => {
   } = useFetchSeeMoreOrSearchPageData({
     query: SeeMorePageQueryString.TrendingMovies,
     fetcher: (pageParam) =>
-      homePageService.fetchSeeMorePageDataForHomePage(
+      mediaSeeMorePageService.fetchSeeMorePageData(
         requestsConfigForSeeMorePage(pageParam).fetchTrendingMovies
       ),
     title: SliderTitle.TrendingMovies,

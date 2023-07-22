@@ -2,9 +2,9 @@ import { debounce } from "lodash";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 
-import { useUpdateMovieOrSerialRating } from "@/hooks/mutations/useUpdateMovieOrSerialRating";
+import { useEntityMutationHandler } from "@/hooks/mutations/useEntityMutationHandler";
 import { Rating } from "@/model/rating";
-import { homePageService } from "@/modules/home/home.service";
+import { ratingService } from "@/services/rating.service";
 import { QueryString } from "@/types/enums";
 import { convertStarRatingToTMDBRating } from "@/utils/utils";
 
@@ -39,7 +39,7 @@ export const useStarRating = ({
     setStarRatingValue(rating);
   }, [rating]);
 
-  const { mutate: updateRating } = useUpdateMovieOrSerialRating({
+  const { mutate: updateRating } = useEntityMutationHandler({
     queryKey: QueryString.movieOrSerialRating,
     mutationFn: () => {
       const convertedRating = convertStarRatingToTMDBRating(starRatingValue);
@@ -48,10 +48,7 @@ export const useStarRating = ({
         rating: convertedRating,
       };
 
-      return homePageService.updateMovieOrSerialRating(
-        ratingData,
-        session?.user
-      );
+      return ratingService.updateMovieOrSerialRating(ratingData, session?.user);
     },
   });
 

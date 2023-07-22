@@ -3,6 +3,7 @@ import { GetServerSideProps, NextPage } from "next";
 import Cards from "@/components/Cards";
 import { useFetchSeeMoreOrSearchPageData } from "@/hooks/queries/useFetchSeeMoreOrSearchPageData";
 import { serialsPageService } from "@/modules/serials/serials.service";
+import { mediaSeeMorePageService } from "@/services/mediaSeeMorePage.service";
 import {
   AppRoutes,
   QueryString,
@@ -30,8 +31,9 @@ const OnAirSerialsPage: NextPage = () => {
   } = useFetchSeeMoreOrSearchPageData({
     query: SeeMorePageQueryString.SerialsOnAir,
     fetcher: (pageParam) =>
-      serialsPageService.fetchSeeMorePageDataForSerialsPage(
-        requestsConfigForSeeMorePage(pageParam).fetchSerialsOnAir
+      mediaSeeMorePageService.fetchSeeMorePageData(
+        requestsConfigForSeeMorePage(pageParam).fetchSerialsOnAir,
+        "serials"
       ),
     title: SliderTitle.SerialsOnAir,
     isMovie: false,

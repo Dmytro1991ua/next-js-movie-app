@@ -4,7 +4,7 @@ import { RouterContext } from "next/dist/shared/lib/router-context";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { useUpdateProfileData } from "@/hooks/mutations/useUpdateProfileData";
+import { useEntityMutationHandler } from "@/hooks/mutations/useEntityMutationHandler";
 import createMockRouter from "@/mocks/createMockRouter";
 import { MOCK_FORMIK_INSTANCE, mockSessionWithUser } from "@/mocks/testMocks";
 import { useProfileState } from "@/modules/profile/hooks/useProfileState";
@@ -67,7 +67,7 @@ describe("useProfileState", () => {
       }
     );
 
-  const mockUseUpdateProfileData = ({
+  const mockUseEntityMutationHandler = ({
     payload,
     method,
   }: {
@@ -76,7 +76,7 @@ describe("useProfileState", () => {
   }) =>
     renderHook(
       () =>
-        useUpdateProfileData({
+        useEntityMutationHandler({
           queryKey: QueryString.updateProfileData,
           mutationFn: () => updateFavoriteMovieOrSerialMock(payload, method),
         }),
@@ -89,12 +89,12 @@ describe("useProfileState", () => {
       }
     );
 
-  it("should call  useUpdateProfileData with correct arguments and run  updateProfileData mutation", async () => {
+  it("should call  useEntityMutationHandler with correct arguments and run  updateProfileData mutation", async () => {
     hook();
 
     const mockUserInfo = { name: "new_name", password: "123456" };
 
-    const { result } = mockUseUpdateProfileData({
+    const { result } = mockUseEntityMutationHandler({
       payload: {
         userInfo: mockUserInfo,
         user: { ...mockSessionWithUser, id: "test_id_1" },

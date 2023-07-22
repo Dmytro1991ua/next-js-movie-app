@@ -8,7 +8,7 @@ import { useTrailerState } from "@/hooks/useTrailerState";
 import { Movie } from "@/model/movie";
 import { Rating } from "@/model/rating";
 import { Serial } from "@/model/serial";
-import { homePageService } from "@/modules/home/home.service";
+import { ratingService } from "@/services/rating.service";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { UpdateRatingResult } from "@/types/interfaces";
 import {
@@ -44,7 +44,7 @@ export const useHeroState = <T extends Movie & Serial>({
   const { data: newRating } =
     useFetchMoviesOrSerialsData<UpdateRatingResult | null>({
       query: QueryString.movieOrSerialRating,
-      fetcher: () => homePageService.fetchRatingById(session?.user),
+      fetcher: () => ratingService.fetchRatingById(session?.user),
       isRefetchOnMount: true,
     });
 
