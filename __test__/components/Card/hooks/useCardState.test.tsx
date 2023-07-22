@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { useCardState } from "@/components/Card/hooks/useCardState";
 import createMockRouter from "@/mocks/createMockRouter";
 import { mockMovie, mockSessionWithUser } from "@/mocks/testMocks";
-import { homePageService } from "@/modules/home/home.service";
+import { ratingService } from "@/services/rating.service";
 import { AppRoutes } from "@/types/enums";
 import { MovieOrSerialResults } from "@/types/interfaces";
 import { handleRedirectToDetailsPage } from "@/utils/utils";
@@ -33,7 +33,7 @@ describe("useDetailsPage", () => {
 
   beforeEach(() => {
     jest
-      .spyOn(homePageService, "fetchRatingById")
+      .spyOn(ratingService, "fetchRatingById")
       .mockImplementation(fetchRatingByIdMock);
   });
 

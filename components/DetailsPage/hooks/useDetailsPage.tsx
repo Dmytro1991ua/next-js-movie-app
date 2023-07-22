@@ -2,11 +2,12 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useCallback, useMemo } from "react";
 
-import { useUpdateFavoritesMoviesOrSerials } from "@/hooks/mutations/useUpdateFavoritesMoviesOrSerials";
+import { useEntityMutationHandler } from "@/hooks/mutations/useEntityMutationHandler";
 import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import { useTrailerState } from "@/hooks/useTrailerState";
 import { Cast, MovieOrSerialDetail } from "@/model/common";
-import { homePageService } from "@/modules/home/home.service";
+import { favoritesService } from "@/services/favorites.service";
+import { ratingService } from "@/services/rating.service";
 import { QueryString, RequestMethod } from "@/types/enums";
 import { UpdateRatingResult } from "@/types/interfaces";
 import { getNewRatingFromDB, getStarRatingValue } from "@/utils/utils";
@@ -52,21 +53,22 @@ export const useDetailsPage = ({
 
   const { data: favorites } = useFetchMoviesOrSerialsData({
     query: QueryString.favoritesMoviesOrSerials,
-    fetcher: () => homePageService.fetchFavoritesMoviesOrSerials(session?.user),
+    fetcher: () =>
+      favoritesService.fetchFavoritesMoviesOrSerials(session?.user),
     isRefetchOnMount: true,
   });
 
   const { data: newRating } =
     useFetchMoviesOrSerialsData<UpdateRatingResult | null>({
       query: QueryString.movieOrSerialRating,
-      fetcher: () => homePageService.fetchRatingById(session?.user),
+      fetcher: () => ratingService.fetchRatingById(session?.user),
       isRefetchOnMount: true,
     });
 
-  const { mutate: addToFavorites } = useUpdateFavoritesMoviesOrSerials({
+  const { mutate: addToFavorites } = useEntityMutationHandler({
     queryKey: QueryString.favoritesMoviesOrSerials,
     mutationFn: () =>
-      homePageService.updateFavoriteMovieOrSerial(
+      favoritesService.updateFavoriteMovieOrSerial(
         {
           favorites: movieOrSerialDetails,
           user: session?.user,
@@ -79,10 +81,10 @@ export const useDetailsPage = ({
     () => getFavoritesId(movieOrSerialDetails?.id, favorites?.data),
     [favorites?.data, movieOrSerialDetails?.id]
   );
-  const { mutate: removeFromFavorites } = useUpdateFavoritesMoviesOrSerials({
+  const { mutate: removeFromFavorites } = useEntityMutationHandler({
     queryKey: QueryString.favoritesMoviesOrSerials,
     mutationFn: () =>
-      homePageService.updateFavoriteMovieOrSerial(
+      favoritesService.updateFavoriteMovieOrSerial(
         {
           id: favoritesMovieOrSerialId,
           user: session?.user,

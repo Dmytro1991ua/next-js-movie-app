@@ -8,7 +8,7 @@ import createMockRouter from "@/mocks/createMockRouter";
 import { mockMovie, mockSessionWithUser } from "@/mocks/testMocks";
 import { Movie } from "@/model/movie";
 import { Serial } from "@/model/serial";
-import { homePageService } from "@/modules/home/home.service";
+import { ratingService } from "@/services/rating.service";
 import { AppRoutes } from "@/types/enums";
 import { handleRedirectToDetailsPage } from "@/utils/utils";
 
@@ -34,7 +34,7 @@ describe("useHeroState", () => {
 
   beforeEach(() => {
     jest
-      .spyOn(homePageService, "fetchRatingById")
+      .spyOn(ratingService, "fetchRatingById")
       .mockImplementation(fetchRatingByIdMock);
   });
 

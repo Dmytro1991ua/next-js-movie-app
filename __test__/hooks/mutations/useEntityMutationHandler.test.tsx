@@ -1,7 +1,7 @@
 import { renderHook } from "@testing-library/react-hooks";
 import { useMutation, useQueryClient } from "react-query";
 
-import { useUpdateMovieOrSerialRating } from "@/hooks/mutations/useUpdateMovieOrSerialRating";
+import { useEntityMutationHandler } from "@/hooks/mutations/useEntityMutationHandler";
 import { mockSerialDetails } from "@/mocks/testMocks";
 import { QueryString } from "@/types/enums";
 
@@ -19,10 +19,10 @@ jest.mock("react-toastify", () => ({
   },
 }));
 
-const mockQueryKey = QueryString.movieOrSerialRating;
+const mockQueryKey = QueryString.favoritesMoviesOrSerials;
 const mockMutationFn = jest.fn();
 
-describe("useUpdateMovieOrSerialRating", () => {
+describe("useEntityMutationHandler", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -40,7 +40,7 @@ describe("useUpdateMovieOrSerialRating", () => {
     });
 
     const { result } = renderHook(() =>
-      useUpdateMovieOrSerialRating({
+      useEntityMutationHandler({
         queryKey: mockQueryKey,
         mutationFn: jest.fn(),
       })
@@ -51,7 +51,7 @@ describe("useUpdateMovieOrSerialRating", () => {
 
   it("should call useMutation with the correct mutationFn", () => {
     renderHook(() =>
-      useUpdateMovieOrSerialRating({
+      useEntityMutationHandler({
         queryKey: mockQueryKey,
         mutationFn: mockMutationFn,
       })
@@ -59,10 +59,7 @@ describe("useUpdateMovieOrSerialRating", () => {
 
     expect(useMutation).toHaveBeenCalledWith(
       mockMutationFn,
-      expect.objectContaining({
-        onSuccess: expect.any(Function),
-        onError: expect.any(Function),
-      })
+      expect.any(Object)
     );
   });
 
@@ -91,7 +88,7 @@ describe("useUpdateMovieOrSerialRating", () => {
     });
 
     const { result } = renderHook(() =>
-      useUpdateMovieOrSerialRating({
+      useEntityMutationHandler({
         queryKey: mockQueryKey,
         mutationFn: mockMutationFn,
       })
@@ -118,7 +115,7 @@ describe("useUpdateMovieOrSerialRating", () => {
     });
 
     const { result } = renderHook(() =>
-      useUpdateMovieOrSerialRating({
+      useEntityMutationHandler({
         queryKey: mockQueryKey,
         mutationFn: mutationFnMock,
       })

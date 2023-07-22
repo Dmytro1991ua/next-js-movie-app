@@ -19,11 +19,13 @@ import {
   AppPageData,
   FavoritesMoviesOrSerialsResult,
   HomePageData,
+  MediaType,
   MovieOrSerialDetailsData,
   MovieOrSerialResults,
   MoviesPageData,
   PageSlider,
   PrefetchDataForSearchPageProps,
+  RequestAction,
   SerialsPageData,
 } from "@/types/interfaces";
 
@@ -307,15 +309,15 @@ export const getStarRatingValue = (
 
 export const fetchDataWithHandling = async <T,>({
   url,
-  mediaType,
-  action,
+  mediaType = "movies",
+  action = "fetch",
   options,
   genre = SliderTitle.Default,
   message = "",
 }: {
   url: string;
-  mediaType: "movies" | "serials" | "";
-  action: "fetch" | "update" | "delete";
+  mediaType?: MediaType;
+  action?: RequestAction;
   options?: RequestOption;
   genre?: SliderTitle;
   message?: string;

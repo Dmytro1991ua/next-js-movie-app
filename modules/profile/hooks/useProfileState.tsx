@@ -8,7 +8,7 @@ import {
   useDropzone,
 } from "react-dropzone";
 
-import { useUpdateProfileData } from "@/hooks/mutations/useUpdateProfileData";
+import { useEntityMutationHandler } from "@/hooks/mutations/useEntityMutationHandler";
 import { useRedirectStatus } from "@/hooks/useRedirectStatus";
 import { QueryString } from "@/types/enums";
 
@@ -53,7 +53,7 @@ export const useProfileState = ({
 
   const isRedirecting = useRedirectStatus();
 
-  const { mutate: updateProfileData, isLoading } = useUpdateProfileData({
+  const { mutate: updateProfileData, isLoading } = useEntityMutationHandler({
     queryKey: QueryString.updateProfileData,
     mutationFn: async () => {
       const response = await profileService.uploadProfileData({

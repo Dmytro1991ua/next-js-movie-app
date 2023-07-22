@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import Cards from "@/components/Cards";
 import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
-import { homePageService } from "@/modules/home/home.service";
+import { favoritesService } from "@/services/favorites.service";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { getFavoritesDataBasedOnRoute } from "@/utils/utils";
 
@@ -13,7 +13,8 @@ const FavoritesSerialsPage: NextPage = () => {
 
   const { data: favorites, isLoading } = useFetchMoviesOrSerialsData({
     query: QueryString.favoritesMoviesOrSerials,
-    fetcher: () => homePageService.fetchFavoritesMoviesOrSerials(session?.user),
+    fetcher: () =>
+      favoritesService.fetchFavoritesMoviesOrSerials(session?.user, "serials"),
   });
 
   const favoritesDataBasedOnRoute = useMemo(

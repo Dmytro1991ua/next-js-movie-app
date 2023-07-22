@@ -11,7 +11,6 @@ module.exports = {
     "!**/next.config.js/**",
     "!**/postcss.config.js/**",
     "!**/tailwind.config.js/**",
-    "!**/services/**",
     "!**/types*/**",
     "!**/lib*/**",
     "!**/model*/**",

@@ -3,13 +3,13 @@ import { renderHook } from "@testing-library/react-hooks";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { useDetailsPage } from "@/components/DetailsPage/hooks/useDetailsPage";
-import { useUpdateFavoritesMoviesOrSerials } from "@/hooks/mutations/useUpdateFavoritesMoviesOrSerials";
+import { useEntityMutationHandler } from "@/hooks/mutations/useEntityMutationHandler";
 import {
   mockSerialCast,
   mockSerialDetails,
   mockSessionWithUser,
 } from "@/mocks/testMocks";
-import { homePageService } from "@/modules/home/home.service";
+import { favoritesService } from "@/services/favorites.service";
 import { QueryString, RequestMethod } from "@/types/enums";
 import {
   AddToFavoritePayload,
@@ -29,7 +29,7 @@ describe("useDetailsPage", () => {
 
   beforeEach(() => {
     jest
-      .spyOn(homePageService, "updateFavoriteMovieOrSerial")
+      .spyOn(favoritesService, "updateFavoriteMovieOrSerial")
       .mockImplementation(updateFavoriteMovieOrSerialMock);
   });
 
@@ -45,7 +45,7 @@ describe("useDetailsPage", () => {
       })
     );
 
-  const mockUseUpdateFavoritesMoviesOrSerials = ({
+  const mockUseEntityMutationHandler = ({
     payload,
     method,
   }: {
@@ -56,7 +56,7 @@ describe("useDetailsPage", () => {
   }) =>
     renderHook(
       () =>
-        useUpdateFavoritesMoviesOrSerials({
+        useEntityMutationHandler({
           queryKey: QueryString.favoritesMoviesOrSerials,
           mutationFn: () => updateFavoriteMovieOrSerialMock(payload, method),
         }),
@@ -72,7 +72,7 @@ describe("useDetailsPage", () => {
   it("should call updateFavoriteMovieOrSerial with correct arguments and run addToFavorite mutation", async () => {
     hook();
 
-    const { result } = mockUseUpdateFavoritesMoviesOrSerials({
+    const { result } = mockUseEntityMutationHandler({
       payload: {
         favorites: mockSerialDetails,
         user: { ...mockSessionWithUser, id: "test_id_1" },
@@ -97,7 +97,7 @@ describe("useDetailsPage", () => {
   it("should call updateFavoriteMovieOrSerial with correct arguments and run removeFromFavorite mutation", async () => {
     hook();
 
-    const { result } = mockUseUpdateFavoritesMoviesOrSerials({
+    const { result } = mockUseEntityMutationHandler({
       payload: {
         id: "test_id",
         user: { ...mockSessionWithUser, id: "test_id_1" },

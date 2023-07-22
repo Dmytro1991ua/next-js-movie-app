@@ -1,14 +1,15 @@
-import { movieTrailer } from "movie-trailer";
+import movieTrailer from "movie-trailer";
 import { InfiniteData } from "react-query";
 
 import { toastService } from "@/services/toast.service";
 import { SliderTitle } from "@/types/enums";
 import { MovieOrSerialResult } from "@/types/interfaces";
+
 export const getWarningMessageWhenTrailerNotFound = (name?: string): string => {
   return `No trailers found for ${name}`;
 };
 
-export const getYoutubeMoveOrSerialId = (
+export const getYoutubeMovieOrSerialId = (
   url: string,
   onSetTrailerUrl: (value: string | null) => void
 ): void => {
@@ -25,7 +26,7 @@ export const getTrailerUrl = async ({
   message: string;
   onSetTrailer: (value: string | null) => void;
   id?: string | number;
-}) => {
+}): Promise<void> => {
   try {
     const url = await movieTrailer(null, { tmdbId: id });
 
@@ -33,7 +34,7 @@ export const getTrailerUrl = async ({
       toastService.warn(message);
     }
 
-    getYoutubeMoveOrSerialId(url, onSetTrailer);
+    getYoutubeMovieOrSerialId(url, onSetTrailer);
   } catch {
     onSetTrailer(null);
   }

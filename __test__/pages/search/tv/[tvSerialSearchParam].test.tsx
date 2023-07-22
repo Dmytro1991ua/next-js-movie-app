@@ -5,10 +5,10 @@ import {
   mockSessionWithUser,
   withQueryClientAndRouterProvider,
 } from "@/mocks/testMocks";
-import { moviesPageService } from "@/modules/movies/movies.service";
 import SearchTVSerialPage, {
   getServerSideProps,
 } from "@/pages/search/tv/[tvSerialSearchParam]";
+import { searchService } from "@/services/search.service";
 import { AppRoutes } from "@/types/enums";
 
 jest.mock("uuid", () => {
@@ -37,9 +37,9 @@ describe("SearchTVSerialPage", () => {
     expect(screen.getByTestId("cards")).toBeInTheDocument();
   });
 
-  it("Should trigger getServerSideProps and called fetchDataForSearchPage method within moviesPageService", async () => {
+  it("Should trigger getServerSideProps and called fetchDataForSearchPage method within searchService", async () => {
     const fetchMoviesForSearchPageMock = jest.spyOn(
-      moviesPageService,
+      searchService,
       "fetchDataForSearchPage"
     );
 

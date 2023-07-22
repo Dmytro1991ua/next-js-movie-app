@@ -3,17 +3,19 @@ import {
   ApiRequestConfigForHomePage,
   ApiRequestConfigForMoviesPage,
   ApiRequestConfigForSerialsPage,
+  ContentType,
   DataFetcherProps,
 } from "@/types/interfaces";
 
-export const requestsConfigForMovieDetailsPage = (
-  movieId?: string | string[]
+export const requestsConfigForMediaDetailsPage = (
+  id?: string | string[],
+  contentType?: ContentType
 ): {
-  fetchDataForHomeAndMovieDetailsPage: string;
-  fetchMovieActors: string;
+  fetchDataForMediaDetailsPage: string;
+  fetchActorsForMediaDetailsPage: string;
 } => ({
-  fetchDataForHomeAndMovieDetailsPage: `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=en-US&append_to_response=videos`,
-  fetchMovieActors: `${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`,
+  fetchDataForMediaDetailsPage: `${BASE_URL}/${contentType}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos`,
+  fetchActorsForMediaDetailsPage: `${BASE_URL}/${contentType}/${id}/credits?api_key=${API_KEY}&language=en-US`,
 });
 
 export const requestsConfigForSeeMorePage = (

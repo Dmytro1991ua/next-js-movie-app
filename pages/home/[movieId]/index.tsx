@@ -1,7 +1,8 @@
 import { GetServerSideProps, NextPage } from "next";
 
 import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
-import { homePageService } from "@/modules/home/home.service";
+import { Cast, MovieOrSerialDetail } from "@/model/common";
+import { mediaDetailsService } from "@/services/mediaDetails.service";
 import { MOVIE_SEARCH_INPUT_PLACEHOLDER } from "@/types/constants";
 import { AppRoutes, QueryString } from "@/types/enums";
 import { prefetchMovieOrSerialDetailsData } from "@/utils/utils";
@@ -14,20 +15,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return prefetchMovieOrSerialDetailsData({
     id: movieId as string,
     queryString: QueryString.moviesForHomePageDetails,
-    fetcher: () => homePageService.fetchMoviesDetailsData(movieId),
+    fetcher: () =>
+      mediaDetailsService.fetchMediaDetailsData({
+        id: movieId,
+        contentType: "movie",
+      }),
   });
 };
 
 const MovieDetailsPage: NextPage = () => {
   const { data } = useFetchMoviesOrSerialsData({
     query: QueryString.moviesForHomePageDetails,
-    fetcher: () => homePageService.fetchMoviesDetailsData(),
+    fetcher: () => mediaDetailsService.fetchMediaDetailsData({}),
   });
 
   return (
     <DetailsPage
-      movieOrSerialCast={data?.movieOrSerialActors}
-      movieOrSerialDetails={data?.movieOrSerialDetails}
+      movieOrSerialCast={data?.movieOrSerialActors as Cast}
+      movieOrSerialDetails={data?.movieOrSerialDetails as MovieOrSerialDetail}
       placeholder={MOVIE_SEARCH_INPUT_PLACEHOLDER}
       searchPath={AppRoutes.SearchMovies}
     />

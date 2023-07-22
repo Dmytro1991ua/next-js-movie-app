@@ -238,3 +238,7 @@ export interface FromInputConfig {
   label?: string;
   disabled?: boolean;
 }
+
+export type MediaType = "movies" | "serials" | "";
+export type RequestAction = "fetch" | "update" | "delete";
+export type ContentType = "movie" | "tv";

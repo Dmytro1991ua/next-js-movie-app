@@ -1,21 +1,7 @@
-import { Cast, MovieOrSerialDetail } from "@/model/common";
 import { toastService } from "@/services/toast.service";
 import { SliderTitle } from "@/types/enums";
-import {
-  DataFetcherProps,
-  MovieOrSerialDetailsData,
-  MovieOrSerialResult,
-  MoviesPageData,
-} from "@/types/interfaces";
-import {
-  requestConfigForSearchPage,
-  requestsConfigForMovieDetailsPage,
-} from "@/utils/requests";
-import {
-  fetchDataWithHandling,
-  getResponseErrorMessage,
-  getResponseErrorMessageForDetailsPage,
-} from "@/utils/utils";
+import { MovieOrSerialResult, MoviesPageData } from "@/types/interfaces";
+import { fetchDataWithHandling, getResponseErrorMessage } from "@/utils/utils";
 
 import { requestsConfigForMoviesPage } from "./configs";
 
@@ -97,89 +83,6 @@ class MoviesPageService {
       toastService.error(errorMessage);
 
       throw error;
-    }
-  }
-
-  async fetchMoviesByGenreDetailsData(
-    movieByGenreId?: string | string[]
-  ): Promise<MovieOrSerialDetailsData> {
-    try {
-      const movieByGenreUrl =
-        requestsConfigForMovieDetailsPage(
-          movieByGenreId
-        ).fetchDataForHomeAndMovieDetailsPage;
-      const castUrl =
-        requestsConfigForMovieDetailsPage(movieByGenreId).fetchMovieActors;
-
-      const [movieByGenreDetailResponse, movieCastResponse] = await Promise.all(
-        [
-          fetchDataWithHandling<MovieOrSerialDetail | null>({
-            url: movieByGenreUrl,
-            mediaType: "movies",
-            action: "fetch",
-          }),
-          fetchDataWithHandling<Cast | null>({
-            url: castUrl,
-            mediaType: "movies",
-            action: "fetch",
-          }),
-        ]
-      );
-
-      return {
-        movieOrSerialDetails: movieByGenreDetailResponse,
-        movieOrSerialActors: movieCastResponse,
-      };
-    } catch (error) {
-      const errorMessage = getResponseErrorMessageForDetailsPage();
-      toastService.error(errorMessage);
-
-      throw new Error((error as Error).message);
-    }
-  }
-
-  //TODO Move this method to shared service and make it reusable for all pages
-  async fetchSeeMorePageDataForMoviesPage(
-    url: string
-  ): Promise<MovieOrSerialResult | null> {
-    try {
-      return await fetchDataWithHandling<MovieOrSerialResult | null>({
-        url,
-        mediaType: "movies",
-        action: "fetch",
-      });
-    } catch (error) {
-      const errorMessage = getResponseErrorMessage();
-      toastService.error(errorMessage);
-
-      throw new Error((error as Error).message);
-    }
-  }
-
-  //TODO Move this method to shared service
-  async fetchDataForSearchPage({
-    searchPath,
-    searchParam,
-    pageParam = 1,
-  }: DataFetcherProps): Promise<MovieOrSerialResult | null> {
-    try {
-      const url = requestConfigForSearchPage({
-        searchPath,
-        searchParam,
-        pageParam,
-      }).fetchDataForSearchPage;
-
-      return await fetchDataWithHandling<MovieOrSerialResult | null>({
-        url,
-        mediaType: "movies",
-        action: "fetch",
-        message: "Failed to fetch data based on search parameter",
-      });
-    } catch (error) {
-      const errorMessage = getResponseErrorMessage();
-      toastService.error(errorMessage);
-
-      throw new Error((error as Error).message);
     }
   }
 }
