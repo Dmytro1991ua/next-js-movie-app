@@ -87,6 +87,8 @@ describe("Profile", () => {
       getInputProps: jest.fn,
       getRootProps: jest.fn(),
       previewImage: "https://test_preview_image",
+      isLoading: false,
+      isRedirecting: false,
       onProfileUpdate: jest.fn(),
       onProfileFormCancel: mockOnCancel,
       onResetForm: jest.fn(),
@@ -113,6 +115,8 @@ describe("Profile", () => {
       getRootProps: jest.fn(),
       previewImage: "https://test_preview_image",
       onProfileUpdate: jest.fn(),
+      isLoading: false,
+      isRedirecting: false,
       onProfileFormCancel: jest.fn(),
       onResetForm: mockOnResetForm,
     }));
@@ -180,5 +184,26 @@ describe("Profile", () => {
     await waitFor(() =>
       expect(MOCK_FORMIK_INSTANCE.formikInstance.submitForm).toHaveBeenCalled()
     );
+  });
+
+  it("should show loading state", () => {
+    jest.spyOn(hook, "useProfileState").mockImplementation(() => ({
+      getInputProps: jest.fn(),
+      getRootProps: jest.fn(),
+      previewImage: "https://test_preview_image",
+      onProfileUpdate: jest.fn(),
+      isLoading: true,
+      isRedirecting: false,
+      onProfileFormCancel: jest.fn(),
+      onResetForm: jest.fn(),
+    }));
+
+    withQueryClientAndSessionProvider(
+      <Profile />,
+      mockSessionWithUser,
+      AppRoutes.Profile
+    );
+
+    expect(screen.getByTestId("profile-skeleton")).toBeInTheDocument();
   });
 });

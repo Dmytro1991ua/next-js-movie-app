@@ -7,6 +7,7 @@ import { useGetUserAvatar } from "@/hooks/useGetUserAvatar";
 
 import { ProfileContentSubtitle, ProfileContentTitle } from "./enums";
 import { useProfileState } from "./hooks/useProfileState";
+import ProfileSkeleton from "./Profile.skeleton";
 import ProfileAccountSettings from "./ProfileAccountSettings";
 import ProfileChangePasswordSettings from "./ProfileChangePasswordSettings";
 import ProfileContentWrapper from "./ProfileContentWrapper/ProfileContentWrapper";
@@ -61,6 +62,7 @@ const Profile: FC = () => {
     getRootProps,
     previewImage,
     isLoading,
+    isRedirecting,
     onProfileUpdate,
     onProfileFormCancel,
     onResetForm,
@@ -98,6 +100,10 @@ const Profile: FC = () => {
     </>
   );
 
+  if (isLoading) {
+    return <ProfileSkeleton />;
+  }
+
   return (
     <section
       className={clsx(
@@ -109,7 +115,7 @@ const Profile: FC = () => {
       {renderProfileChangePasswordSettings}
       <ProfileFormActions
         disabled={!formikInstance.dirty && !previewImage}
-        isLoading={isLoading}
+        isLoading={isRedirecting}
         onCancel={onProfileFormCancel}
         onFormReset={onResetForm}
         onSubmit={formikInstance.submitForm}
