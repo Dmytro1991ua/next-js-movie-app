@@ -26,6 +26,7 @@ type HookProps = {
 type ReturnedHookType = {
   previewImage: string | null;
   isLoading: boolean;
+  isRedirecting: boolean;
   getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
   getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
   onProfileUpdate: () => void;
@@ -90,7 +91,8 @@ export const useProfileState = ({
 
   return {
     previewImage,
-    isLoading: isLoading || isRedirecting,
+    isLoading,
+    isRedirecting,
     getRootProps,
     getInputProps,
     onProfileUpdate,

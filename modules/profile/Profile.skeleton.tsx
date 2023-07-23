@@ -3,7 +3,10 @@ import Skeleton from "react-loading-skeleton";
 
 const ProfileSkeleton: FC = () => {
   return (
-    <section className="flex flex-col max-h-[60rem] overflow-auto mx-auto  w-full max-w-[100rem] px-3 py-3 mt-15">
+    <section
+      className="flex flex-col max-h-[60rem] overflow-auto mx-auto  w-full max-w-[100rem] px-3 py-3 mt-15"
+      data-testid="profile-skeleton"
+    >
       <div>
         {Array(2)
           .fill(null)
