@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import connectMongoDb from "@/lib/connectMongoDb";
 import { Avatar } from "@/model/avatarSchema";
 import { User } from "@/model/userSchema";
+import { NO_DATA_IN_REQUEST_BODY_MESSAGE } from "@/modules/auth/auth.constants";
 import {
   SUCCESSFULLY_UPDATE_USER_PROFILE_DATA,
   USER_IS_NOT_AUTHORIZED,
@@ -18,7 +19,13 @@ import {
 
 import { DefaultUserWithId } from "../auth/auth";
 
-async function updatePasswordIfProvided(
+export function handleCaseWithNoBodyReceived(req: NextApiRequest): void {
+  if (!req.body) {
+    throw new Error(NO_DATA_IN_REQUEST_BODY_MESSAGE);
+  }
+}
+
+export async function updatePasswordIfProvided(
   newPassword: string | undefined,
   existingHashedPassword: string
 ): Promise<string> {
@@ -39,13 +46,13 @@ async function updatePasswordIfProvided(
   }
 }
 
-async function updateUserProfile(req?: NextApiRequest, res?: NextApiResponse) {
+export async function updateUserProfile(
+  req?: NextApiRequest,
+  res?: NextApiResponse
+) {
   const {
     payload: { userInfo, user },
   }: UpdateUserProfilePayload = req?.body;
-
-  const { name, password, image } = userInfo;
-  const { email, id } = user as DefaultUserWithId;
 
   try {
     if (!user) {
@@ -55,6 +62,9 @@ async function updateUserProfile(req?: NextApiRequest, res?: NextApiResponse) {
         data: null,
       });
     }
+
+    const { name, password, image } = userInfo;
+    const { email, id } = user as DefaultUserWithId;
 
     const existingUser = await User.findOne({ email });
 
@@ -97,7 +107,7 @@ async function updateUserProfile(req?: NextApiRequest, res?: NextApiResponse) {
   }
 }
 
-async function handleRequestBasedOnMethod({
+export async function handleRequestBasedOnMethod({
   req,
   res,
   method,
@@ -123,6 +133,8 @@ export default async function handler(
   const { method } = req;
 
   await connectMongoDb();
+
+  handleCaseWithNoBodyReceived(req);
 
   await handleRequestBasedOnMethod({
     req,

@@ -61,9 +61,9 @@ export const useCardState = ({
   const initialRatingValue = useMemo(
     () =>
       getStarRatingValue(
-        movieOrSerialData?.vote_average ?? 0,
+        movieOrSerialData?.vote_average as number,
         newRating?.data ?? [],
-        movieOrSerialData?.id ?? 0
+        movieOrSerialData?.id as number
       ),
     [movieOrSerialData?.vote_average, newRating, movieOrSerialData?.id]
   );

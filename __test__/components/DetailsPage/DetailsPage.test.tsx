@@ -1,7 +1,8 @@
-import { screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import DetailsPage from "@/components/DetailsPage";
+import { DetailsPageActionButtons } from "@/components/DetailsPage/enums";
 import * as hooks from "@/components/DetailsPage/hooks/useDetailsPage";
 import {
   mockSerialCast,
@@ -118,5 +119,46 @@ describe("DetailsPage", () => {
     userEvent.click(closeBtn);
 
     await waitFor(() => expect(mockOnTrailerClosing).toHaveBeenCalled());
+  });
+
+  it("should handle redirection to the previous page", () => {
+    const mockOnGoBackRedirect = jest.fn();
+
+    jest.spyOn(hooks, "useDetailsPage").mockImplementation(() => ({
+      detailsBlockWithPillsSubtitle: <p>Test block with pills</p>,
+      detailsBlockWithMovieOrSerialRelease: (
+        <p>Test block with movie or serial release date</p>
+      ),
+      detailsBlockWithRevenueOrSeasonsDetails: (
+        <p>Test block with revenue or seasons details</p>
+      ),
+      detailsPageActionButtons: <p>Test block with action buttons</p>,
+      trailerUrl: "test_url",
+      favoriteIcon: [<p key="1">Test favorite icon</p>],
+      onTrailerClosing: jest.fn(),
+      onGoBackRedirect: mockOnGoBackRedirect,
+      isTrailerShown: true,
+      initialRatingValue: 6,
+      newRating: 8,
+    }));
+
+    withQueryClientAndSessionProvider(
+      <DetailsPage
+        movieOrSerialCast={mockSerialCast}
+        movieOrSerialDetails={
+          mockSerialDetails as unknown as MovieOrSerialDetail
+        }
+      />,
+      mockSessionWithUser,
+      AppRoutes.SerialDetails
+    );
+
+    const goBackBtn = screen.getByText(DetailsPageActionButtons.GoBack);
+
+    expect(goBackBtn).toBeInTheDocument();
+
+    fireEvent.click(goBackBtn);
+
+    expect(mockOnGoBackRedirect).toHaveBeenCalled();
   });
 });

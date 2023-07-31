@@ -13,13 +13,13 @@ import { RequestMethod } from "@/types/enums";
 import { GetRatingById, UpdateRating } from "@/types/interfaces";
 import { convertResponseErrorMessageToCorrectFormat } from "@/utils/utils";
 
-function handleCaseWithNoBodyReceived(req: NextApiRequest): void {
+export function handleCaseWithNoBodyReceived(req: NextApiRequest): void {
   if (!req.body) {
     throw new Error(NO_DATA_IN_REQUEST_BODY_MESSAGE);
   }
 }
 
-async function getRatingBasedOnUser({
+export async function getRatingBasedOnUser({
   req,
   res,
 }: Pick<UpdateRating, "res" | "req">): Promise<void> {
@@ -49,16 +49,24 @@ async function getRatingBasedOnUser({
   }
 }
 
-async function addRating(data: Rating, userId: string, res?: NextApiResponse) {
+export async function addRating(
+  data: Rating,
+  userId: string,
+  res?: NextApiResponse
+) {
   try {
-    const movieOrSerialRatingData = new MediaRating({
+    if (!userId) {
+      return res?.status(401).send({
+        success: false,
+        message: USER_IS_NOT_AUTHORIZED,
+        data: null,
+      });
+    }
+
+    const newRating = await MediaRating.create({
       ...data,
       user: userId,
     });
-
-    const newRating = new MediaRating(movieOrSerialRatingData);
-
-    await newRating.save();
 
     return res?.status(200).send({
       success: true,
@@ -74,7 +82,7 @@ async function addRating(data: Rating, userId: string, res?: NextApiResponse) {
   }
 }
 
-async function updateExistingRating(
+export async function updateExistingRating(
   id: string,
   rating: number,
   res?: NextApiResponse
@@ -98,7 +106,7 @@ async function updateExistingRating(
   }
 }
 
-async function addOrUpdateRating(
+export async function addOrUpdateRating(
   existingRating: Rating | null,
   data: Rating,
   id: string,
@@ -115,7 +123,7 @@ async function addOrUpdateRating(
   }
 }
 
-async function addOrUpdateRatingToDb({
+export async function addOrUpdateRatingToDb({
   req,
   res,
 }: Pick<UpdateRating, "res" | "req">) {
@@ -147,7 +155,7 @@ async function addOrUpdateRatingToDb({
   }
 }
 
-async function handleRequestBasedOnMethod({
+export async function handleRequestBasedOnMethod({
   req,
   res,
   method,

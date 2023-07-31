@@ -1,6 +1,7 @@
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import useScrollPosition from "@/hooks/useScrollPosition";
 import {
   mockSessionWithNoUser,
   mockSessionWithUser,
@@ -15,8 +16,18 @@ jest.mock("uuid", () => {
   };
 });
 
+jest.mock("@/hooks/useScrollPosition");
+
 describe("Header", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("Should render component without crashing with logo if user is not authenticated", () => {
+    (useScrollPosition as jest.Mock).mockReturnValue({
+      isHeaderScrolled: false,
+    });
+
     withQueryClientAndSessionProvider(
       <Header />,
       mockSessionWithNoUser,
@@ -32,6 +43,10 @@ describe("Header", () => {
   });
 
   it("Should render Sign-Out button, navigation and user avatar when user is authenticated", () => {
+    (useScrollPosition as jest.Mock).mockReturnValue({
+      isHeaderScrolled: false,
+    });
+
     withQueryClientAndSessionProvider(
       <Header />,
       mockSessionWithUser,
@@ -46,6 +61,10 @@ describe("Header", () => {
   });
 
   it("Should redirect to Home page on Logo click", () => {
+    (useScrollPosition as jest.Mock).mockReturnValue({
+      isHeaderScrolled: false,
+    });
+
     withQueryClientAndSessionProvider(
       <Header />,
       mockSessionWithUser,
@@ -57,5 +76,37 @@ describe("Header", () => {
     userEvent.click(logo);
 
     expect(logo).toHaveAttribute("href", AppRoutes.Home);
+  });
+
+  it("should correctly applied specific styles to a Header when it not scroll", () => {
+    (useScrollPosition as jest.Mock).mockReturnValue({
+      isHeaderScrolled: false,
+    });
+
+    withQueryClientAndSessionProvider(
+      <Header />,
+      mockSessionWithUser,
+      AppRoutes.SignIn
+    );
+
+    const header = screen.getByTestId("header");
+
+    expect(header).toHaveClass("header border-0 border-transparent py-4");
+  });
+
+  it("should correctly applied specific styles to a Header on scroll", async () => {
+    (useScrollPosition as jest.Mock).mockReturnValue({
+      isHeaderScrolled: true,
+    });
+
+    withQueryClientAndSessionProvider(
+      <Header />,
+      mockSessionWithUser,
+      AppRoutes.SignIn
+    );
+
+    const header = screen.getByTestId("header");
+
+    await waitFor(() => expect(header).toHaveClass("header header-on-scroll"));
   });
 });

@@ -8,13 +8,13 @@ import { RequestMethod } from "@/types/enums";
 import { GetUserAvatarPayload, UpdateRating } from "@/types/interfaces";
 import { convertResponseErrorMessageToCorrectFormat } from "@/utils/utils";
 
-function handleCaseWithNoBodyReceived(req: NextApiRequest): void {
+export function handleCaseWithNoBodyReceived(req: NextApiRequest): void {
   if (!req.body) {
     throw new Error(NO_DATA_IN_REQUEST_BODY_MESSAGE);
   }
 }
 
-async function getUserAvatar({
+export async function getUserAvatar({
   req,
   res,
 }: Pick<UpdateRating, "res" | "req">): Promise<void> {
@@ -44,7 +44,7 @@ async function getUserAvatar({
   }
 }
 
-async function handleRequestBasedOnMethod({
+export async function handleRequestBasedOnMethod({
   req,
   res,
   method,

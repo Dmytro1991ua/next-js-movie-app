@@ -1,9 +1,10 @@
-import { render, screen } from "@testing-library/react";
-import { RouterContext } from "next/dist/shared/lib/router-context";
-import { SessionProvider } from "next-auth/react";
+import { screen } from "@testing-library/react";
 
-import createMockRouter from "@/mocks/createMockRouter";
-import { mockSessionWithNoUser } from "@/mocks/testMocks";
+import {
+  mockSessionWithNoUser,
+  withSessionProviderAndReactContext,
+} from "@/mocks/testMocks";
+import { useNavigationState } from "@/modules/header/hooks/useNavigationState";
 import Navigation from "@/modules/header/Navigation";
 import { AppRoutes } from "@/types/enums";
 
@@ -12,6 +13,8 @@ jest.mock("uuid", () => {
     v4: jest.fn(() => 1),
   };
 });
+
+jest.mock("@/modules/header/hooks/useNavigationState");
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -24,19 +27,44 @@ global.fetch = jest.fn(() =>
 );
 
 describe("Navigation", () => {
+  const mockOnToggleMobileNavigation = jest.fn();
+  const mockLinks = [
+    <p key={1}>Home</p>,
+    <p key={2}>Movies</p>,
+    <p key={3}>Serials</p>,
+  ];
+
   it("Should render component without crashing", () => {
-    render(
-      <SessionProvider session={mockSessionWithNoUser}>
-        <RouterContext.Provider
-          value={createMockRouter({ asPath: AppRoutes.Profile })}
-        >
-          <Navigation />
-        </RouterContext.Provider>
-      </SessionProvider>
-    );
+    (useNavigationState as jest.Mock).mockReturnValue({
+      links: mockLinks,
+      isMobileMenuShown: false,
+      onToggleMobileNavigation: mockOnToggleMobileNavigation,
+    });
+
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Profile,
+      component: <Navigation />,
+      session: mockSessionWithNoUser,
+    });
 
     expect(screen.getByText(/Home/)).toBeInTheDocument();
     expect(screen.getByText(/Movies/)).toBeInTheDocument();
     expect(screen.getByText(/Serials/)).toBeInTheDocument();
+  });
+
+  it("should render mobile navigation if isVisible true", () => {
+    (useNavigationState as jest.Mock).mockReturnValue({
+      links: mockLinks,
+      isMobileMenuShown: true,
+      onToggleMobileNavigation: mockOnToggleMobileNavigation,
+    });
+
+    withSessionProviderAndReactContext({
+      path: AppRoutes.Profile,
+      component: <Navigation />,
+      session: mockSessionWithNoUser,
+    });
+
+    expect(screen.getByText(/Browse/)).toBeInTheDocument();
   });
 });

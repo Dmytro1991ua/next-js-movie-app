@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import React, { FC, ReactNode, useEffect } from "react";
+import React, { FC, ReactNode } from "react";
 
 import { AppRoutes, SeeMorePageRoutes } from "@/types/enums";
 
@@ -11,7 +11,7 @@ interface ProtectedRoutesProps {
   children?: ReactNode;
 }
 
-const ProtectedRoutes: FC<ProtectedRoutesProps> = ({
+const ProtectedRouteRedirection: FC<ProtectedRoutesProps> = ({
   protectedRoutes,
   children,
 }) => {
@@ -19,12 +19,6 @@ const ProtectedRoutes: FC<ProtectedRoutesProps> = ({
   const { data: session, status } = useSession();
 
   const pathIsProtected = protectedRoutes.indexOf(router.pathname) !== -1;
-
-  useEffect(() => {
-    if (status !== "loading" && !session?.user && pathIsProtected) {
-      router.push(AppRoutes.Movies);
-    }
-  }, [pathIsProtected, router, session?.user, status]);
 
   if ((status === "loading" || !session?.user?.id) && pathIsProtected) {
     return (
@@ -53,4 +47,4 @@ const ProtectedRoutes: FC<ProtectedRoutesProps> = ({
   return <>{children}</>;
 };
 
-export default ProtectedRoutes;
+export default ProtectedRouteRedirection;

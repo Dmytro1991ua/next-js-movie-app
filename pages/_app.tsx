@@ -18,7 +18,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ToastContainer } from "react-toastify";
 
 import { MainLayout } from "@/modules/layout";
-import ProtectedRoutes from "@/modules/routes/ProtectedRoutes";
+import ProtectedRouteRedirection from "@/modules/routes/ProtectedRouteRedirection";
 import { protectedRoutes } from "@/types/constants";
 
 const App = ({
@@ -34,11 +34,11 @@ const App = ({
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <SessionProvider session={session}>
-          <ProtectedRoutes protectedRoutes={protectedRoutes}>
+          <ProtectedRouteRedirection protectedRoutes={protectedRoutes}>
             <MainLayout>
               <Component {...pageProps} />
             </MainLayout>
-          </ProtectedRoutes>
+          </ProtectedRouteRedirection>
           <ToastContainer
             autoClose={1500}
             closeOnClick={false}

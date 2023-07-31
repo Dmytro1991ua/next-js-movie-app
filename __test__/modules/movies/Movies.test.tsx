@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import { QueryObserverSuccessResult } from "react-query";
 import * as hooks from "react-query";
 
+import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
 import {
   mockMovie,
@@ -9,6 +10,7 @@ import {
   withQueryClientAndSessionProvider,
 } from "@/mocks/testMocks";
 import Movies from "@/modules/movies";
+import { AppRoutes } from "@/types/enums";
 
 jest.mock("react-query", () => {
   const originalModule = jest.requireActual("react-query");
@@ -26,6 +28,7 @@ jest.mock("uuid", () => {
 });
 
 jest.mock("@/hooks/useGetRandomMovieOrSerial");
+jest.mock("@/hooks/queries/useFetchMoviesOrSerialsData");
 
 describe("Movies", () => {
   beforeEach(() => {
@@ -39,6 +42,11 @@ describe("Movies", () => {
     (useGetRandomMovieOrSerial as jest.Mock).mockImplementation(() => ({
       data: mockMovie,
     }));
+    (useFetchMoviesOrSerialsData as jest.Mock).mockImplementation(() => ({
+      data: {
+        actionMovies: { results: [mockMovie] },
+      },
+    }));
   });
 
   afterEach(() => {
@@ -46,7 +54,11 @@ describe("Movies", () => {
   });
 
   it("Should render component without crashing", () => {
-    withQueryClientAndSessionProvider(<Movies />, mockSessionWithUser);
+    withQueryClientAndSessionProvider(
+      <Movies />,
+      mockSessionWithUser,
+      AppRoutes.Movies
+    );
 
     expect(screen.getByText(/View Details/)).toBeInTheDocument();
     expect(screen.getByText(/IMDB/)).toBeInTheDocument();
