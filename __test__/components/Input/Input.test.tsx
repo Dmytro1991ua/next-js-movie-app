@@ -86,4 +86,19 @@ describe("Input", () => {
 
     expect(label.textContent).toEqual("Test Label *");
   });
+
+  it("should apply base styles to input if isBaseInput prop is true", () => {
+    render(
+      <SessionProvider session={mockSessionWithNoUser}>
+        <Input isBaseInput required label="Test Label" />
+      </SessionProvider>
+    );
+
+    const mockOutput =
+      "rounded-lg border-transparent flex-1 appearance-none border py-2 px-2 shadow-sm text-base focus:outline-none focus:ring-black bg-mantis placeholder-white text-white border-2 border-mantisDarker focus:border-mantisDarker border-2 border-solid border-transparent flex-1 appearance-none border py-2 px-2 shadow-sm text-base focus:outline-none focus:ring-black bg-white text-darkBlue !placeholder-darkBlue border-2 border-solid border-mantis !focus:border-mantisDarker w-fit";
+
+    const input = screen.getByRole("textbox");
+
+    expect(input).toHaveClass(mockOutput);
+  });
 });

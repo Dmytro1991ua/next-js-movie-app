@@ -14,7 +14,10 @@
   ],
   "overrides": [
     {
-      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
       "extends": ["plugin:testing-library/react"]
     }
   ],
@@ -23,9 +26,13 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["react", "@typescript-eslint", "jest"],
   "rules": {
-    "import/extensions": ["error", "ignorePackages", { "ts": "never", "tsx": "never" }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      { "ts": "never", "tsx": "never" }
+    ],
     "react/jsx-filename-extension": ["warn", { "extensions": [".tsx"] }],
     "import/no-extraneous-dependencies": "off",
     "react/self-closing-comp": [
@@ -90,5 +97,8 @@
         "reservedFirst": true
       }
     ]
+  },
+  "globals": {
+    "jest": "readonly"
   }
 }

@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { useRouter } from "next/router";
 
 import SliderThumbnail from "@/components/Slider/SliderThumbnail/SliderThumbnail";
 import { useButtonAction } from "@/hooks/useButtonAction";
@@ -16,6 +17,10 @@ jest.mock("uuid", () => {
     v4: jest.fn(() => 1),
   };
 });
+
+jest.mock("next/router", () => ({
+  useRouter: jest.fn(),
+}));
 
 describe("SliderThumbnail", () => {
   const defaultProps = {
@@ -47,6 +52,11 @@ describe("SliderThumbnail", () => {
   it("should correctly trigger image onClick handler", async () => {
     const mockOnHandleButtonClick = jest.fn();
 
+    const mockPush = jest.fn();
+    (useRouter as jest.Mock).mockReturnValue({
+      push: mockPush,
+    });
+
     (useButtonAction as jest.Mock).mockReturnValue({
       clickedButtonId: mockId,
       isSubmitting: false,
@@ -61,6 +71,13 @@ describe("SliderThumbnail", () => {
     fireEvent.click(image);
 
     expect(mockOnHandleButtonClick).toHaveBeenCalledTimes(1);
+
+    const callback = mockOnHandleButtonClick.mock.calls[0][1];
+    callback();
+
+    expect(mockPush).toHaveBeenCalledWith(
+      `${defaultProps.route}/${defaultProps.data.id}`
+    );
   });
 
   it("should render isLoading state correctly", () => {

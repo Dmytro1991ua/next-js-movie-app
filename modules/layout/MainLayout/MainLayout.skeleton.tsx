@@ -11,7 +11,7 @@ interface MainLayoutSkeletonProps {
 
 const MainLayoutSkeleton: FC<MainLayoutSkeletonProps> = ({ children }) => {
   return (
-    <div className="main-layout">
+    <div className="main-layout" data-testid="main-layout-skeleton">
       <HeaderSkeleton />
       <BackgroundImageBlock
         alt="Movies Banner"

@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import connectMongoDb from "@/lib/connectMongoDb";
 import { Favorites } from "@/model/favoritesSchema";
+import { NO_DATA_IN_REQUEST_BODY_MESSAGE } from "@/modules/auth/auth.constants";
 import { RequestMethod } from "@/types/enums";
 import {
   AddToFavorite,
@@ -19,7 +20,13 @@ import {
   USER_IS_NOT_AUTHORIZED,
 } from "./../../../types/constants";
 
-async function getAvailableFavoritesMoviesOrSerials({
+export function handleCaseWithNoBodyReceived(req: NextApiRequest): void {
+  if (!req.body) {
+    throw new Error(NO_DATA_IN_REQUEST_BODY_MESSAGE);
+  }
+}
+
+export async function getAvailableFavoritesMoviesOrSerials({
   req,
   res,
 }: Pick<AddToFavorite, "res" | "req">) {
@@ -49,7 +56,7 @@ async function getAvailableFavoritesMoviesOrSerials({
   }
 }
 
-async function addToFavorites({
+export async function addToFavorites({
   req,
   res,
 }: Pick<AddToFavorite, "res" | "req">) {
@@ -66,13 +73,11 @@ async function addToFavorites({
       });
     }
 
-    const favoritesMovieOrSerialData = new Favorites({
+    const favoritesMovieOrSerialData = await Favorites.create({
       ...favorites,
       user: user?.id,
       isFavorite: true,
     });
-
-    await favoritesMovieOrSerialData.save();
 
     return res?.status(200).send({
       success: true,
@@ -86,7 +91,7 @@ async function addToFavorites({
   }
 }
 
-async function removeFromFavorites({
+export async function removeFromFavorites({
   req,
   res,
 }: Pick<AddToFavorite, "res" | "req">) {
@@ -95,20 +100,18 @@ async function removeFromFavorites({
   }: RemoveFromFavoritePayload = req?.body;
 
   try {
-    const favoriteMovieOrSerial = await Favorites.findById(id);
+    if (!user) {
+      return res?.status(401).send({
+        success: false,
+        message: USER_IS_NOT_AUTHORIZED,
+        data: null,
+      });
+    }
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res?.status(404).send({
         success: false,
         message: FAVORITES_DATA_IS_NOT_FIND_BY_ID,
-        data: null,
-      });
-    }
-
-    if (favoriteMovieOrSerial.user !== user?.id) {
-      return res?.status(401).send({
-        success: false,
-        message: USER_IS_NOT_AUTHORIZED,
         data: null,
       });
     }
@@ -127,7 +130,7 @@ async function removeFromFavorites({
   }
 }
 
-async function handleRequestBasedOnMethod({
+export async function handleRequestBasedOnMethod({
   req,
   res,
   method,
@@ -159,6 +162,8 @@ export default async function handler(
   const { method } = req;
 
   await connectMongoDb();
+
+  handleCaseWithNoBodyReceived(req);
 
   await handleRequestBasedOnMethod({
     req,

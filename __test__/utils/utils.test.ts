@@ -10,6 +10,16 @@ jest.mock("uuid", () => {
   };
 });
 
+jest.mock("react-query", () => ({
+  QueryClient: jest.fn(() => ({
+    prefetchQuery: jest.fn(),
+  })),
+  dehydrate: jest.fn(() => ({
+    queries: [],
+    mutations: [],
+  })),
+}));
+
 describe("convertResponseErrorMessageToCorrectFormat", () => {
   it("Should return correct string based on request method", () => {
     expect(convertResponseErrorMessageToCorrectFormat(RequestMethod.GET)).toBe(

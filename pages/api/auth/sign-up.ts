@@ -15,13 +15,13 @@ import {
   handleHashPassword,
 } from "@/utils/utils";
 
-function handleCaseWithNoBodyReceived(req: NextApiRequest): void {
+export function handleCaseWithNoBodyReceived(req: NextApiRequest): void {
   if (!req.body) {
     throw new Error(NO_DATA_IN_REQUEST_BODY_MESSAGE);
   }
 }
 
-async function createNewUser({
+export async function createNewUser({
   name,
   email,
   password,
@@ -55,22 +55,7 @@ async function createNewUser({
   }
 }
 
-async function createOrUpdateUser({
-  name,
-  email,
-  password,
-  image,
-  isUserExist,
-  res,
-}: CreateUser) {
-  if (isUserExist) {
-    await updateExistingUser({ email, res });
-  } else {
-    await createNewUser({ name, email, password, image, res });
-  }
-}
-
-async function updateExistingUser({ email, res }: UpdateExistingUser) {
+export async function updateExistingUser({ email, res }: UpdateExistingUser) {
   try {
     const filterUsersById = { email };
     const filterOptions = {
@@ -92,7 +77,22 @@ async function updateExistingUser({ email, res }: UpdateExistingUser) {
   }
 }
 
-async function handleRequestBasedOnMethod({
+export async function createOrUpdateUser({
+  name,
+  email,
+  password,
+  image,
+  isUserExist,
+  res,
+}: CreateUser) {
+  if (isUserExist) {
+    await updateExistingUser({ email, res });
+  } else {
+    await createNewUser({ name, email, password, image, res });
+  }
+}
+
+export async function handleRequestBasedOnMethod({
   name,
   email,
   password,
@@ -103,22 +103,14 @@ async function handleRequestBasedOnMethod({
 }: CreateUser): Promise<void> {
   switch (method) {
     case RequestMethod.POST:
-      try {
-        await createOrUpdateUser({
-          name,
-          email,
-          password,
-          image,
-          isUserExist,
-          res,
-        });
-      } catch (err) {
-        res.status(400).send({
-          success: false,
-          message: (err as Error).message,
-          user: null,
-        });
-      }
+      await createOrUpdateUser({
+        name,
+        email,
+        password,
+        image,
+        isUserExist,
+        res,
+      });
       break;
     default:
       res.status(400).send({

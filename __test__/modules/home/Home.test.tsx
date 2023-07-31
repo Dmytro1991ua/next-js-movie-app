@@ -2,6 +2,7 @@ import { screen } from "@testing-library/react";
 import { QueryObserverSuccessResult } from "react-query";
 import * as hooks from "react-query";
 
+import { useFetchMoviesOrSerialsData } from "@/hooks/queries/useFetchMoviesOrSerialsData";
 import { useGetRandomMovieOrSerial } from "@/hooks/useGetRandomMovieOrSerial";
 import {
   mockMovie,
@@ -27,6 +28,7 @@ jest.mock("uuid", () => {
 });
 
 jest.mock("@/hooks/useGetRandomMovieOrSerial");
+jest.mock("@/hooks/queries/useFetchMoviesOrSerialsData");
 
 describe("Home", () => {
   beforeEach(() => {
@@ -39,6 +41,11 @@ describe("Home", () => {
     } as unknown as QueryObserverSuccessResult<unknown, unknown>);
     (useGetRandomMovieOrSerial as jest.Mock).mockImplementation(() => ({
       data: mockMovie,
+    }));
+    (useFetchMoviesOrSerialsData as jest.Mock).mockImplementation(() => ({
+      data: {
+        nowPlayingMovies: { results: [mockMovie] },
+      },
     }));
   });
 

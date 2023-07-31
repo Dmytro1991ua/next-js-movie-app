@@ -1,29 +1,23 @@
 import { clsx } from "clsx";
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC } from "react";
 import { BsChevronDown } from "react-icons/bs";
 
 import MobileNavigation from "./MobileNavigation";
-import { getNavigationLinks } from "../header.configs";
+import { useNavigationState } from "../hooks/useNavigationState";
 
 const Navigation: FC = () => {
-  const links = useMemo(() => getNavigationLinks(), []);
-
-  const [isMobileMenuShown, setIsMobileMenuShown] = useState<boolean>(false);
-
-  const handleToggleMobileNavigation = useCallback(
-    () => setIsMobileMenuShown((current) => !current),
-    []
-  );
+  const { links, isMobileMenuShown, onToggleMobileNavigation } =
+    useNavigationState();
 
   return (
     <>
-      <nav className="navigation">
+      <nav className="navigation" data-testId="navigation">
         <ul className="flex items-center space-x-6">{links}</ul>
       </nav>
       <nav className="w-[50%] ml-auto sm:w-[35%]">
         <ul
           className="navigation-mobile-menu"
-          onClick={handleToggleMobileNavigation}
+          onClick={onToggleMobileNavigation}
         >
           <span className="mr-2">Browse</span>
           <BsChevronDown
