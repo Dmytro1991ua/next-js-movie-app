@@ -14,7 +14,7 @@ const Navigation: FC = () => {
       <nav className="navigation" data-testId="navigation">
         <ul className="flex items-center space-x-6">{links}</ul>
       </nav>
-      <nav className="w-[50%] ml-auto sm:w-[35%]">
+      <nav className="w-[58%] xs:w-[55%] ml-auto sm:w-[35%]">
         <ul
           className="navigation-mobile-menu"
           onClick={onToggleMobileNavigation}

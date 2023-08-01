@@ -72,7 +72,7 @@ const HeroContent: FC<HeroContentProps> = ({
   });
 
   return (
-    <div className="absolute top-[30%] left-[5%] lg:top-[45%] xl:max-w-[85rem] 2xl:max-w-[108rem]">
+    <div className="absolute top-[30%] left-[5%] lg:top-[45%] xl:max-w-[85rem] 2xl:max-w-[108rem] pr-2">
       <div className="flex flex-col items-start gap-4 mb-8">
         <h1 className="text-4xl leading-none 2xl:text-5xl 2xl:leading-none">
           {title}

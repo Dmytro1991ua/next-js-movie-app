@@ -12,9 +12,7 @@ describe("SignIn Page", () => {
   it("Should render component without crashing", () => {
     render(<SignUpPage />);
 
-    expect(
-      screen.getByText(/Create a new user with credentials/)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Create Account/)).toBeInTheDocument();
     expect(
       screen.getByText(/Already have have an account?/)
     ).toBeInTheDocument();

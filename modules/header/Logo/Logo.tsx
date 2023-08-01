@@ -29,7 +29,7 @@ const Logo: FC = () => {
   return (
     <Link passHref href={AppRoutes.Home}>
       <a
-        className="relative flex items-center mr-[5rem] z-10"
+        className="relative flex items-center xs:mr-[5rem] z-10"
         data-testid="logo"
       >
         <h3 className="text-2xl font-bold mr-0.5">Movie</h3>

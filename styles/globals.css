@@ -78,7 +78,7 @@ img {
 
 @layer components {
   .auth-layout {
-    @apply relative m-auto bg-darkBlue rounded-md border-4 border-mantis w-11/12 h-4/5 grid;
+    @apply relative mt-20 m-auto bg-darkBlue rounded-md border-4 border-mantis w-11/12 h-4/5 grid;
 
     @screen lg {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -139,7 +139,7 @@ img {
   }
 
   .header {
-    @apply fixed max-h-[8.5rem] top-0 w-full flex items-center transition-colors duration-500 text-white px-3 z-20;
+    @apply fixed max-h-[8.5rem] top-0 w-full flex items-center transition-colors duration-500 text-white px-2 xs:px-3 z-20;
   }
 
   .header-on-scroll {
@@ -195,7 +195,7 @@ img {
   }
 
   .details-page-content-wrapper {
-    @apply absolute overflow-x-auto h-[80vh] top-[15%] left-[5%] flex flex-col gap-4 w-11/12 text-white lg:top-[25%] lg:left-[11.5%] lg:h-[70vh] lg:flex-row lg:w-10/12;
+    @apply absolute overflow-x-auto h-[80vh] top-[15%] left-[5%] flex flex-col gap-4 w-11/12 text-white lg:top-[25%] lg:left-[11.5%] lg:h-[70vh] lg:flex-row lg:w-10/12 px-2;
   }
 
   .card-wrapper {
