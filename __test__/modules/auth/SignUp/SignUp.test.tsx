@@ -16,9 +16,7 @@ describe("SignUp", () => {
       component: <SignUp />,
     });
 
-    expect(
-      screen.getByText(/Create a new user with credentials/)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Create Account/)).toBeInTheDocument();
     expect(
       screen.getByText(/Already have have an account?/)
     ).toBeInTheDocument();
