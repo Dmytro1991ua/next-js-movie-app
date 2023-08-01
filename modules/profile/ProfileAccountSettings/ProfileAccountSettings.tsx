@@ -16,7 +16,7 @@ const ProfileAccountSettings: FC<ProfileContent> = ({
 }) => {
   return (
     <FormikProvider value={formikInstance}>
-      <Form className="flex">
+      <Form className="flex flex-col items-center sm:flex-row">
         <ProfileDropzone
           getInputProps={getInputProps}
           getRootProps={getRootProps}
@@ -24,7 +24,7 @@ const ProfileAccountSettings: FC<ProfileContent> = ({
           <ProfileImagePreview image={image} previewImage={previewImage} />
         </ProfileDropzone>
         <ProfileFormInputs
-          className="ml-8"
+          className="mt-3 sm:ml-8 sm:mt-0"
           config={PROFILE_ACCOUNT_SETTINGS_CONFIG}
         />
       </Form>

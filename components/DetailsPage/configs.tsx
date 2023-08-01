@@ -108,7 +108,7 @@ export const movieOrSerialReleaseConfig = (
 export const movieOrSerialRevenueOrSeasonsDetailsConfig = (
   movieOrSerialDetails?: MovieOrSerialDetail
 ): MovieOrSerialWithRegularSubtitle[] => {
-  const commonClassName = "mr-8";
+  const commonClassName = "mr-2: xs:mr-4 sm: mr-8";
 
   return [
     {

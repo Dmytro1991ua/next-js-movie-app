@@ -125,10 +125,10 @@ const DetailsPage = ({
           <p className="mb-4">
             <ReadMore text={movieOrSerialDetails?.overview ?? ""} />
           </p>
-          <div className="flex items-center gap-8 mb-2">
+          <div className="flex flex-col items-start  xs:flex-row sm:items-center gap-8 mb-2">
             {detailsBlockWithRevenueOrSeasonsDetails}
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-col [&>a]:w-full [&>button]:w-full items-stretch sm:flex-row sm:items-center sm:[&>a]:w-fit sm:[&>button]:w-fit gap-5 pr-1">
             {detailsPageActionButtons}
             <Button
               isLoading={
