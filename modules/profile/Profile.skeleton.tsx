@@ -21,25 +21,21 @@ const ProfileSkeleton: FC = () => {
               />
               <Skeleton
                 baseColor="#7ac142"
-                className="mb-8"
-                height={180}
+                className="!w-[27rem] h-[18rem] xs:!w-[37rem] sm:!w-[45rem] lg:!w-[80rem] mb-8"
                 highlightColor="#5a803d"
-                width={800}
               />
             </div>
           ))}
       </div>
-      <div className="flex justify-center gap-2 items-center">
+      <div className="flex flex-col sm:flex-row justify-center gap-2 items-center">
         {Array(3)
           .fill(null)
           .map((_, index) => (
             <div key={index}>
               <Skeleton
                 baseColor="#7ac142"
-                className="mb-8"
-                height={60}
+                className="h-[6rem] !w-[26rem] sm:!w-[14.5rem] lg:!w-[26rem] mb-2 sx:mb-8"
                 highlightColor="#5a803d"
-                width={260}
               />
             </div>
           ))}

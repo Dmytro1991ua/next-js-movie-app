@@ -8,25 +8,23 @@ const DetailsPageSkeleton: FC = () => {
         <div className="flex items-center gap-4 mb-14">
           <Skeleton
             baseColor="#7ac142"
-            height={20}
+            className="!w-[18rem] h-[2rem] xs:!w-[26.5rem] sm:!w-[46rem] lg:!w-[70rem] xl:!w-[90rem]"
             highlightColor="#5a803d"
-            width={750}
           />
           <Skeleton
             baseColor="#7ac142"
             borderRadius="10%"
-            height={30}
+            className="!w-[7rem] h-[3rem] sm:!w-[9rem]"
             highlightColor="#5a803d"
-            width={90}
           />
         </div>
         <div className="w-full">
           <div className="flex gap-4 items-center mb-2">
             <Skeleton
               baseColor="#7ac142"
-              height={20}
+              className="!w-[22rem] h-[2rem]
+              xs:!w-[25rem] sm:!w-[40rem]"
               highlightColor="#5a803d"
-              width={300}
             />
             <Skeleton
               baseColor="#7ac142"
@@ -77,22 +75,22 @@ const DetailsPageSkeleton: FC = () => {
         </div>
         <Skeleton
           baseColor="#7ac142"
-          className="mb-4"
-          height={20}
+          className="!w-[25.75rem] h-[2rem] xs:!w-[30rem] sm:!w-[40rem] mb-4"
           highlightColor="#5a803d"
-          width={400}
         />
         <div className="flex mb-4">
           <div className="flex gap-8">
             {Array(3)
               .fill(null)
               .map((_, index) => (
-                <div key={index} className={index < 3 - 1 ? "mr-8" : ""}>
+                <div
+                  key={index}
+                  className={index < 3 - 1 ? "mr-2 xs:!w-mr-4 sm:mr-8" : ""}
+                >
                   <Skeleton
                     baseColor="#7ac142"
-                    height={60}
+                    className="!w-[6rem] h-[4rem] xs:!w-[8rem] xs:!h-[6rem] sm:!w-[10rem] sm:h-[6]"
                     highlightColor="#5a803d"
-                    width={100}
                   />
                 </div>
               ))}
@@ -103,13 +101,15 @@ const DetailsPageSkeleton: FC = () => {
             {Array(3)
               .fill(null)
               .map((_, index) => (
-                <div key={index} className={index < 3 - 1 ? "mr-8" : ""}>
+                <div
+                  key={index}
+                  className={index < 3 - 1 ? "mr-1 xs: mr-4 sm:mr-8" : ""}
+                >
                   <Skeleton
                     baseColor="#7ac142"
                     borderRadius="10%"
-                    height={60}
+                    className="!w-[6.5rem] h-[2.5rem]  xs:!w-[8rem]  xs:!h-[4rem] sm:!w-[15rem] sm:h-[6rem]"
                     highlightColor="#5a803d"
-                    width={150}
                   />
                 </div>
               ))}

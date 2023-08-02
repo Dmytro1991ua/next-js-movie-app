@@ -15,9 +15,8 @@ const CardsSkeleton: FC = () => {
         />
         <Skeleton
           baseColor="#7ac142"
-          height={30}
+          className="!w-[22rem] h-[3rem] xs:!w-[30rem]"
           highlightColor="#5a803d"
-          width={300}
         />
       </div>
       <div className="!overflow-hidden">

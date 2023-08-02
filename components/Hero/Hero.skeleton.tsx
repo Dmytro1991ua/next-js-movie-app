@@ -7,10 +7,8 @@ const HeroSkeleton: FC = () => {
       <div className="absolute top-[30%] left-[5%] lg:top-[45%] xl:max-w-[85rem] 2xl:max-w-[108rem]">
         <Skeleton
           baseColor="#7ac142"
-          className="mb-4"
-          height={20}
+          className="!w-[27rem] h-[2rem] sm:!w-[40rem] mb-4"
           highlightColor="#5a803d"
-          width={400}
         />
         <div className="flex mb-4">
           {Array(5)
@@ -36,11 +34,9 @@ const HeroSkeleton: FC = () => {
         />
         <Skeleton
           baseColor="#7ac142"
-          className="mb-2"
+          className="!w-[27rem] h-[3rem] sm:!w-[50rem] mb-2"
           count={2}
-          height={30}
           highlightColor="#5a803d"
-          width={500}
         />
         <div className="flex mb-4 mt-4">
           {Array(2)
