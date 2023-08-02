@@ -6,11 +6,10 @@ const HeaderSkeleton: FC = () => {
     <header className=" flex items-center  p-3 bg-mantisDarker">
       <Skeleton
         baseColor="#7ac142"
-        height={60}
+        className="!w-[8rem] h-[3rem] sm:!w-[12rem] sm:h-[6rem]"
         highlightColor="#5a803d"
-        width={120}
       />
-      <div className="ml-10 ">
+      <div className="ml-8 sm:ml-10 ">
         <Skeleton
           baseColor="#7ac142"
           className="mr-2"
