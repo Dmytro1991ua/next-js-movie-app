@@ -65,13 +65,19 @@ To get started with the `Movie Room` project, follow these steps:
 - Clone the repository via `HTTPS` or `SSH` key:
   > via HTTPS
   
-  `https://github.com/Dmytro1991ua/next-js-movie-app.git`
+  ```
+  https://github.com/Dmytro1991ua/next-js-movie-app.git
+  ```
   > via SSH key
 
-  `git@github.com:Dmytro1991ua/next-js-movie-app.git`
+  ```
+  git@github.com:Dmytro1991ua/next-js-movie-app.git
+  ```
 - Install needed dependencies from the `root` directory:
   
-  `npm install`
+  ```
+  npm install
+  ```
 - Create a `.env.local` file in the root directory and set the following environment variables:
   
   Copy the following template into your .env.local file and replace the placeholders `(e.g., your_github_client, your_mongodb_uri, etc.)` with your own credentials for services like GitHub, MongoDB, Google, NextAuth, and TMDB.
@@ -97,7 +103,26 @@ To get started with the `Movie Room` project, follow these steps:
   NEXT_PUBLIC_TMDB_SMALL_IMAGE_URL=your_tmdb_small_image_url
   </pre>
 - In order to run the project locally, run the following command from the root directory  
-  `npm run dev`
+  ```
+  npm run dev
+  ```
 
 - Open your browser and navigate to `http://localhost:3000` to access the `Movie Room`.
-  
+
+## Tests
+In order to test the project's functionality I chose a combination of `Jest` and `React Testing Library`
+
+##### In order to run tests, you need to proceed with the following command within the `root` directory:
+
+```
+npm run test
+```
+
+##### In order to check application's tests coverage, you need to proceed with the following command within the `root` directory:  
+
+```
+npm run test:coverage
+```
+
+##### Current application's test coverage
+![screencapture-file-c-Users-dmytro-kurchenko-Desktop-pet-projects-next-js-movie-app-coverage-lcov-report-index-html-2023-09-05-17_23_15 (1)](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/10bb5107-f2d0-4e79-8485-9f603929bdc8)
