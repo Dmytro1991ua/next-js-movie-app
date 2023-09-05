@@ -10,11 +10,7 @@ const SignUpSkeleton: FC = () => {
         highlightColor="#5a803d"
         width={200}
       />
-      <Skeleton
-        baseColor="#7ac142"
-        className="mb-16"
-        highlightColor="#5a803d"
-      />
+      <Skeleton baseColor="#7ac142" className="mb-8" highlightColor="#5a803d" />
       <Skeleton
         baseColor="#7ac142"
         className="mb-4"
