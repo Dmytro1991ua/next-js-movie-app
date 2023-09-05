@@ -62,4 +62,42 @@ Whether you're a seasoned developer looking to explore new technologies or a beg
 
 ## Getting Started
 To get started with the `Movie Room` project, follow these steps:
+- Clone the repository via `HTTPS` or `SSH` key:
+  > via HTTPS
+  
+  `https://github.com/Dmytro1991ua/next-js-movie-app.git`
+  > via SSH key
 
+  `git@github.com:Dmytro1991ua/next-js-movie-app.git`
+- Install needed dependencies from the `root` directory:
+  
+  `npm install`
+- Create a `.env.local` file in the root directory and set the following environment variables:
+  
+  Copy the following template into your .env.local file and replace the placeholders `(e.g., your_github_client, your_mongodb_uri, etc.)` with your own credentials for services like GitHub, MongoDB, Google, NextAuth, and TMDB.
+  
+  <pre>
+  GITHUB_CLIENT=your_github_client
+  GITHUB_SECRET_KEY=your_github_secret_key
+
+  GOOGLE_CLIENT=your_google_client
+  GOOGLE_SECRET=your_google_secret
+
+  NEXTAUTH_URL=your_nextauth_url
+  NEXTAUTH_URL_INTERNAL=your_nextauth_url_internal
+
+  NEXTAUTH_JWT_SECRET=your_nextauth_jwt_secret
+  NEXTAUTH_SECRET=your_nextauth_secret
+
+  MONGODB_URI=your_mongodb_uri
+
+  NEXT_PUBLIC_TMDB_BASE_URL=your_tmdb_base_url
+  NEXT_PUBLIC_TMDB_API_KEY=your_tmdb_api_key
+  NEXT_PUBLIC_TMDB_IMAGE_URL=your_tmdb_image_url
+  NEXT_PUBLIC_TMDB_SMALL_IMAGE_URL=your_tmdb_small_image_url
+  </pre>
+- In order to run the project locally, run the following command from the root directory  
+  `npm run dev`
+
+- Open your browser and navigate to `http://localhost:3000` to access the `Movie Room`.
+  
