@@ -63,14 +63,11 @@ export async function updateExistingUser({ email, res }: UpdateExistingUser) {
       new: true,
     };
 
-    const updatedUser = await User.findOneAndUpdate(
-      filterUsersById,
-      filterOptions
-    );
+    await User.findOneAndUpdate(filterUsersById, filterOptions);
+
     res.status(200).send({
       success: true,
       message: USER_ALREADY_EXIST_MESSAGE,
-      user: updatedUser,
     });
   } catch (err) {
     res.status(400).send({ success: false, user: null });
