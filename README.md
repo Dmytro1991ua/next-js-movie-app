@@ -109,8 +109,205 @@ To get started with the `Movie Room` project, follow these steps:
 
 - Open your browser and navigate to `http://localhost:3000` to access the `Movie Room`.
 
+## API
+> In order to work with real movie/TV serial data, I decided to leverage external API, like TMDB, and it allowed us to have access to a wide range of different kinds of data from TMDB API, such as movie or TV serial by their type, genre, casting, etc.
+
+### User:
+-
+Endpoint
+```
+GET: /api/auth/session - Returns the current session (data) of the authenticated user
+```
+
+Example of returned data
+```
+{
+    "name": "Alex Smith 2",
+    "email": "alex2021new1666@gmail.com",
+    "id": "649fedb32d5b50662c0203b5",
+    "isCredentialsProvider": true
+}
+```
+-
+Endpoint
+```
+POST: /api/auth/sign-up - Creates a new user via Next Auth Credentials provider
+```
+
+Payload
+```
+{
+    "name": "Alex",
+    "password": "test-password",
+    "email": "alex2021new1666@gmail.com"
+}
+```
+
+Example of returned data (response) when user exists in DB
+```
+{
+  "success": true,
+  "message": "User was successfully created"
+}
+```
+Example of returned data (response) when user does not exist in DB
+```
+{
+    "success": true,
+    "message": "User is already exist",
+}
+```
+
+### Avatar:
+
+Endpoint
+```
+PUT: /api/avatar - Returns the avatar data of the authenticated user
+```
+
+Payload
+```
+{
+    "user": {
+        "name": "Alex",
+        "email": "alex2021new1666@gmail.com",
+        "id": "64fc1b1f5aa3a15a8846ed04",
+        "isCredentialsProvider": true
+    }
+}
+```
+
+Example of returned data
+```
+{
+    "success": true,
+    "data": {
+        "image": "data:image/png;base64,test-image",
+        "name": "Alex"
+    }
+}
+```
+
+### Favorites:
+
+Endpoint
+```
+POST: /api/favorites - Returns user's favorite movies or TV serials
+```
+
+Payload
+```
+{
+    "name": "Alex",
+    "email": "alex2021new1666@gmail.com",
+    "id": "64fc1b1f5aa3a15a8846ed04",
+    "isCredentialsProvider": true
+}
+```
+
+Example of returned data
+```
+{
+    "success": true,
+    "data": [
+        {
+            "genre_ids": [],
+            "origin_country": [],
+            "_id": "64fc29615aa3a15a8846ed07",
+            "adult": false,
+            "backdrop_path": "/tmU7GeKVybMWFButWEGl2M4GeiP.jpg",
+            "id": 238,
+            "original_language": "en",
+            "original_title": "The Godfather",
+            "overview": "Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.",
+            "popularity": 129.258,
+            "poster_path": "/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+            "release_date": "1972-03-14",
+            "title": "The Godfather",
+            "video": false,
+            "vote_average": 8.706,
+            "vote_count": 18590,
+            "user": "64fc1b1f5aa3a15a8846ed04",
+            "isFavorite": true,
+            "createdAt": "2023-09-09T08:14:25.022Z",
+            "updatedAt": "2023-09-09T08:14:25.022Z",
+            "__v": 0
+        }
+    ]
+}
+```
+
+### Rating:
+
+Endpoint
+```
+PUT: /api/rating - Returns user's custom rating data of a particular movie or TV serials
+```
+
+Payload
+```
+{
+    "user": {
+        "name": "Alex",
+        "email": "alex2021new1666@gmail.com",
+        "id": "64fc1b1f5aa3a15a8846ed04",
+        "isCredentialsProvider": true
+    }
+}
+```
+
+Example of returned data
+```
+{
+    "success": true,
+    "data": [
+        {
+            "_id": "64fc29415aa3a15a8846ed06",
+            "id": 238,
+            "name": "The Godfather",
+            "rating": 10,
+            "user": "64fc1b1f5aa3a15a8846ed04",
+            "createdAt": "2023-09-09T08:13:53.667Z",
+            "updatedAt": "2023-09-09T08:13:53.667Z",
+            "__v": 0
+        }
+    ]
+}
+```
+
+### Profile:
+
+Endpoint
+```
+PATCH: /api/profile - Returns updated user's profile data, such as avatar, name, password
+```
+
+Payload
+```
+{
+    "userInfo": {
+        "name": "Alex Smith",
+        "image": "data:image/png;base64,new-user-image",
+        "password": ""
+    },
+    "user": {
+        "name": "Alex",
+        "email": "alex2021new1666@gmail.com",
+        "id": "64fc1b1f5aa3a15a8846ed04",
+        "isCredentialsProvider": true
+    }
+}
+```
+Example of returned data
+```
+{
+    "message": "Profile data has been updated successfully",
+    "success": true
+}
+```
+ 
 ## Tests
-In order to test the project's functionality I chose a combination of `Jest` and `React Testing Library`
+> In order to test the project's functionality I chose a combination of `Jest` and `React Testing Library`
 
 ##### In order to run tests, you need to proceed with the following command within the `root` directory:
 
