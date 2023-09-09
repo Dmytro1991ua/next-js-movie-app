@@ -146,6 +146,7 @@ describe("sign-up handler", () => {
       expect(mockResponse.send).toHaveBeenCalledWith({
         success: true,
         message: USER_ALREADY_EXIST_MESSAGE,
+        user: mockNewUser,
       });
     });
 
