@@ -1,6 +1,8 @@
 # Movie Room
 Welcome to the `Movie Room` project, a platform where you can explore a vast collection of movies and TV series using The Movie Database (TMDB) API. Additionally, this project features a custom backend powered by MongoDB for managing your movie preferences, such as adding to favorites or applying a custom ration to a particular movie/TV serial, updating the user's profile data, etc.
 
+![hero](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/b6e59f32-5e07-4648-b046-4a3c4318c10d)
+
 ## Motivation
 
 This project is a labor of love that originated from the desire to gain hands-on experience with cutting-edge web development technologies and tools. I set out with several goals in mind:
@@ -108,6 +110,49 @@ To get started with the `Movie Room` project, follow these steps:
   ```
 
 - Open your browser and navigate to `http://localhost:3000` to access the `Movie Room`.
+
+## Screenshots
+> Sign-in Page
+> 
+![screencapture-localhost-3000-auth-sign-in-2023-09-09-13_05_57](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/c878b2f7-063d-4c8e-9856-87bd58c0272c)
+
+> Sign-up Page
+
+![screencapture-localhost-3000-auth-sign-up-2023-09-09-13_06_32](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/4897173c-e324-42ba-889d-f7aeca942399)
+
+> Home Page
+
+![screencapture-localhost-3000-home-2023-09-09-12_38_47](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/750906c7-309c-455e-a76d-642044c9a306)
+
+![details_3](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/f778705c-0fce-40f6-ac66-b88a169a9da8)
+
+![details_4](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/ae753b04-a693-4fd2-aba4-14fff4ddac41)
+
+> Movies Page
+
+![screencapture-localhost-3000-movies-2023-09-09-12_43_07](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/25b89fd6-533f-4c1c-92f4-1a8f1bfe24f0)
+
+![details_1](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/ff51c96d-a81e-4ce7-abdf-cb51addcae88)
+
+![details_2](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/cf04ec53-f093-4c28-a3dc-93e7fa96b354)
+
+> Serials Page
+
+![screencapture-localhost-3000-serials-2023-09-09-12_57_06](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/faf5bb2f-e2d9-45f5-bac3-dc7022b79434)
+
+![details_6](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/53023ac4-e832-4713-8cd6-3593b91461ec)
+
+> See More page
+
+![screencapture-localhost-3000-home-popular-2023-09-09-13_00_48](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/6276c6d4-d8d7-405a-8bb0-3309999ccc06)
+
+> Search results Page
+
+![screencapture-localhost-3000-search-movie-Final-destination-2023-09-09-13_02_51](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/38512a7a-42e8-4656-8ea3-c0ea50c3ad78)
+
+> Profile Page
+
+![screencapture-localhost-3000-profile-2023-09-09-13_04_03](https://github.com/Dmytro1991ua/next-js-movie-app/assets/61331410/00b237a0-0a44-4caa-9e5e-0bde763e4da6)
 
 ## API
 > In order to work with real movie/TV serial data, I decided to leverage external API, like TMDB, and it allowed us to have access to a wide range of different kinds of data from TMDB API, such as movie or TV serial by their type, genre, casting, etc.
