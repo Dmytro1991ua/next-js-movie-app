@@ -107,7 +107,7 @@ const Profile: FC = () => {
   return (
     <section
       className={clsx(
-        "flex flex-col max-h-[60rem] overflow-auto mx-auto  w-full max-w-[100rem] px-3 py-3",
+        "flex flex-col max-h-[70rem] overflow-auto mx-auto  w-full max-w-[100rem] px-3 py-3",
         [session?.user?.isCredentialsProvider ? "mt-[10rem]" : "mt-[20rem]"]
       )}
     >
