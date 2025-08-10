@@ -69,6 +69,17 @@ const authOptions: NextAuthOptions = {
   pages: {
     signIn: AppRoutes.SignIn,
   },
+  cookies: {
+    sessionToken: {
+      name: "next-auth.session-token",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
   callbacks: {
     async signIn() {
       return true;
