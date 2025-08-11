@@ -37,7 +37,10 @@ export const protectedRoutes = [
 
 export const DEFAULT_SCROLL_POSITION_THRESHOLD = 80;
 export const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
-export const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL;
+export const BASE_URL = process.env.NEXT_PUBLIC_TMDB_BASE_URL?.replace(
+  /\/$/,
+  ""
+);
 export const IMAGE_URL = process.env.NEXT_PUBLIC_TMDB_IMAGE_URL;
 export const SMALL_IMAGE_URL = process.env.NEXT_PUBLIC_TMDB_SMALL_IMAGE_URL;
 export const BLURRED_IMAGE =
