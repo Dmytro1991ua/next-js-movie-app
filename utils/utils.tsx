@@ -12,10 +12,10 @@ import {
   AppRoutes,
   QueryString,
   RequestMethod,
-  SeeMorePageRoutes,
   SliderTitle,
 } from "@/types/enums";
 import {
+  ActiveRoute,
   AppPageData,
   FavoritesMoviesOrSerialsResult,
   HomePageData,
@@ -98,80 +98,29 @@ export const getPageSlider = <T,>({
   );
 };
 
-export const getSeeMorePageRoutesForHomePage = (pathname: string): boolean => {
-  return (
-    pathname === SeeMorePageRoutes.NowPlaying ||
-    pathname === SeeMorePageRoutes.Popular ||
-    pathname === SeeMorePageRoutes.TopRated ||
-    pathname === SeeMorePageRoutes.Trending ||
-    pathname === SeeMorePageRoutes.Upcoming ||
-    pathname === SeeMorePageRoutes.FavoritesHomePage
-  );
-};
-
-export const getSeeMorePageRoutesForMoviesPage = (
-  pathname: string
-): boolean => {
-  return (
-    pathname === SeeMorePageRoutes.ActionMovies ||
-    pathname === SeeMorePageRoutes.ComedyMovies ||
-    pathname === SeeMorePageRoutes.Documentaries ||
-    pathname === SeeMorePageRoutes.HistoryMovies ||
-    pathname === SeeMorePageRoutes.HorrorMovies ||
-    pathname === SeeMorePageRoutes.ThrillerMovies ||
-    pathname === SeeMorePageRoutes.WarMovies ||
-    pathname === SeeMorePageRoutes.WesternMovies ||
-    pathname === SeeMorePageRoutes.FavoritesMoviesPage
-  );
-};
-
-export const getSeeMorePageRoutesForSerialsPage = (pathname: string) => {
-  return (
-    pathname === SeeMorePageRoutes.PopularSerials ||
-    pathname === SeeMorePageRoutes.SerialsAiringToday ||
-    pathname === SeeMorePageRoutes.SerialsOnAir ||
-    pathname === SeeMorePageRoutes.TopRatedSerials ||
-    pathname === SeeMorePageRoutes.FavoritesSerialsPage
-  );
-};
-
 export const isRouteActive = ({
   asPath,
-  pathname,
   url,
-}: {
-  asPath: string;
-  pathname: string;
-  url: string;
-}): boolean => {
-  const seeMorePageRoutesForHomePage =
-    getSeeMorePageRoutesForHomePage(pathname);
+  pathname,
+}: ActiveRoute): boolean => {
+  // Exact match
+  if (asPath === url) return true;
 
-  const seeMorePageRoutesForMoviesPage =
-    getSeeMorePageRoutesForMoviesPage(pathname);
+  // If current route starts with the base url and
+  // the url ends with a slash or the next char is a slash,
+  // it means we're on a nested route or child page.
+  if (
+    asPath.startsWith(url) &&
+    (url.endsWith("/") || asPath.charAt(url.length) === "/")
+  ) {
+    return true;
+  }
 
-  const seeMorePageRoutesForSerialsPage =
-    getSeeMorePageRoutesForSerialsPage(pathname);
+  // Optionally handle dynamic routes (Next.js style)
+  // If pathname includes '[' and starts with url, mark active
+  if (pathname.includes("[") && asPath.startsWith(url)) return true;
 
-  const homePageNestedRoutes =
-    url === AppRoutes.Home &&
-    (pathname === AppRoutes.MovieDetails || seeMorePageRoutesForHomePage);
-
-  const moviesPageNestedRoutes =
-    url === AppRoutes.Movies &&
-    (pathname === AppRoutes.MovieByGenreDetails ||
-      seeMorePageRoutesForMoviesPage);
-
-  const serialsPageNestedRoutes =
-    url === AppRoutes.Serials &&
-    (pathname === AppRoutes.SerialDetails || seeMorePageRoutesForSerialsPage);
-
-  return (
-    asPath === url ||
-    homePageNestedRoutes ||
-    moviesPageNestedRoutes ||
-    serialsPageNestedRoutes
-  );
+  return false;
 };
 
 export const handleRedirectToDetailsPage = ({

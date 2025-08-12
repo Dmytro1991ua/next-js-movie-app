@@ -27,14 +27,18 @@ const NavigationLink: FC<NavigationLinkProps> = ({
     [router.asPath, router.pathname, url]
   );
 
+  let linkTextColorClass = "text-white";
+
+  if (isNavigationRouteActive) {
+    linkTextColorClass = isMobileNavigation ? "!text-darkBlue" : "text-mantis";
+  }
+
   return (
     <Link passHref href={url}>
       <a
         className={clsx("relative flex items-center z-10 group", [
           isNavigationRouteActive ? "text-mantis" : "text-white",
-          isNavigationRouteActive && isMobileNavigation
-            ? "!text-darkBlue"
-            : "text-white",
+          linkTextColorClass,
         ])}
         data-testid="nav-icon"
       >
