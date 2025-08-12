@@ -2,6 +2,7 @@ import { RequestMethod } from "@/types/enums";
 import {
   convertResponseErrorMessageToCorrectFormat,
   getResponseErrorMessage,
+  isRouteActive,
 } from "@/utils/utils";
 
 jest.mock("uuid", () => {
@@ -43,5 +44,43 @@ describe("getResponseErrorMessage", () => {
 
   it("Should return correct error message when Serials failed to load", () => {
     expect(getResponseErrorMessage(true)).toBe("Failed to load Serials");
+  });
+});
+
+describe("isRouteActive", () => {
+  it("should return true for exact match", () => {
+    expect(
+      isRouteActive({ asPath: "/home", pathname: "/home", url: "/home" })
+    ).toBe(true);
+  });
+
+  it("should return true for nested route (child) under base url", () => {
+    expect(
+      isRouteActive({
+        asPath: "/serials/popular",
+        pathname: "/serials/[serialId]",
+        url: "/serials",
+      })
+    ).toBe(true);
+  });
+
+  it("should return false for partial but not nested matches", () => {
+    expect(
+      isRouteActive({
+        asPath: "/movie",
+        pathname: "/movie",
+        url: "/movies",
+      })
+    ).toBe(false);
+  });
+
+  it("returns true for dynamic route base paths", () => {
+    expect(
+      isRouteActive({
+        asPath: "/search/movie/123",
+        pathname: "/search/movie/[movieSearchParam]",
+        url: "/search",
+      })
+    ).toBe(true);
   });
 });

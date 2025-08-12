@@ -242,3 +242,5 @@ export interface FromInputConfig {
 export type MediaType = "movies" | "serials" | "";
 export type RequestAction = "fetch" | "update" | "delete";
 export type ContentType = "movie" | "tv";
+
+export type ActiveRoute = { asPath: string; url: string; pathname: string };
